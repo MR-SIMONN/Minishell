@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/18 10:44:18 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:19:43 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-// #incldue <>
-// #incldue <>
-// #incldue <>
+#include <stdbool.h>
+// #include <>
+// #include <>
+// #include <>
+// #include <>
 
 typedef enum s_redir_type {
     REDIR_IN,       // <
@@ -33,11 +35,29 @@ typedef struct s_redir
     struct s_redir *next;
 } t_redir;
 
+typedef struct s_cmd
+{
+    char *cmd;         // command name (e.g., "echo")
+    char **args;       // arguments including cmd
+    t_redir *redir;    // list of redirections
+    bool pipe;         // true if pipe to next
+    struct s_cmd *next;
+} t_cmd;
+
 typedef struct s_heap
 {
     void    *address;
     struct s_heap   *next;
 }   t_heap;
+
+typedef struct s_cmd
+{
+    char *cmd;         // command name (e.g., "echo")
+    char **args;       // arguments including cmd
+    t_redir *redir;    // list of redirections
+    bool pipe;         // true if pipe to next
+    struct s_cmd *next;
+} t_cmd;
 
 typedef struct s_data
 {
