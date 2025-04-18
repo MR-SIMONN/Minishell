@@ -1,10 +1,10 @@
-SRCS	= Minishell.c ##utils.c
+SRCS	= minishell.c utils.c trash_can.c
 
 NAME = Minishell
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -lreadline
 
 DEPS = Minishell.h
 
@@ -17,10 +17,10 @@ $(NAME) : $(OBJS)
 	cc $^ ${FLAGS} -o $@
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
