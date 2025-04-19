@@ -32,7 +32,7 @@ void extract_word_from_quotes(int *index, char *line, char quote_type, t_token *
     add_token(allocate, TOKEN_WORD);
     *index = i + 1;
 }
-void extract_operator_token(const char *line, int *i, t_token **list)
+void extract_operator_token(const char *line, int *i)
 {
     if (line[*i] == '>' && line[*i + 1] == '>')
     {
