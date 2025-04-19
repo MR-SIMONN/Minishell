@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../Minishell.h"
 
 void	ft_lstadd_front(t_heap **lst, t_heap *p)
 {

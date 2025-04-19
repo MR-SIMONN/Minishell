@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../Minishell.h"
 
 //this function is to free all the heap allocated memmory that was given to data->heap
 void	clear_trash(t_heap **lst)

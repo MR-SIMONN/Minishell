@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/18 18:00:55 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/20 00:25:48 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,24 @@ typedef struct s_heap
     struct s_heap   *next;
 }   t_heap;
 
-// typedef struct s_cmd
-// {
-//     char *cmd;         // command name (e.g., "echo")
-//     char **args;       // arguments including cmd
-//     t_redir *redir;    // list of redirections
-//     bool pipe;         // true if pipe to next
-//     struct s_cmd *next;
-// } t_cmd;
+// token.h or in Minishell.h
+
+typedef enum e_token_type
+{
+    TOKEN_WORD,
+    TOKEN_PIPE,
+    TOKEN_REDIRECT_OUT,
+    TOKEN_REDIRECT_IN,
+    TOKEN_APPEND,
+    TOKEN_HEREDOC
+} t_token_type;
+
+typedef struct s_token
+{
+    char            *value;
+    t_token_type    type;
+    struct s_token  *next;
+} t_token;
 
 typedef struct s_data
 {
@@ -67,10 +77,17 @@ typedef struct s_data
     // more data needed tho
 }   t_data;
 
-void	*ft_malloc(size_t size, t_data *data);
+//parsing utils functions
+int     strings_to_token(char *line, t_data *data);
+void    add_token(t_token **list, char *value, t_token_type type);
+void    ft_error(char *message);
+//garbage collector functions
 void	free_everything(t_data *data);
 void	store_addr(char *s, t_data *data);
-int	ft_strcmp(const char *s1, const char *s2);
-
+void	*ft_malloc(size_t size, t_data *data);
+//libft functions
+int	    ft_strcmp(const char *s1, const char *s2);
+int     ft_strlen (char *str);
+char	*ft_substr(char const *s, unsigned int start, size_t len, t_data *data);
 
 # endif
