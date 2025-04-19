@@ -1,4 +1,4 @@
-SRCS	= minishell.c utils.c trash_can.c
+SRCS	= Minishell.c clean_up/utils.c clean_up/trash_can.c
 
 NAME = Minishell
 

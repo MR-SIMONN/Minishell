@@ -50,14 +50,24 @@ typedef struct s_heap
     struct s_heap   *next;
 }   t_heap;
 
-// typedef struct s_cmd
-// {
-//     char *cmd;         // command name (e.g., "echo")
-//     char **args;       // arguments including cmd
-//     t_redir *redir;    // list of redirections
-//     bool pipe;         // true if pipe to next
-//     struct s_cmd *next;
-// } t_cmd;
+// token.h or in Minishell.h
+
+typedef enum e_token_type
+{
+    TOKEN_WORD,
+    TOKEN_PIPE,
+    TOKEN_REDIRECT_OUT,
+    TOKEN_REDIRECT_IN,
+    TOKEN_APPEND,
+    TOKEN_HEREDOC
+} t_token_type;
+
+typedef struct s_token
+{
+    char            *value;
+    t_token_type    type;
+    struct s_token  *next;
+} t_token;
 
 typedef struct s_data
 {

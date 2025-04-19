@@ -12,25 +12,25 @@
 
 #include "Minishell.h"
 
-void handle_str(t_data *data)
-{
-    int i;
+// void handle_str(t_data *data)
+// {
+//     int i;
 
-    i = 0;
+//     i = 0;
     
-}
+// }
 
 void    read_cmds(t_data *data)
 {
-    char    **lines;
+    // char    **lines;
 
     data->line = readline("\033[1;36m-> minishell\033[0m$");
     if (!data->line)
         free_everything(data);
-    store_addr(data->line, data);
-    handle_str(data);
+    store_addr(data->line, data); 
+    strings_to_token(data->line);
 }
-
+    
 int main (int ac, char **av, char **env)
 {
     t_data  data;
