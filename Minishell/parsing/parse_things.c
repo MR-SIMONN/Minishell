@@ -12,7 +12,7 @@
 
 #include "../Minishell.h"
 
-void extract_word_from_quotes(int *index, char *line, char quote_type, t_token **list)
+void extract_word_from_quotes(int *index, char *line, char quote_type, t_token **list, t_data *data)
 {
     char    *allocate;
     int     start;
@@ -26,7 +26,7 @@ void extract_word_from_quotes(int *index, char *line, char quote_type, t_token *
     if (line[i] != quote_type)
         ft_error("syntax error: unclosed quote");
 
-    allocate = ft_substr(line, start, i - start);
+    allocate = ft_substr(line, start, i - start, data);
     if(!allocate)
         ft_error("sorry there is problems happen in backend");
     add_token(allocate, TOKEN_WORD);
@@ -61,7 +61,7 @@ void extract_operator_token(const char *line, int *i, t_token **list)
     }
 }
 
-int strings_to_token(char *line, t_token **va_list)
+int strings_to_token(char *line, t_data *data)
 {
     int     i = 0;
     char    *word;
@@ -76,7 +76,7 @@ int strings_to_token(char *line, t_token **va_list)
         {
             char quote_type = line[i];
             i++;
-            extract_word_from_quotes(&i, line, quote_type, list);
+            extract_word_from_quotes(&i, line, quote_type, list, data);
 
         }
         if(line[i] == '|' || line[i] == '<' || line[i] == '>')

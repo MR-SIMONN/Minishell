@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/18 18:04:21 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/20 00:18:23 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    read_cmds(t_data *data)
     if (!data->line)
         free_everything(data);
     store_addr(data->line, data); 
-    strings_to_token(data->line);
+    strings_to_token(data->line, data);
 }
     
 int main (int ac, char **av, char **env)
