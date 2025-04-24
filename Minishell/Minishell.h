@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/20 00:25:48 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/24 21:32:52 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,22 @@ typedef struct s_data
     char    *line;
     t_heap  *heap;
     char    *path;
+    t_token *token;
     // more data needed tho
 }   t_data;
 
 //parsing utils functions
-int     strings_to_token(char *line, t_data *data);
-void    add_token(t_token **list, char *value, t_token_type type);
+char    *make_thestring(t_data *d);
 void    ft_error(char *message);
+void handle_symbols(char *s, int *len, int i);
+int is_two_symbols(char *s, int i);
+int is_one_symbol(char *s, int i);
+
 //garbage collector functions
 void	free_everything(t_data *data);
 void	store_addr(char *s, t_data *data);
 void	*ft_malloc(size_t size, t_data *data);
+
 //libft functions
 int	    ft_strcmp(const char *s1, const char *s2);
 int     ft_strlen (char *str);

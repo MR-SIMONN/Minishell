@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 16:10:42 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:32:23 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/04/24 11:45:59 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void ft_error(char *message)
+void    set_strcut_values(t_data *d)
 {
-    int i;
-
-    i = 0;
-    printf ("%s", message);
-    exit(EXIT_FAILURE);
+    d->line = NULL;
+    d->heap = NULL;
+    d->path = NULL;
+    d->token = NULL;
 }

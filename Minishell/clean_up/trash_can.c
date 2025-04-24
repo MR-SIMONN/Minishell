@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:52:10 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/18 17:32:27 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:34:38 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	clear_trash(t_heap **lst)
 	{
 		temp = (*lst)->next;
 		free((*lst)->address);
+		(*lst)->address = NULL;
 		free(*lst);
 		*lst = temp;
 	}
