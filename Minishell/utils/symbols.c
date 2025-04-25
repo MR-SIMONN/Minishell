@@ -29,7 +29,7 @@ int is_two_symbols(char *s, int i)
 
 int is_one_symbol(char *s, int i)
 {
-    return (s[i] == '|' ||
-           (s[i] == '>' && s[i + 1] != '>') ||
-           (s[i] == '<' && s[i + 1] != '<'));
+    return (s[i] == '|'
+           || (s[i] == '>' && s[i + 1] != '>' && s[i - 1] != '>') 
+           || (s[i] == '<' && s[i + 1] != '<' && s[i - 1] != '<'));
 }

@@ -12,26 +12,32 @@
 
 #include "../Minishell.h"
 
-char	*ft_strsdup(char *s1, int len, t_data *d)
+char	*ft_strsdup(char *s1, int l, t_data *d)
 {
 	size_t	i;
     size_t  j;
-	char	*str;
+    int     f;
+	char	*s;
 
-	i = 0;
-    j = 0;
-	str = ft_malloc (len + 1, d);
+    (1) && (i = 0, j = 0, f = 0, s = ft_malloc (l + 1, d));
+	s = ft_malloc (l + 1, d);
 	while (s1[i])
 	{
-        if (is_one_symbol(s1, i))
+        if (is_one_symbol(s1, i) || is_two_symbols(s1, i))
         {
             if (s1[i - 1] && s1[i - 1] != ' ')
-                str[j++] = ' ';
+                s[j++] = ' ';
+            f = 1;
         }
-		str[j] = s1[i];
-		i++;
-        j++;
+		s[j++] = s1[i++];
+		if (f)
+		{
+		    if (s1[i] != ' ' && s1[i] != '>' && s1[i] != '<')
+		    {
+		        s[j++] = ' ';
+                f = 0;
+		    }
+		}
 	}
-	str[i] = '\0';
-	return (str);
+	return (s[j] = '\0', s);
 }
