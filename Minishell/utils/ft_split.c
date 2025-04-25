@@ -1,6 +1,6 @@
 #include "../Minishell.h"
 
-static int	ft_cw(const char *str, char c)
+static int	ft_cw(char *str, char c)
 {
 	int	i;
 	int	words;
@@ -66,7 +66,7 @@ static char	*ft_stridup(char *s, size_t *i, char c)
 	return (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	size_t	i;
 	size_t	k;

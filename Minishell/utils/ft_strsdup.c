@@ -20,7 +20,6 @@ char	*ft_strsdup(char *s1, int l, t_data *d)
 	char	*s;
 
     (1) && (i = 0, j = 0, f = 0, s = ft_malloc (l + 1, d));
-	s = ft_malloc (l + 1, d);
 	while (s1[i])
 	{
         if (is_one_symbol(s1, i) || is_two_symbols(s1, i))

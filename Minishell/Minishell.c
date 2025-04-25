@@ -12,12 +12,6 @@
 
 #include "Minishell.h"
 
-void    line_to_tokens(t_data *d)
-{
-    char    *str;
-
-    str = make_thestring(d);
-}
 
 void    read_cmds(t_data *d)
 {
@@ -26,7 +20,7 @@ void    read_cmds(t_data *d)
         free_everything(d);
     store_addr(d->line, d);
     line_to_tokens(d);
-    // strings_to_token(data->line, data);
+    ft_lst_tokens (d);
 }
     
 int main (int ac, char **av, char **env)

@@ -79,7 +79,7 @@ typedef struct s_data
 }   t_data;
 
 //parsing utils functions
-char    *make_thestring(t_data *d);
+void    ft_lst_tokens(t_data *d);
 void    ft_error(char *message);
 void handle_symbols(char *s, int *len, int i);
 int is_two_symbols(char *s, int i);
@@ -94,5 +94,8 @@ void	*ft_malloc(size_t size, t_data *data);
 int	    ft_strcmp(const char *s1, const char *s2);
 int     ft_strlen (char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len, t_data *data);
+char	**ft_split(char *s, char c);
+void	ft_lstadd_back(t_token **lst, t_token *new);
+t_token	*ft_lstlast(t_token *lst);
 
 # endif

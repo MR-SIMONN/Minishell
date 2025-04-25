@@ -12,6 +12,18 @@
 
 #include "../Minishell.h"
 
+void    make_tokens(char **t, t_token **p, t_data *d)
+{
+    int i;
+
+    i = 0;
+	while (t[i])
+	{
+		ft_lstadd_back(p, ft_lstnew(t[i], d));
+		i++;
+	}
+}
+
 int extra_strlen(char *s)
 {
     int i = 0;
@@ -40,13 +52,14 @@ int extra_strlen(char *s)
     return len;
 }
 
-char    *make_thestring(t_data *d)
+void    ft_lst_tokens(t_data *d)
 {
     int len;
     char *str;
+    char **tokens;
 
     len = extra_strlen(d->line);
     str = ft_strsdup(d->line, len, d);
-    // do whatchu gotta do here
-    return (str);
+    tokens = ft_split(str, ' ');
+    make_tokens(tokens, &d->token, d);
 }
