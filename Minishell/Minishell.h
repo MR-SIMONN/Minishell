@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/24 21:32:52 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:49:00 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,10 @@ typedef struct s_data
 //parsing utils functions
 void    ft_lst_tokens(t_data *d);
 void    ft_error(char *message);
-void handle_symbols(char *s, int *len, int i);
-int is_two_symbols(char *s, int i);
-int is_one_symbol(char *s, int i);
+void    handle_symbols(char *s, int *len, int i);
+int     is_two_symbols(char *s, int i);
+int     is_one_symbol(char *s, int i);
+void    set_strcut_values(t_data *d);
 
 //garbage collector functions
 void	free_everything(t_data *data);
@@ -92,10 +93,15 @@ void	*ft_malloc(size_t size, t_data *data);
 
 //libft functions
 int	    ft_strcmp(const char *s1, const char *s2);
-int     ft_strlen (char *str);
-char	*ft_substr(char const *s, unsigned int start, size_t len, t_data *data);
+size_t     ft_strlen (char *str);
+char	*ft_substr(char *s, unsigned int start, size_t len, t_data *data);
 char	**ft_split(char *s, char c);
 void	ft_lstadd_back(t_token **lst, t_token *new);
+t_token *ft_lstnew(char *content, t_data *d);
 t_token	*ft_lstlast(t_token *lst);
+char	*ft_strsdup(char *s1, int l, t_data *d);
+
+//testing functions
+void print_tokens(t_token *head);
 
 # endif

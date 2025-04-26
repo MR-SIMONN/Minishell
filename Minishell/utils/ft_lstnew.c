@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/26 16:02:27 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/04/26 16:02:27 by moel-hai         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../Minishell.h"
 
@@ -22,13 +33,12 @@ t_token_type    token_type(char *s)
         else if (s[0] == '<')
             return (TOKEN_HEREDOC);
     }
-    else
-        return (TOKEN_WORD);
+    return (TOKEN_WORD);
 }
 
-t_list	*ft_lstnew(char *content, t_data *d)
+t_token *ft_lstnew(char *content, t_data *d)
 {
-	t_token	*s;
+	t_token *s;
 
 	s = (t_token *)ft_malloc(sizeof(t_token), d);
 	s->value = content;

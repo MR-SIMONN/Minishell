@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/24 20:33:44 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:35:15 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void    read_cmds(t_data *d)
     if (!d->line)
         free_everything(d);
     store_addr(d->line, d);
-    line_to_tokens(d);
     ft_lst_tokens (d);
 }
     
@@ -34,5 +33,7 @@ int main (int ac, char **av, char **env)
     {
         set_strcut_values(&data);
         read_cmds(&data);
+        // print_tokens (data.token);
+        // free_everything(&data);
     }
 }

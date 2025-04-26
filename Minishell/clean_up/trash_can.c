@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:52:10 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/24 11:34:38 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:10:54 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void	free_everything(t_data *data)
 	clear_trash(&data->heap);
 	//from now on anything u allocated u must add it to the struct and free it in this function
 	
-	write(1, "exit\n", 6);
-	exit(0);
+	// write(1, "exit\n", 6);
+	// exit(0);
 }

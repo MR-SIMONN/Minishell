@@ -6,15 +6,15 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 00:14:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/20 00:15:16 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:32:33 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int ft_strlen (char *str)
+size_t ft_strlen (char *str)
 {
-    int i;
+    size_t i;
 
     i = 0;
     while (str[i])
