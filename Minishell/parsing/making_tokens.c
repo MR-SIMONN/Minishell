@@ -6,11 +6,35 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 17:48:46 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/26 19:27:20 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+int quotes_len(char *s, char c)
+{
+    int i;
+    int j;
+    int k;
+
+    i = 0;
+    j = 0;
+    k = 0;
+    while (s[i])
+    {
+        if (s[i] == '\'')
+            j++;
+        else if (s[i] == '\"')
+            k++;
+        i++;
+    }
+    if (c == '\'')
+        return (j);
+    else if (c == '\"')
+        return (k);
+    return (j + k);
+}
 
 void     make_tokens(char **t, t_token **p, t_data *d)
 {
@@ -49,7 +73,7 @@ int extra_strlen(char *s)
             len++;
         i++;
     }
-    return len;
+    return (len - quotes_len(s, 0));
 }
 void    print_spaces_count(char *s, int f)
 {

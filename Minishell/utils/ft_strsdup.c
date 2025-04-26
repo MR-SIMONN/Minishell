@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 21:27:47 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 18:56:34 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/26 19:22:02 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,21 @@ void    add_spaces(char *s, int *i, char *d, int *j, int f)
     }
 }
 
+void	handle_quotes(char *s, int *i, char *d, int *j)
+{
+	char	quote_type;
+
+	quote_type = 0;
+	if (s[*i] == '\'' || s[*i] == '\"')
+	{
+		quote_type = s[(*i)++];
+		while (s[*i] && s[*i] != quote_type)
+			d[(*j)++] = s[(*i)++];
+		if (s[*i] == quote_type)
+			(*i)++;
+	}
+}
+
 char *ft_strsdup(char *s1, int l, t_data *d)
 {
     int  i;
@@ -47,6 +62,7 @@ char *ft_strsdup(char *s1, int l, t_data *d)
     (1) && (i = 0, j = 0, f = 0, s = ft_malloc(l + 1, d));
     while (s1[i])
     {
+		handle_quotes(s1, &i, s, &j);
         add_spaces(s1, &i, s, &j, f);
     }
 	return (s[j] = '\0', s);

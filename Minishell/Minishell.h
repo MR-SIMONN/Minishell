@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 16:49:00 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/26 19:20:31 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void    handle_symbols(char *s, int *len, int i);
 int     is_two_symbols(char *s, int i);
 int     is_one_symbol(char *s, int i);
 void    set_strcut_values(t_data *d);
+int     quotes_len(char *s, char c);
 
 //garbage collector functions
 void	free_everything(t_data *data);
