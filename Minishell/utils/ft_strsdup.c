@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 21:27:47 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 19:22:02 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/27 02:00:00 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,19 @@ void	handle_quotes(char *s, int *i, char *d, int *j)
 	quote_type = 0;
 	if (s[*i] == '\'' || s[*i] == '\"')
 	{
-		quote_type = s[(*i)++];
+		quote_type = s[(*i)];
+        d[(*j)++] = s[(*i)++];
 		while (s[*i] && s[*i] != quote_type)
 			d[(*j)++] = s[(*i)++];
 		if (s[*i] == quote_type)
-			(*i)++;
+			d[(*j)++] = s[(*i)++];
 	}
-}
+}//  "hello world|sooowhat"
 
 char *ft_strsdup(char *s1, int l, t_data *d)
 {
-    int  i;
-    int  j;
+    int     i;
+    int     j;
     int     f;
     char    *s;
 

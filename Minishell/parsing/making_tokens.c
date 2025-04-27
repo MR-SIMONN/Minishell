@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 19:27:20 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/27 02:33:22 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void     make_tokens(char **t, t_token **p, t_data *d)
 		ft_lstadd_back(p, ft_lstnew(t[i], d));
 		i++;
 	}
+    // free_all(t, i);
 }
 
 int extra_strlen(char *s)
@@ -73,7 +74,7 @@ int extra_strlen(char *s)
             len++;
         i++;
     }
-    return (len - quotes_len(s, 0));
+    return (len);
 }
 void    print_spaces_count(char *s, int f)
 {
@@ -107,6 +108,8 @@ void    ft_lst_tokens(t_data *d)
     str = ft_strsdup(d->line, len, d);
     print_spaces_count(d->line, 0);
     print_spaces_count(str, 1);
-    tokens = ft_split(str, ' ');
+    tokens = ft_split(str, ' ', d);
+    if (!tokens)
+        free_everything(d, 1);
     make_tokens(tokens, &d->token, d);
 }

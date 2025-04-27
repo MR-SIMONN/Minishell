@@ -14,16 +14,19 @@
 
 static int	ft_cw(char *str, char c)
 {
-	int	i;
-	int	words;
-	int	flag;
+	int		i;
+	int		words;
+	int		flag;
+	char	quote;
 
-	i = 0;
-	words = 0;
-	flag = 0;
+	(1) && (i = 0, words = 0, flag = 0, quote = 0);
 	while (str[i])
 	{
-		if (str[i] != c)
+		if (!quote && (str[i] == '\'' || str[i] == '\"'))
+			quote = str[i];
+		else if (quote && str[i] == quote)
+			quote = 0;
+		if (str[i] != c || quote)
 		{
 			if (flag == 0)
 			{
@@ -38,20 +41,32 @@ static int	ft_cw(char *str, char c)
 	return (words);
 }
 
-static void	free_all(char **s, int i)
+void	free_all(char **s, int i)
 {
 	while (i--)
+	{
 		free (s[i]);
+		s[i] = NULL;
+	}
 	free (s);
+	s = NULL;
 }
 
 static int	ft_word_len(char *str, int i, char c)
 {
-	int	word_len ;
+	int		word_len;
+	char	quote;
 
 	word_len = 0;
-	while (str[i] && str[i] != c)
+	quote = 0;
+	while (str[i])
 	{
+		if (!quote && (str[i] == '\'' || str[i] == '\"'))
+			quote = str[i];
+		else if (quote && str[i] == quote)
+			quote = 0;
+		if (str[i] == c && !quote)
+			break ;
 		word_len++;
 		i++;
 	}
@@ -63,14 +78,22 @@ static char	*ft_stridup(char *s, size_t *i, char c)
 	char	*str;
 	int		j;
 	int		index;
+	char	quote;
 
 	index = *i;
 	j = 0;
+	quote = 0;
 	str = malloc(sizeof(char) * (ft_word_len((char *)s, *i, c) + 1));
 	if (!str)
 		return (NULL);
-	while (s[*i] && s[*i] != c)
+	while (s[*i])
 	{
+		if (!quote && (s[*i] == '\'' || s[*i] == '\"'))
+			quote = s[*i];
+		else if (quote && s[*i] == quote)
+			quote = 0;
+		if (s[*i] == c && !quote)
+			break ;
 		str[j++] = s[*i];
 		*i += 1;
 	}
@@ -78,7 +101,7 @@ static char	*ft_stridup(char *s, size_t *i, char c)
 	return (str);
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_split(char *s, char c, t_data *d)
 {
 	size_t	i;
 	size_t	k;
@@ -89,18 +112,16 @@ char	**ft_split(char *s, char c)
 	(1) && (i = 0, k = 0, str = malloc (8 * (ft_cw(s, c) + 1)));
 	if (!str)
 		return (NULL);
-	while (s[i] == c && s[i])
-		i++;
+	skip_it(s, (int *)&i, c);
 	while (s[i])
 	{
 		if (s[i] != c)
 		{
 			str[k] = ft_stridup((char *)s, &i, c);
 			if (!str[k++])
-				return (free_all(str, --k), NULL);
+				return (free_all(str, --k), free_everything(d, 1), NULL);
 		}
-		while (s[i] == c && s[i])
-			i++;
+		skip_it(s, (int *)&i, c);
 	}
 	return (str[k] = 0, str);
 }
