@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 00:14:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 16:32:33 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/04/27 22:44:11 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/04/27 22:49:19 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-size_t ft_strlen (char *str)
+int empty_cmd(char *s)
 {
-    size_t i;
+    int i;
 
     i = 0;
-    while (str[i])
-        i++;
-    return (i);
+    skip_it(s, &i, ' ');
+    if (!s[i])
+        return (1);
+    return (0);
 }

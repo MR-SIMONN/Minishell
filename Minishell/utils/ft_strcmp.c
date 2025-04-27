@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 00:14:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 16:32:33 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/04/27 21:05:25 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/04/27 21:07:47 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-size_t ft_strlen (char *str)
+int ft_strcmp(char *s1, char *s2)
 {
-    size_t i;
+	int	i;
 
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }
