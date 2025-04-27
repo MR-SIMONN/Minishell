@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:31:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/27 02:22:46 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/27 21:08:35 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,4 @@ void	*ft_malloc(size_t size, t_data *data)
 	p->next = NULL;
 	ft_lstadd_front(&data->heap, p);
 	return (allocated);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 }

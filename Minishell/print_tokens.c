@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 16:48:06 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 16:48:24 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/27 22:50:38 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ char *get_token_type_name(t_token_type type)
 
 void print_tokens(t_token *head)
 {
+    if (!head)
+        return ;
     printf("\n--- Token List ---\n");
     while (head)
     {
-        printf("Token: %-15s | Type: %-12s\n", head->value, get_token_type_name(head->type));
+        printf("Token: %-15s                | Type: %-12s\n", head->value, get_token_type_name(head->type));
         head = head->next;
     }
     printf("------------------\n\n");
