@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:20:24 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/27 22:58:08 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:00:25 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@
 
 // Pipe next to another pipe.       ---> ✅
 
-// 🚨 message to printf : "syntax error near unexpected token `|`" 🚨
+// 🚨 message to printf : "syntax error" 🚨
 
 
 // 🏀 ---> Group 2: Redirection errors (<, >, >>, <<)
 // 👉 Redirections must be followed by a valid file/token.
 
-// Redirection at end.		STR = "newline"							--->
+// Redirection at end.                                  --->
 
-// Redirection followed by another symbol.	STR = the second symbol	--->
+// Redirection followed by another symbol.              --->
 
-// 🚨 message to printf : "syntax error near unexpected token `$STR'" 🚨
+// 🚨 message to printf : "syntax error" 🚨
 
 void    handle_pipes(t_token *t, t_data *d)
 {
@@ -42,11 +42,11 @@ void    handle_pipes(t_token *t, t_data *d)
 
     p = ft_lstlast(t);
     if (!ft_strcmp(t->value, "|") || !ft_strcmp(p->value, "|"))
-        syntax_error("syntax error near unexpected token `|`", d);
+        syntax_error("syntax error", d);
     while (t)
     {
         if (!ft_strcmp(t->value, "|") && !ft_strcmp(t->next->value, "|"))
-            syntax_error("syntax error near unexpected token `|`", d);
+            syntax_error("syntax error", d);
         t = t->next;
     }
 }

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/27 23:36:30 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:27:53 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ int quotes_len(char *s, char c)
     int i;
     int j;
     int k;
+    int f;
 
-    i = 0;
-    j = 0;
-    k = 0;
+    (1) && (i = 0, j = 0, k = 0, f = 0);
     while (s[i])
     {
         if (s[i] == '\'')
@@ -129,8 +128,8 @@ void    ft_lst_tokens(t_data *d)
 
     len = extra_strlen(d->line);
     str = ft_strsdup(d->line, len, d);
-    print_spaces_count(d->line, 0);
-    print_spaces_count(str, 1);
+    // print_spaces_count(d->line, 0);
+    // print_spaces_count(str, 1);
     tokens = ft_split(str, ' ', d);
     if (!tokens)
         free_everything(d, 1);
