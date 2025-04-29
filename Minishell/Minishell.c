@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/27 23:26:03 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:23:24 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,14 @@
 
 void    read_cmds(t_data *d)
 {
-    int single;
-    int dooble;
-    
     d->line = readline("\033[1;36m-> minishell\033[0m$");
     if (!d->line)
         free_everything(d, 1);
-    if (empty_cmd(d->line))
-        return ;
+    add_history(d->line);
     store_addr(d->line, d);
-    single = quotes_len(d->line, '\'');
-    dooble = quotes_len(d->line, '\"');
-    if ((single % 2) || (dooble % 2))
-        clear_trash(&d->heap);
+    if (empty_cmd(d->line))
+        free_everything(d, 0);
+    is_invalid_syntax(d->line, d);
     ft_lst_tokens (d);
     handle_syntax_error(d->token, d);
 }
@@ -41,8 +36,8 @@ void    parsing(int ac, char **av, char **env, t_data *d)
         set_strcut_values(d);
         read_cmds(d);
         print_tokens (d->token);// --> just for testing :)
-        // free_everything(d, 0);
-        clear_trash(&d->heap);
+        free_everything(d, -1);
+        // clear_trash(&d->heap);
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/27 22:46:49 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/04/29 23:17:29 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,17 @@ typedef struct s_data
 {
     char    *line;
     t_heap  *heap;
-    char    *path;
     t_token *token;
+    char    *path;
     // more data needed tho
 }   t_data;
 
 //parsing functions
 int     empty_cmd(char *s);
+void    is_invalid_syntax(char *s, t_data *d);
+void    check_one(char *s, int i, t_data *d);
+void    check_two(char *s, int i, t_data *d);
+int     is_symbol(char c);
 void    ft_lst_tokens(t_data *d);
 void    ft_error(char *message);
 void    handle_symbols(char *s, int *len, int i);
