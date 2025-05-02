@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/29 21:23:24 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/02 01:03:40 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ int main (int ac, char **av, char **env)
     t_data  data;
 
     parsing(ac, av, env, &data);
-    // execution (env, "t_cmds *cmds", &data);
+    // execution (env, data->cmds, &data);
 }

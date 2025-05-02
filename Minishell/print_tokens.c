@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 16:48:06 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/27 22:50:38 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:17:34 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 char *get_token_type_name(t_token_type type)
 {
-    if (type == TOKEN_WORD)
+    if (type == WORD)
         return "WORD";
-    if (type == TOKEN_PIPE)
+    if (type == PIPE)
         return "PIPE";
-    if (type == TOKEN_REDIRECT_OUT)
+    if (type == REDIRECT_OUT)
         return "REDIRECT_OUT";
-    if (type == TOKEN_REDIRECT_IN)
+    if (type == REDIRECT_IN)
         return "REDIRECT_IN";
-    if (type == TOKEN_APPEND)
+    if (type == APPEND)
         return "APPEND";
-    if (type == TOKEN_HEREDOC)
+    if (type == HEREDOC)
         return "HEREDOC";
     return "UNKNOWN";
 }

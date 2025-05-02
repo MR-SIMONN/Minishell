@@ -12,37 +12,39 @@
 
 #include "../Minishell.h"
 
-t_token_type    token_type(char *s)
+t_token_type    token_type(char *s, int quote)
 {
     int i;
 
     i = 0;
-    if (is_one_symbol(s, 0))
+    if (quote)
+        return (PIPE);
+    else if (is_one_symbol(s, 0))
     {
         if (s[0] == '|')
-            return (TOKEN_PIPE);
+            return (PIPE);
         else if (s[0] == '>')
-            return (TOKEN_REDIRECT_OUT);
+            return (REDIRECT_OUT);
         else if (s[0] == '<')
-            return (TOKEN_REDIRECT_IN);
+            return (REDIRECT_IN);
     }
     else if (is_two_symbols(s, 0))
     {
         if (s[0] == '>')
-            return (TOKEN_APPEND);
+            return (APPEND);
         else if (s[0] == '<')
-            return (TOKEN_HEREDOC);
+            return (HEREDOC);
     }
-    return (TOKEN_WORD);
+    return (WORD);
 }
 
-t_token *ft_lstnew(char *content, t_data *d)
+t_token *ft_lstnew(char *content, t_data *d, int quote)
 {
 	t_token *s;
 
 	s = (t_token *)ft_malloc(sizeof(t_token), d);
 	s->value = content;
-	s->type = token_type(content);
+	s->type = token_type(content, quote);
 	s->next = NULL;
 	return (s);
 }

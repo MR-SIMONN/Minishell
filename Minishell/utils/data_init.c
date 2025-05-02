@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/24 11:45:59 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/02 00:45:13 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void    set_strcut_values(t_data *d)
 {
     d->line = NULL;
     d->heap = NULL;
-    d->path = NULL;
     d->token = NULL;
+    // d->cmds = NULL;
+    // d->path = NULL;
 }
