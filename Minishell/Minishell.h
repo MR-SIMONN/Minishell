@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/29 23:17:29 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/02 02:12:14 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    TOKEN_WORD,
-    TOKEN_PIPE,
-    TOKEN_REDIRECT_OUT,
-    TOKEN_REDIRECT_IN,
-    TOKEN_APPEND,
-    TOKEN_HEREDOC
+    QUOTED,
+    WORD,
+    PIPE,
+    REDIRECT_OUT,
+    REDIRECT_IN,
+    APPEND,
+    HEREDOC
 } t_token_type;
 
 typedef struct s_token
@@ -69,12 +70,31 @@ typedef struct s_token
     struct s_token  *next;
 } t_token;
 
+typedef struct s_cmds
+{
+    char    *cmd;
+    char    **args;
+}   t_cmds;
+
+// typedef struct s_cmds 
+// {
+//     char            *cmd;
+//     char            **args;
+//     char            *infile;
+//     char            *outfile;
+//     int             append;
+//     int             heredoc;
+//     char            *heredoc_delim;
+//     struct s_cmd    *next;
+// }   t_cmds;
+
 typedef struct s_data
 {
     char    *line;
     t_heap  *heap;
     t_token *token;
-    char    *path;
+    // t_cmds  *cmds;
+    // char    *path;
     // more data needed tho
 }   t_data;
 
@@ -108,7 +128,7 @@ size_t  ft_strlen (char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len, t_data *data);
 char	**ft_split(char *s, char c, t_data *d);
 void	ft_lstadd_back(t_token **lst, t_token *new);
-t_token *ft_lstnew(char *content, t_data *d);
+t_token *ft_lstnew(char *content, t_data *d, int quote);
 t_token	*ft_lstlast(t_token *lst);
 char	*ft_strsdup(char *s1, int l, t_data *d);
 

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/29 18:27:53 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/02 02:07:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,18 @@ char    *delete_quotes(char *s, t_data *d)
 void     make_tokens(char **t, t_token **p, t_data *d)
 {
     int i;
+    int quote;
 
     i = 0;
 	while (t[i])
 	{
+        quote = 0;
         if (t[i][0] == '\'' || t[i][0] == '\"')
+        {
+            quote = 1;
             t[i] = delete_quotes(t[i], d);
-		ft_lstadd_back(p, ft_lstnew(t[i], d));
+        }
+		ft_lstadd_back(p, ft_lstnew(t[i], d, quote));
 		i++;
 	}
     // free_all(t, i);
