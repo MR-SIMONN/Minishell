@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/29 22:27:49 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:58:56 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void unclosed_quote(char *s, t_data *d)
 
     i = 0;
     f = 0;
+    if (!s)
+        free_everything(d, 1);
     while (s[i])
     {
         if ((s[i] == '\'' || s[i] == '\"') && !f)
@@ -32,7 +34,7 @@ void unclosed_quote(char *s, t_data *d)
         i++;
     }
     if (f)
-        syntax_error("syntax error", d);
+        syntax_error("syntax error unclosed quotes", d);
 }
 void invalid_redirection(char *s, t_data *d)
 {
@@ -42,6 +44,9 @@ void invalid_redirection(char *s, t_data *d)
 
     i = 0;
     f = 0;
+    c = 0;
+    if (!s)
+        free_everything(d, 1);
     while (s[i])
     {
         if ((s[i] == '\'' || s[i] == '\"') && !f)
@@ -60,6 +65,8 @@ void invalid_redirection(char *s, t_data *d)
 }
 void is_invalid_syntax(char *s, t_data *d)
 {
+    if (!s)
+        free_everything(d, 1);
     unclosed_quote(s, d);
     invalid_redirection(s, d);
 }

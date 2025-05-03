@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:20:24 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/29 23:38:05 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:58:04 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void    handle_pipes(t_token *t, t_data *d)
 {
-    t_token *p;
+    // t_token *p;
 
-    p = ft_lstlast(t);
-    if (!ft_strcmp(t->value, "|") || !ft_strcmp(p->value, "|"))
-        syntax_error("syntax error", d);
+    // p = ft_lstlast(t);
+    // if (!ft_strcmp(t->value, "|") || !ft_strcmp(p->value, "|"))
+    //     syntax_error("syntax error", d);
     while (t)
     {
         if (!ft_strcmp(t->value, "|") && !ft_strcmp(t->next->value, "|"))
@@ -40,6 +40,8 @@ void    handle_redirections(t_token *t, t_data *d)
 {
     t_token *p;
 
+    if (!t || !d)
+        free_everything(d, 1);
     p = ft_lstlast(t);
     if (is_symbol(*p->value))
         syntax_error("syntax error laaast", d);
@@ -52,6 +54,8 @@ void    handle_redirections(t_token *t, t_data *d)
 
 void    handle_syntax_error(t_token *t, t_data *d)
 {
+    if (!t)
+        free_everything(d, 1);
     handle_pipes(t, d);
     handle_redirections(t, d);
 }
