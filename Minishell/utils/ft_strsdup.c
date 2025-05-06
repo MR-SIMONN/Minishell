@@ -6,33 +6,36 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 21:27:47 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/02 00:42:31 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/06 00:58:00 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void    add_spaces(char *s, int *i, char *d, int *j, int f)
+void    add_spaces(char *s, int *i, char *str, int *j)
 {
+    int f;
+
+    f = 0;
     if (is_one_symbol(s, *i) || is_two_symbols(s, *i))
     {
         if (i > 0 && s[*i - 1] != ' ')
-            d[(*j)++] = ' ';
+            str[(*j)++] = ' ';
         if (is_two_symbols(s, *i))
         {
-            d[(*j)++] = s[(*i)++];
-            d[(*j)++] = s[(*i)++];
+            str[(*j)++] = s[(*i)++];
+            str[(*j)++] = s[(*i)++];
         }
         else
-            d[(*j)++] = s[(*i)++];
+            str[(*j)++] = s[(*i)++];
         f = 1;
     }
     else
-        d[(*j)++] = s[(*i)++];
+        str[(*j)++] = s[(*i)++];
     if (f)
     {
         if (s[*i] && s[*i] != ' ' && s[*i] != '>' && s[*i] != '<')
-            d[(*j)++] = ' ';
+            str[(*j)++] = ' ';
         f = 0;
     }
 }
@@ -57,14 +60,16 @@ char *ft_strsdup(char *s1, int l, t_data *d)
 {
     int     i;
     int     j;
-    int     f;
     char    *s;
 
-    (1) && (i = 0, j = 0, f = 0, s = ft_malloc(l + 1, d));
+    i = 0;
+    j = 0;
+    s = ft_malloc (l + 1, d);
     while (s1[i])
     {
 		handle_quotes(s1, &i, s, &j);
-        add_spaces(s1, &i, s, &j, f);
+        add_spaces(s1, &i, s, &j);
     }
-	return (s[j] = '\0', s);
+    s[j] = '\0';
+	return (s);
 }

@@ -6,37 +6,32 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:20:24 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/03 20:58:04 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/06 03:45:26 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void    handle_pipes(t_token *t, t_data *d)
+int    handle_pipes(t_token *t, t_data *d)
 {
-    // t_token *p;
-
-    // p = ft_lstlast(t);
-    // if (!ft_strcmp(t->value, "|") || !ft_strcmp(p->value, "|"))
-    //     syntax_error("syntax error", d);
-    while (t)
+    while (t && t->next)
     {
         if (!ft_strcmp(t->value, "|") && !ft_strcmp(t->next->value, "|"))
-            syntax_error("syntax error", d);
+            return (syntax_error("syntax error", d));
         t = t->next;
     }
+    return (0);
 }
 
-void    is_rid_nexto_symbol(t_token *t, t_data *d)
+int    is_rid_nexto_symbol(t_token *t, t_data *d)
 {
-    if ((is_one_symbol(t->value, 0) || is_two_symbols(t->value, 0))
-        && *t->value != '|')
-        if (is_one_symbol(t->next->value, 0)
-            || is_two_symbols(t->next->value, 0))
-            syntax_error("syntax error", d);
+    if (is_symbol(*t->value) && *t->value != '|' && !t->next)
+        if (is_symbol(*t->next->value))
+            return (syntax_error("syntax error", d));
+    return (0);
 }
 
-void    handle_redirections(t_token *t, t_data *d)
+int handle_redirections(t_token *t, t_data *d)
 {
     t_token *p;
 
@@ -44,18 +39,26 @@ void    handle_redirections(t_token *t, t_data *d)
         free_everything(d, 1);
     p = ft_lstlast(t);
     if (is_symbol(*p->value))
-        syntax_error("syntax error laaast", d);
+        return (syntax_error("syntax error yaaak", d));
     while (t)
     {
-        is_rid_nexto_symbol(t, d);
+        if (is_rid_nexto_symbol(t, d))
+            return (1);
         t = t->next;
     }
+    return (0);
 }
 
-void    handle_syntax_error(t_token *t, t_data *d)
+int handle_syntax_error(t_token *t, t_data *d)
 {
+    int s_e;
+
+    s_e = 0;
     if (!t)
         free_everything(d, 1);
-    handle_pipes(t, d);
-    handle_redirections(t, d);
+    s_e = handle_pipes(t, d);
+    if (s_e)
+        return (1);
+    s_e = handle_redirections(t, d);
+    return (s_e);
 }
