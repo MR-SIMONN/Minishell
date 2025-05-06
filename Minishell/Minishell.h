@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/06 03:32:23 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/07 00:47:12 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    QUOTED,
-    WORD,
-    PIPE,
-    REDIRECT_OUT,
-    REDIRECT_IN,
-    APPEND,
-    HEREDOC
+    QUOTED,         // " or ' string
+    WORD,           // a normal string
+    PIPE,           // |
+    REDIRECT_OUT,   // >
+    REDIRECT_IN,    // <
+    APPEND,         // >>
+    HEREDOC         // <<
 } t_token_type;
 
 typedef struct s_token
@@ -76,31 +76,33 @@ typedef struct s_cmds
     char    **args;
 }   t_cmds;
 
-// typedef struct s_cmds 
-// {
-//     char            *cmd;
-//     char            **args;
-//     char            *infile;
-//     char            *outfile;
-//     int             append;
-//     int             heredoc;
-//     char            *heredoc_delim;
-//     struct s_cmd    *next;
-// }   t_cmds;
+typedef struct s_cmd 
+{
+    char            *cmd;
+    char            **args;
+    char            *infile;
+    char            *outfile;
+    int             append;
+    int             heredoc;
+    char            *heredoc_delim;
+    struct s_cmd    *next;
+}   t_cmd;
 
 typedef struct s_data
 {
     char    *line;
     t_heap  *heap;
     t_token *token;
-    // t_cmds  *cmds;
+    t_cmd  *cmds;
     // char    *path;
     // more data needed tho
 }   t_data;
 
 //parsing functions
+int     parsing(t_data *d);
 int     empty_cmd(char *s);
 int     is_invalid_syntax(char *s, t_data *d);
+void    fill_d_cmd(t_cmd *cmd, t_token *t, t_data *d);
 int     check_one(char *s, int i, t_data *d);
 int     check_two(char *s, int i, t_data *d);
 int     is_symbol(char c);

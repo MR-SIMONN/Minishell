@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:20:24 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/06 03:45:26 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/06 23:09:51 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int handle_redirections(t_token *t, t_data *d)
         free_everything(d, 1);
     p = ft_lstlast(t);
     if (is_symbol(*p->value))
-        return (syntax_error("syntax error yaaak", d));
+        return (syntax_error("syntax error", d));
     while (t)
     {
         if (is_rid_nexto_symbol(t, d))
