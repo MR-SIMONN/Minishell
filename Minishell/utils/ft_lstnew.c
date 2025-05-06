@@ -18,7 +18,7 @@ t_token_type    token_type(char *s, int quote)
 
     i = 0;
     if (quote)
-        return (PIPE);
+        return (QUOTED);
     else if (is_one_symbol(s, 0))
     {
         if (s[0] == '|')

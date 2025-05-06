@@ -9,7 +9,7 @@ NAME = Minishell
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+FLAGS = -g -Wall -Wextra -Werror #-fsanitize=address -g
 
 DEPS = Minishell.h
 

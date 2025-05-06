@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/02 02:12:14 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/06 03:32:23 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ typedef struct s_data
 
 //parsing functions
 int     empty_cmd(char *s);
-void    is_invalid_syntax(char *s, t_data *d);
-void    check_one(char *s, int i, t_data *d);
-void    check_two(char *s, int i, t_data *d);
+int     is_invalid_syntax(char *s, t_data *d);
+int     check_one(char *s, int i, t_data *d);
+int     check_two(char *s, int i, t_data *d);
 int     is_symbol(char c);
 void    ft_lst_tokens(t_data *d);
 void    ft_error(char *message);
@@ -112,8 +112,8 @@ int     is_one_symbol(char *s, int i);
 void    set_strcut_values(t_data *d);
 int     quotes_len(char *s, char c);
 void    skip_it(char *s, int *i, char c);
-void    handle_syntax_error(t_token *t, t_data *d);
-void    syntax_error (char *s, t_data *d);
+int     handle_syntax_error(t_token *t, t_data *d);
+int     syntax_error (char *s, t_data *d);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);

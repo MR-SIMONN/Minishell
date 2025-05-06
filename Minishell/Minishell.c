@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/02 01:03:40 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/06 03:54:10 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ void    read_cmds(t_data *d)
     add_history(d->line);
     store_addr(d->line, d);
     if (empty_cmd(d->line))
-        free_everything(d, 0);
-    is_invalid_syntax(d->line, d);
+        return ;
+    if (is_invalid_syntax(d->line, d))
+        return ;
     ft_lst_tokens (d);
-    handle_syntax_error(d->token, d);
+    if (handle_syntax_error(d->token, d))
+        return ;
+    // fill_d_cmd(d->token, d); next step 😛😛😛
 }
 
 void    parsing(int ac, char **av, char **env, t_data *d)
@@ -35,9 +38,8 @@ void    parsing(int ac, char **av, char **env, t_data *d)
     {
         set_strcut_values(d);
         read_cmds(d);
-        print_tokens (d->token);// --> just for testing :)
+        // print_tokens (d->token);// --> just for testing :)
         free_everything(d, -1);
-        // clear_trash(&d->heap);
     }
 }
 
