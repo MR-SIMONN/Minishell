@@ -112,7 +112,6 @@ void    handle_symbols(char *s, int *len, int i);
 int     is_two_symbols(char *s, int i);
 int     is_one_symbol(char *s, int i);
 void    set_strcut_values(t_data *d);
-int     quotes_len(char *s, char c);
 void    skip_it(char *s, int *i, char c);
 int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s, t_data *d);

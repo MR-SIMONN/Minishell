@@ -12,19 +12,31 @@
 
 #include "../Minishell.h"
 
-// void    cmd_n_args_init(t_cmd *cmd, t_token *t, t_data *d)
-// {
-//     while (t)
-//     {
-//         if (t->type == PIPE)
-//         {
+void    cmd_n_args_init(t_cmd *cmd, t_token *t, t_data *d)
+{
+    while (t)
+    {
+        if (t->type == PIPE)
+        {
             
-//         }
-//         t = t->next;
-//     }
-// }
+        }
+        t = t->next;
+    }
+}
 
-// void    fill_d_cmd(t_cmd *cmd, t_token *t, t_data *d)
-// {
-//     cmd_n_args_init(cmd, t, d);
-// }
+void    fill_d_cmd(t_cmd *cmd, t_token *t, t_data *d)
+{
+    int len;
+    char *str;
+    char **tokens;
+    
+    len = extra_strlen(d->line);
+    str = ft_strsdup(d->line, len, d);
+
+    cmd_n_args_init(cmd, t, d);
+    tokens = ft_split(str, ' ', d);
+    if (!tokens)
+        free_everything(d, 1);
+    make_tokens(tokens, &d->token, d);
+}
+//handle this wierd cmd ---> cat < in1 >> out1 << EOF > out2

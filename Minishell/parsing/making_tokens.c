@@ -12,29 +12,6 @@
 
 #include "../Minishell.h"
 
-int quotes_len(char *s, char c)
-{
-    int i;
-    int j;
-    int k;
-    int f;
-
-    (1) && (i = 0, j = 0, k = 0, f = 0);
-    while (s[i])
-    {
-        if (s[i] == '\'')
-            j++;
-        else if (s[i] == '\"')
-            k++;
-        i++;
-    }
-    if (c == '\'')
-        return (j);
-    else if (c == '\"')
-        return (k);
-    return (j + k);
-}
-
 char    *delete_quotes(char *s, t_data *d)
 {
     int i;
