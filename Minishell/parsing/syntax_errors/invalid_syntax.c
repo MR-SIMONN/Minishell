@@ -62,7 +62,7 @@ int invalid_redirection(char *s, t_data *d)
         else if (is_two_symbols(s, i) && s[i] && !f)
             s_e = check_two(s, i, d);
         else if ((s[i] == ';' || s[i] == '&') && !f)
-            s_e = syntax_error("syntax error `;`", d);
+            s_e = syntax_error("syntax error", d);
         if (s_e)
             return (1);
     }
