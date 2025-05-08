@@ -30,7 +30,7 @@ t_cmd *new_cmd(t_data *d)
 
 char **add_args(char **argv, t_token *t)
 {
-    //couns how many words, allocate it
+    //count how many words, allocate it
     //n then copy theme one by one
     //n then return it :)
 }
