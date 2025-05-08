@@ -91,4 +91,9 @@ void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
     if (cmd)
         ft_cmdadd_back(c, ft_lstcmd(cmd));//adding the last command
 }
+//need to create these functions :
+//cmdback   --->
+//lstcmd    --->
+//add_args  --->
+
 //handle this wierd cmd ---> cat < in1 >> out1 << EOF > out2
