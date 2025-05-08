@@ -35,11 +35,32 @@ char **add_args(char **argv, t_token *t)
     //n then return it :)
 }
 
-void handle_redir(t_token *t, t_cmd *cmd)
+void handle_redir(t_token *t, t_cmd *cmd, t_data *d)
 {
     if (!t || !t->next)
         return;
-    //the paper has it ;)
+    if (t->type == REDIRECT_IN)
+    {
+        cmd->infile = ft_strdup(t->next->value, d);
+        cmd->heredoc = 0;
+        cmd->heredoc_del = NULL;
+    }
+    else if (t->type == HEREDOC)
+    {
+        cmd->infile = NULL;// null for now, cuz we may need to store it in a file
+        cmd->heredoc = 1;
+        cmd->heredoc_del = ft_strdup(t->next->value, d);
+    }
+    else if (t->type == REDIRECT_OUT)
+    {
+        cmd->outfile = ft_strdup(t->next->value, d);
+        cmd->append = 0;
+    }
+    else if (t->type == APPEND)
+    {
+        cmd->outfile = ft_strdup(t->next->value, d);
+        cmd->append = 1;
+    }
 }
 
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
@@ -64,10 +85,10 @@ void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
             cmd = new_cmd();
         }
         else
-            handle_redir(t, cmd);
+            handle_redir(t, cmd, d);
         t = t->next;
     }
     if (cmd)
-        ft_cmdadd_back(c, ft_lstcmd(cmd));//adding the last command u know
+        ft_cmdadd_back(c, ft_lstcmd(cmd));//adding the last command
 }
 //handle this wierd cmd ---> cat < in1 >> out1 << EOF > out2
