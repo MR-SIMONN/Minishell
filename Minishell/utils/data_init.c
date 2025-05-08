@@ -17,6 +17,6 @@ void    set_strcut_values(t_data *d)
     d->line = NULL;
     d->heap = NULL;
     d->token = NULL;
-    // d->cmds = NULL;
+    d->cmds = NULL;
     // d->path = NULL;
 }

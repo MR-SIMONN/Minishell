@@ -84,7 +84,8 @@ typedef struct s_cmd
     char            *outfile;
     int             append;
     int             heredoc;
-    char            *heredoc_delim;
+    char            *heredoc_del;
+    int             pipe;
     struct s_cmd    *next;
 }   t_cmd;
 
@@ -125,6 +126,7 @@ void	free_all(char **s, int i);
 
 //libft functions
 int     ft_strcmp(char *s1, char *s2);
+char	*ft_strdup(char *s1, t_data *d);
 size_t  ft_strlen (char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len, t_data *data);
 char	**ft_split(char *s, char c, t_data *d);

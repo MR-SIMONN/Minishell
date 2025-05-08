@@ -12,31 +12,62 @@
 
 #include "../Minishell.h"
 
-void    cmd_n_args_init(t_cmd *cmd, t_token *t, t_data *d)
+t_cmd *new_cmd(t_data *d)
 {
-    while (t)
-    {
-        if (t->type == PIPE)
-        {
-            
-        }
-        t = t->next;
-    }
+    t_cmd *cmd;
+    
+    cmd = ft_malloc(sizeof(t_cmd), d);
+    cmd->args = NULL;
+    cmd->infile = NULL;
+    cmd->outfile = NULL;
+    cmd->append = 0;
+    cmd->heredoc = 0;
+    cmd->heredoc_del = NULL;
+    cmd->pipe = 0;
+    cmd->next = NULL;
+    return cmd;
 }
 
-void    fill_d_cmd(t_cmd *cmd, t_token *t, t_data *d)
+char **add_args(char **argv, t_token *t)
 {
-    int len;
-    char *str;
-    char **tokens;
-    
-    len = extra_strlen(d->line);
-    str = ft_strsdup(d->line, len, d);
+    //couns how many words, allocate it
+    //n then copy theme one by one
+    //n then return it :)
+}
 
-    cmd_n_args_init(cmd, t, d);
-    tokens = ft_split(str, ' ', d);
-    if (!tokens)
-        free_everything(d, 1);
-    make_tokens(tokens, &d->token, d);
+void handle_redir(t_token *t, t_cmd *cmd)
+{
+    if (!t || !t->next)
+        return;
+    //the paper has it ;)
+}
+
+void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
+{
+    t_cmd   *cmd;
+
+    cmd = NULL;
+    while (t)
+    {
+        if (!cmd)
+        {
+            cmd = new_cmd(d);
+            if (!*c)
+                *c = cmd;
+        }
+        if (t->type == WORD && !cmd->args)
+            cmd->args = add_args(cmd->args, t);
+        else if (t->type == PIPE)
+        {
+            cmd->pipe = 1;
+            ft_cmdadd_back(c, ft_lstcmd(cmd));
+            cmd = new_cmd();
+        }
+        else
+            handle_redir(t, cmd);
+        t = t->next;
+    }
+    if (cmd)
+        ft_cmdadd_back(c, ft_lstcmd(cmd));//adding the last command u know
 }
 //handle this wierd cmd ---> cat < in1 >> out1 << EOF > out2

@@ -21,7 +21,7 @@ int    read_cmds(t_data *d)
     store_addr(d->line, d);
     if (parsing(d))
         return (free_everything(d, -1), 0);
-    // fill_d_cmd(d->cmds, d->token, d);
+    fill_d_cmd(&d->cmds, d->token, d);
     return (1);
 }
 
