@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_init.c                                        :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/02 00:45:13 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/05/06 23:59:55 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/05/07 00:01:17 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Minishell.h"
+# include "../Minishell.h"
 
-void    set_strcut_values(t_data *d)
+int parsing(t_data *d)
 {
-    d->line = NULL;
-    d->heap = NULL;
-    d->token = NULL;
-    d->cmds = NULL;
-    // d->path = NULL;
+    if (empty_cmd(d->line))
+        return (1);
+    if (is_invalid_syntax(d->line, d))
+        return (1);
+    ft_lst_tokens (d);
+    if (handle_syntax_error(d->token, d))
+        return (1);
+    return (0);
 }

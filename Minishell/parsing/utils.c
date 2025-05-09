@@ -22,3 +22,27 @@ int empty_cmd(char *s)
         return (1);
     return (0);
 }
+
+t_cmd	*ft_lstlast(t_cmd *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	ft_cmdadd_back(t_cmd **c, t_cmd   *new)
+{
+	t_cmd	*p;
+
+	if (!c || !new)
+		return ;
+	if (!*c)
+	{
+		*c = new;
+		return ;
+	}
+	p = ft_lstlast(*c);
+	p->next = new;
+}

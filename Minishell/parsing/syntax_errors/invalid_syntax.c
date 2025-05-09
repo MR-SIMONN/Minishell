@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/06 03:28:53 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/06 23:10:29 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int unclosed_quote(char *s, t_data *d)
     }
     if (f)
     {
-        syntax_error("syntax error unclosed quotes", d);
+        syntax_error("syntax error", d);
         return (1);
     }
     return (0);
@@ -61,8 +61,8 @@ int invalid_redirection(char *s, t_data *d)
             s_e = check_one(s, i, d);
         else if (is_two_symbols(s, i) && s[i] && !f)
             s_e = check_two(s, i, d);
-        else if (s[i] == ';' && !f)
-            s_e = syntax_error("syntax error `;`", d);
+        else if ((s[i] == ';' || s[i] == '&') && !f)
+            s_e = syntax_error("syntax error", d);
         if (s_e)
             return (1);
     }

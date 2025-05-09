@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/06 03:32:23 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/07 00:47:12 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,6 @@
 // #include <>
 // #include <>
 
-// typedef enum s_redir_type {
-//     REDIR_IN,       // <
-//     REDIR_OUT,      // >
-//     REDIR_APPEND,   // >>
-//     REDIR_HEREDOC   // <<
-// } t_redir_type;
-
-// typedef struct s_redir
-// {
-//     t_redir_type type;
-//     char *file;
-//     struct s_redir *next;
-// } t_redir;
-
-// typedef struct s_cmd
-// {
-//     char *cmd;         // command name (e.g., "echo")
-//     char **args;       // arguments including cmd
-//     t_redir *redir;    // list of redirections
-//     bool pipe;         // true if pipe to next
-//     struct s_cmd *next;
-// } t_cmd;
-
 typedef struct s_heap
 {
     void    *address;
@@ -54,13 +31,13 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    QUOTED,
-    WORD,
-    PIPE,
-    REDIRECT_OUT,
-    REDIRECT_IN,
-    APPEND,
-    HEREDOC
+    QUOTED,         // a quoted string
+    WORD,           // a normal string
+    PIPE,           // |
+    REDIRECT_OUT,   // >
+    REDIRECT_IN,    // <
+    APPEND,         // >>
+    HEREDOC         // <<
 } t_token_type;
 
 typedef struct s_token
@@ -70,37 +47,34 @@ typedef struct s_token
     struct s_token  *next;
 } t_token;
 
-typedef struct s_cmds
+typedef struct s_cmd 
 {
-    char    *cmd;
-    char    **args;
-}   t_cmds;
-
-// typedef struct s_cmds 
-// {
-//     char            *cmd;
-//     char            **args;
-//     char            *infile;
-//     char            *outfile;
-//     int             append;
-//     int             heredoc;
-//     char            *heredoc_delim;
-//     struct s_cmd    *next;
-// }   t_cmds;
+    char            *cmd;
+    char            **args;
+    char            *infile;
+    char            *outfile;
+    int             append;
+    int             heredoc;
+    char            *heredoc_del;
+    int             pipe;
+    struct s_cmd    *next;
+}   t_cmd;
 
 typedef struct s_data
 {
     char    *line;
     t_heap  *heap;
     t_token *token;
-    // t_cmds  *cmds;
+    t_cmd  *cmds;
     // char    *path;
     // more data needed tho
 }   t_data;
 
 //parsing functions
+int     parsing(t_data *d);
 int     empty_cmd(char *s);
 int     is_invalid_syntax(char *s, t_data *d);
+void    fill_d_cmd(t_cmd *cmd, t_token *t, t_data *d);
 int     check_one(char *s, int i, t_data *d);
 int     check_two(char *s, int i, t_data *d);
 int     is_symbol(char c);
@@ -110,7 +84,6 @@ void    handle_symbols(char *s, int *len, int i);
 int     is_two_symbols(char *s, int i);
 int     is_one_symbol(char *s, int i);
 void    set_strcut_values(t_data *d);
-int     quotes_len(char *s, char c);
 void    skip_it(char *s, int *i, char c);
 int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s, t_data *d);
@@ -124,6 +97,7 @@ void	free_all(char **s, int i);
 
 //libft functions
 int     ft_strcmp(char *s1, char *s2);
+char	*ft_strdup(char *s1, t_data *d);
 size_t  ft_strlen (char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len, t_data *data);
 char	**ft_split(char *s, char c, t_data *d);
