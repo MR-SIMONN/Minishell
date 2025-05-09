@@ -21,29 +21,6 @@
 // #include <>
 // #include <>
 
-// typedef enum s_redir_type {
-//     REDIR_IN,       // <
-//     REDIR_OUT,      // >
-//     REDIR_APPEND,   // >>
-//     REDIR_HEREDOC   // <<
-// } t_redir_type;
-
-// typedef struct s_redir
-// {
-//     t_redir_type type;
-//     char *file;
-//     struct s_redir *next;
-// } t_redir;
-
-// typedef struct s_cmd
-// {
-//     char *cmd;         // command name (e.g., "echo")
-//     char **args;       // arguments including cmd
-//     t_redir *redir;    // list of redirections
-//     bool pipe;         // true if pipe to next
-//     struct s_cmd *next;
-// } t_cmd;
-
 typedef struct s_heap
 {
     void    *address;
@@ -54,7 +31,7 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    QUOTED,         // " or ' string
+    QUOTED,         // a quoted string
     WORD,           // a normal string
     PIPE,           // |
     REDIRECT_OUT,   // >
@@ -69,12 +46,6 @@ typedef struct s_token
     t_token_type    type;
     struct s_token  *next;
 } t_token;
-
-typedef struct s_cmds
-{
-    char    *cmd;
-    char    **args;
-}   t_cmds;
 
 typedef struct s_cmd 
 {

@@ -71,29 +71,24 @@ void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
     while (t)
     {
         if (!cmd)
-        {
             cmd = new_cmd(d);
-            if (!*c)
-                *c = cmd;
-        }
         if (t->type == WORD && !cmd->args)
             cmd->args = add_args(cmd->args, t);
         else if (t->type == PIPE)
         {
             cmd->pipe = 1;
-            ft_cmdadd_back(c, ft_lstcmd(cmd));
-            cmd = new_cmd();
+            ft_cmdadd_back(c, cmd);
+            cmd = new_cmd(d);
         }
         else
             handle_redir(t, cmd, d);
         t = t->next;
     }
     if (cmd)
-        ft_cmdadd_back(c, ft_lstcmd(cmd));//adding the last command
+        ft_cmdadd_back(c, cmd);//adding the last command
 }
 //need to create these functions :
-//cmdback   --->
-//lstcmd    --->
+//cmdback   ---> ✅
 //add_args  --->
 
 //handle this wierd cmd ---> cat < in1 >> out1 << EOF > out2
