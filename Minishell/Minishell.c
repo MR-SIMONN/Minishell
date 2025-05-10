@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/07 00:50:14 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/10 05:58:57 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int    read_cmds(t_data *d)
     if (parsing(d))
         return (free_everything(d, -1), 0);
     fill_d_cmd(&d->cmds, d->token, d);
+    print_cmds(d->cmds);
     return (1);
 }
 
