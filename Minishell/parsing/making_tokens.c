@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/06 03:49:48 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/10 22:51:06 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void     make_tokens(char **t, t_token **p, t_data *d)
 		ft_lstadd_back(p, ft_lstnew(t[i], d, quote));
 		i++;
 	}
-    // free_all(t, i);
 }
 
 int extra_strlen(char *s)

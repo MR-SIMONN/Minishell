@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/10 05:59:20 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/11 01:10:15 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,18 @@ t_cmd *new_cmd(t_data *d)
     return cmd;
 }
 
-// char **add_args(char **argv, t_token *t)
-// {
-//     //count how many words, allocate it
-//     //n then copy theme one by one
-//     //n then return it :)
-// }
+char **add_args(t_token *t, t_data *d)
+{
+    //count how many words, allocate it
+    int     len;
+    char    **args;
+
+    len = args_len(t);
+    args = ft_malloc(sizeof(char **) * (len + 1), d);
+    
+    //n then copy theme one by one
+    //n then return it :)
+}
 
 void handle_redir(t_token *t, t_cmd *cmd, t_data *d)
 {
@@ -85,10 +91,9 @@ void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
     {
         if (!cmd)
             cmd = new_cmd(d);
-        // if (t->type == WORD && !cmd->args)
-        //     cmd->args = add_args(cmd->args, t);
-        if (t->type == WORD && !cmd->cmd)
-            cmd->cmd = ft_strdup(t->value, d);//just for testing before adding args
+        if (t->type == WORD && !cmd->args)
+            cmd->args = add_args(t, d);
+
         // if (t->type == WORD && !cmd->cmd)
         //     cmd->cmd = ft_strdup(cmd->args[0], d);
         if (t->type == PIPE)

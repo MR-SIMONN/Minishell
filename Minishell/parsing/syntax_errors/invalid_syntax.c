@@ -6,38 +6,58 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/06 23:10:29 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/11 00:40:26 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../Minishell.h"
 
-int unclosed_quote(char *s, t_data *d)
+int is_herdock(char *s, int i)
+{
+    if (s[i] && s[i + 1])
+    {
+        if (s[i] == '<' && s[i + 1] == '<')
+            return (1);
+    }
+    return (0);
+}
+
+int    check_qoutes(char *s, int *f,  int *heredoc)
 {
     int i;
-    int f;
     char c;
 
     i = 0;
-    f = 0;
-    if (!s)
-        free_everything(d, 1);
     while (s[i])
     {
         if ((s[i] == '\'' || s[i] == '\"') && !f)
         {
             c = s[i];
-            f = 1;
+            *f = 1;
         }
-        else if (s[i] == c && f)
-            f = 0;
+        else if (s[i] == c && *f)
+            *f = 0;
+        else if (is_herdock(s, i) && !*f)
+            *heredoc = 0;
         i++;
     }
-    if (f)
-    {
-        syntax_error("syntax error", d);
+}
+int unclosed_quote(char *s, t_data *d)
+{
+    int     i;
+    int     f;
+    int     no_heredoc;
+
+    if (!s)
+        free_everything(d, 1);
+    i = 0;
+    f = 0;
+    no_heredoc = 1;
+    check_qoutes(s, &f, &no_heredoc);
+    if (f && no_heredoc)
+        return (syntax_error("syntax error", d), 1);
+    else if (f && !no_heredoc)
         return (1);
-    }
     return (0);
 }
 int invalid_redirection(char *s, t_data *d)
