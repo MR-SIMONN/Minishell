@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 05:38:47 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/10 05:54:19 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:28:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,13 @@ void	print_cmds(t_cmd *cmd)
 	{
 		printf("---- CMD ----\n");
 		
-        printf("Cmd: %s\n", cmd->cmd && cmd->cmd[0] ? cmd->cmd : "(null)");
+		if (cmd->cmd)
+			printf("Cmd: %s\n", cmd->cmd);
+		else
+			printf("Cmd: (null)\n");
 
 		printf("Args: ");
-		if (cmd->args)
+		if (cmd->args && cmd->args[0])
 		{
 			i = 0;
 			while (cmd->args[i])

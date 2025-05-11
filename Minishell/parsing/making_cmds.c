@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/11 01:38:58 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:28:39 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char **add_args(t_token *t, t_data *d)
     char    **args;
 
     len = args_len(t);//count how many words, allocate it
-    args = ft_malloc(sizeof(char **) * (len + 1), d);
+    args = ft_malloc(sizeof(char *) * (len + 1), d);
     copy_args(args, t, d);//n then copy theme one by one
     return (args);//n then return it :)
 }
@@ -58,7 +58,7 @@ void handle_redir(t_token *t, t_cmd *cmd, t_data *d)
 {
     char    *n_t;
 
-    if (!t || !t->next)
+    if (!t || !t->next || !t->next->value)
         return;
     n_t = t->next->value;
     if (t->type == REDIRECT_IN)
@@ -92,7 +92,7 @@ void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
         if (t->type == WORD && !cmd->args)
             cmd->args = add_args(t, d);
 
-        if (t->type == WORD && !cmd->cmd)
+        if (t->type == WORD && !cmd->cmd && cmd->args && cmd->args[0])
             cmd->cmd = ft_strdup(cmd->args[0], d);
         if (t->type == PIPE)
         {
