@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/10 05:41:04 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/11 01:35:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int     parsing(t_data *d);
 int     empty_cmd(char *s);
 int     is_invalid_syntax(char *s, t_data *d);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
+int     args_len(t_token *t);
+void    copy_args(char **args, t_token *t, t_data *d);
 int     check_one(char *s, int i, t_data *d);
 int     check_two(char *s, int i, t_data *d);
 int     is_symbol(char c);

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/11 00:40:26 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/11 01:36:43 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int is_herdock(char *s, int i)
     return (0);
 }
 
-int    check_qoutes(char *s, int *f,  int *heredoc)
+void    check_qoutes(char *s, int *f,  int *heredoc)
 {
     int i;
     char c;

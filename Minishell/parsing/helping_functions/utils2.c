@@ -6,12 +6,36 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/11 01:12:37 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/11 01:39:19 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
+void    copy_args(char **args, t_token *t, t_data *d)
+{
+    int i;
+    int before_reds;
+
+    i = 0;
+    before_reds = 1;
+    while (t)
+    {
+        if (t->type == PIPE)
+            return ;
+        if (t->type == WORD && before_reds)
+            args[i] = ft_strdup(t->value, d);
+        else if (is_symbol(*t->value) && t->next)
+        {
+            before_reds = 0;
+            if (t->next->next && t->next->next->type == WORD)
+                args[i] = ft_strdup(t->next->next->value, d);
+        }
+        t = t->next;
+        i++;
+    }
+    args[i] = 0;
+}
 int args_len(t_token *t)
 {
     int len;
