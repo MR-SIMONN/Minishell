@@ -6,11 +6,11 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 16:48:06 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/01 18:17:34 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/12 02:36:29 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minishell.h"
+#include "../Minishell.h"
 
 char *get_token_type_name(t_token_type type)
 {
@@ -33,11 +33,11 @@ void print_tokens(t_token *head)
 {
     if (!head)
         return ;
-    printf("\n--- Token List ---\n");
+    printf("\n--- Token List -------------------------------------------------------\n");
     while (head)
     {
         printf("Token: %-15s                | Type: %-12s\n", head->value, get_token_type_name(head->type));
         head = head->next;
     }
-    printf("------------------\n\n");
+    printf("-----------------------------------------------------------------------\n\n");
 }

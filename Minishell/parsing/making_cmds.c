@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/11 02:28:39 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/12 06:06:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,35 +80,39 @@ void handle_redir(t_token *t, t_cmd *cmd, t_data *d)
     }
 }
 
-void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
+void fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
 {
-    t_cmd   *cmd;
+	t_cmd *cmd;
 
     cmd = NULL;
-    while (t)
-    {
-        if (!cmd)
-            cmd = new_cmd(d);
-        if (t->type == WORD && !cmd->args)
-            cmd->args = add_args(t, d);
-
-        if (t->type == WORD && !cmd->cmd && cmd->args && cmd->args[0])
-            cmd->cmd = ft_strdup(cmd->args[0], d);
-        if (t->type == PIPE)
-        {
-            cmd->pipe = 1;
-            ft_cmdadd_back(c, cmd);
-            cmd = new_cmd(d);
-        }
-        else if (!(t->type == WORD))
-            handle_redir(t, cmd, d);
-        t = t->next;
-    }
-    if (cmd)
-        ft_cmdadd_back(c, cmd);//adding the last command
+	while (t)
+	{
+		if (!cmd)
+			cmd = new_cmd(d);
+		if ((t->type == WORD || t->next == QUOTED) && !cmd->args)
+		{
+			cmd->args = add_args(t, d);
+			if (cmd->args && cmd->args[0])
+				cmd->cmd = ft_strdup(cmd->args[0], d);
+		}
+		if (t->type != WORD && t->type != PIPE && t->type != QUOTED)
+			handle_redir(t, cmd, d);
+		if (t->type == PIPE)
+		{
+			cmd->pipe = 1;
+			ft_cmdadd_back(c, cmd);
+			cmd = NULL;
+		}
+		t = t->next;
+	}
+	if (cmd)
+		ft_cmdadd_back(c, cmd);
 }
+
+
+
 //need to create these functions :
 //cmdback   ---> ✅
-//add_args  --->
+//add_args  ---> ✅
 
-//handle this wierd cmd ---> cat < in1 >> out1 << EOF > out2
+//handle this wierd cmd ---> cat < in1 >> out1 << EOF > out2 --->

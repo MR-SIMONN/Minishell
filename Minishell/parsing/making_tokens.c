@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/10 22:51:06 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:58:27 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,27 +79,6 @@ int extra_strlen(char *s)
     }
     return (len);
 }
-void    print_spaces_count(char *s, int f)
-{
-    int i = 0;
-    int j = 0;
-    while (s[i])
-    {
-        if (s[i] == ' ')
-            j++;
-        i++;
-    }
-    if (f == 0)
-    {
-        printf ("\nwe have ------->     [ %d ]      <------- input\n", j);
-        printf ("\n%s\n\n", s);
-    }
-    else if (f == 1)
-    {
-        printf ("\nwe have ------->     [ %d ]      <------- mine\n", j);
-        printf ("\n%s\n\n", s);        
-    }
-}
 
 void    ft_lst_tokens(t_data *d)
 {
@@ -109,10 +88,6 @@ void    ft_lst_tokens(t_data *d)
 
     len = extra_strlen(d->line);
     str = ft_strsdup(d->line, len, d);
-    // print_spaces_count(d->line, 0);
-    // print_spaces_count(str, 1);
     tokens = ft_split(str, ' ', d);
-    if (!tokens)
-        free_everything(d, 1);
     make_tokens(tokens, &d->token, d);
 }
