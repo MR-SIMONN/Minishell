@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/13 10:42:38 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:48:56 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
         if (all_good)
         {
             print_tokens (d->token);//  --> just for testing :)
-            print_cmds(d->cmds);//      --> just for testing :)
+            // print_cmds(d->cmds);//      --> just for testing :)
             // execution (d->env, d->cmds, &d);
             free_everything(d, -1);
         }

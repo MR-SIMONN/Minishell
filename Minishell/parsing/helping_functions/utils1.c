@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 22:44:11 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/12 06:48:09 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:53:22 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int empty_cmd(char *s)
 
     i = 0;
     skip_it(s, &i, ' ');
+	if (is_symbol(s[i]))
+		return (syntax_error("syntax error"));
     if (!s[i] || s[i] == ':')
         return (1);
     return (0);

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/12 06:43:19 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:52:16 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int unclosed_quote(char *s, t_data *d)
     f = 0;
     check_qoutes(s, &f);
     if (f)
-        return (syntax_error("syntax error"), 1);
+        return (syntax_error("syntax error"));
     return (0);
 }
 int invalid_redirection(char *s)
