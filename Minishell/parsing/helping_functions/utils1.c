@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 22:44:11 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/27 22:49:19 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/12 06:48:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Minishell.h"
+#include "../../Minishell.h"
 
 int empty_cmd(char *s)
 {
@@ -18,12 +18,31 @@ int empty_cmd(char *s)
 
     i = 0;
     skip_it(s, &i, ' ');
-    if (!s[i])
+    if (!s[i] || s[i] == ':')
         return (1);
     return (0);
 }
 
-t_cmd	*ft_lstlast(t_cmd *lst)
+t_str	*new_strnode(char *string, t_data *d)
+{
+	t_str *p;
+
+	p = (t_str *)ft_malloc(sizeof(t_str), d);
+	p->s = string;
+	p->next = NULL;
+	return (p);
+}
+
+t_str	*last_str(t_str *p)
+{
+	if (!p)
+		return (NULL);
+	while (p->next)
+		p = p->next;
+	return (p);
+}
+
+t_cmd	*last_cmd(t_cmd *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -43,6 +62,7 @@ void	ft_cmdadd_back(t_cmd **c, t_cmd   *new)
 		*c = new;
 		return ;
 	}
-	p = ft_lstlast(*c);
+	p = last_cmd(*c);
 	p->next = new;
 }
+

@@ -73,7 +73,7 @@ static int	ft_word_len(char *str, int i, char c)
 	return (word_len);
 }
 
-static char	*ft_stridup(char *s, size_t *i, char c)
+static char	*ft_stridup(char *s, int *i, char c, t_data *d)
 {
 	char	*str;
 	int		j;
@@ -83,9 +83,7 @@ static char	*ft_stridup(char *s, size_t *i, char c)
 	index = *i;
 	j = 0;
 	quote = 0;
-	str = malloc(sizeof(char) * (ft_word_len((char *)s, *i, c) + 1));
-	if (!str)
-		return (NULL);
+	str = ft_malloc(sizeof(char) * (ft_word_len(s, *i, c) + 1), d);
 	while (s[*i])
 	{
 		if (!quote && (s[*i] == '\'' || s[*i] == '\"'))
@@ -103,25 +101,24 @@ static char	*ft_stridup(char *s, size_t *i, char c)
 
 char	**ft_split(char *s, char c, t_data *d)
 {
-	size_t	i;
-	size_t	k;
+	int		i;
+	int		k;
 	char	**str;
 
 	if (!s)
 		return (NULL);
-	(1) && (i = 0, k = 0, str = malloc (8 * (ft_cw(s, c) + 1)));
-	if (!str)
-		return (NULL);
-	skip_it(s, (int *)&i, c);
+	i = 0;
+	k = 0;
+	str = ft_malloc (sizeof(char *) * (ft_cw(s, c) + 1), d);
+	skip_it(s, &i, c);
 	while (s[i])
 	{
 		if (s[i] != c)
 		{
-			str[k] = ft_stridup((char *)s, &i, c);
-			if (!str[k++])
-				return (free_all(str, --k), free_everything(d, 1), NULL);
+			str[k] = ft_stridup(s, &i, c, d);
+			k++;
 		}
-		skip_it(s, (int *)&i, c);
+		skip_it(s, &i, c);
 	}
 	return (str[k] = 0, str);
 }

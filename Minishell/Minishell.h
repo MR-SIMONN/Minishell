@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/07 00:47:12 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/12 06:37:47 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ typedef enum e_token_type
     HEREDOC         // <<
 } t_token_type;
 
+typedef struct s_str
+{
+    char            *s;
+    struct s_str    *next;
+} t_str;
+
 typedef struct s_token
 {
     char            *value;
@@ -51,11 +57,11 @@ typedef struct s_cmd
 {
     char            *cmd;
     char            **args;
-    char            *infile;
-    char            *outfile;
+    t_str           *infile;
+    t_str           *outfile;
     int             append;
     int             heredoc;
-    char            *heredoc_del;
+    t_str           *heredoc_del;
     int             pipe;
     struct s_cmd    *next;
 }   t_cmd;
@@ -65,7 +71,8 @@ typedef struct s_data
     char    *line;
     t_heap  *heap;
     t_token *token;
-    t_cmd  *cmds;
+    t_cmd   *cmds;
+    // t_env   *env;
     // char    *path;
     // more data needed tho
 }   t_data;
@@ -74,19 +81,26 @@ typedef struct s_data
 int     parsing(t_data *d);
 int     empty_cmd(char *s);
 int     is_invalid_syntax(char *s, t_data *d);
-void    fill_d_cmd(t_cmd *cmd, t_token *t, t_data *d);
-int     check_one(char *s, int i, t_data *d);
-int     check_two(char *s, int i, t_data *d);
+void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
+int     args_len(t_token *t);
+void    copy_args(char **args, t_token *t, t_data *d);
+int     check_one(char *s, int i);
+int     check_two(char *s, int i);
 int     is_symbol(char c);
 void    ft_lst_tokens(t_data *d);
-void    ft_error(char *message);
 void    handle_symbols(char *s, int *len, int i);
 int     is_two_symbols(char *s, int i);
 int     is_one_symbol(char *s, int i);
 void    set_strcut_values(t_data *d);
-void    skip_it(char *s, int *i, char c);
 int     handle_syntax_error(t_token *t, t_data *d);
-int     syntax_error (char *s, t_data *d);
+int     syntax_error (char *s);
+
+//utils functions
+t_str	*new_strnode(char *string, t_data *d);
+void	ft_cmdadd_back(t_cmd **c, t_cmd   *new);
+t_str	*last_str(t_str *p);
+void    ft_error(char *message);
+void    skip_it(char *s, int *i, char c);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -108,5 +122,6 @@ char	*ft_strsdup(char *s1, int l, t_data *d);
 
 //testing functions
 void    print_tokens(t_token *head);
+void	print_cmds(t_cmd *cmd);
 
 # endif
