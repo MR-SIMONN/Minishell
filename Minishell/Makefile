@@ -1,3 +1,5 @@
+# barca		4	|	3		real madrid  waaaa333333 hhhhhhhhhhhhhhhhhhhhhhhhhhh
+
 SRCS	= Minishell.c clean_up/trash_can.c clean_up/utils.c parsing/making_tokens.c parsing/making_cmds.c \
 parsing/parsing.c parsing/helping_functions/utils1.c parsing/helping_functions/utils2.c \
 parsing/syntax_errors/invalid_syntax.c parsing/syntax_errors/syntax_error.c \

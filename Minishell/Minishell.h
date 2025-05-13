@@ -6,9 +6,11 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/12 06:37:47 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:19:22 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//wach ma3ndk mayddar tabe3ni hhhhhh wasafi sir lmakefile ghatl9a comment mohim lfoo9
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
@@ -64,7 +66,7 @@ typedef struct s_cmd
     t_str           *heredoc_del;
     int             pipe;
     struct s_cmd    *next;
-}   t_cmd;
+}   t_cmd;// wafen a khay smail hani kolchi bikhir l3a2ila, fach tchof had lcomment hbet lte7t gaa3 ghatl9a comment wahed khor
 
 typedef struct s_data
 {
@@ -125,3 +127,4 @@ void    print_tokens(t_token *head);
 void	print_cmds(t_cmd *cmd);
 
 # endif
+// tle3 lfo9 gaaa3 ghatl9a wahed akhor
