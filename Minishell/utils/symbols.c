@@ -6,13 +6,13 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 21:31:34 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/06 03:07:29 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:07:10 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void handle_symbols(char *s, int *len, int i)
+void    handle_symbols(char *s, int *len, int i)
 {
     if (i > 0 && s[i - 1] != ' ')
         (*len)++;

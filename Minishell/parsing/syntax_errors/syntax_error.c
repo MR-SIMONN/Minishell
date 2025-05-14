@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:20:24 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/13 16:52:29 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:34:11 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int    handle_pipes(t_token *t)
     while (t && t->next)
     {
         if (!ft_strcmp(t->value, "|") && !ft_strcmp(t->next->value, "|"))
-            return (syntax_error("syntax error"));
+            return (1);
         t = t->next;
     }
     return (0);
@@ -25,9 +25,9 @@ int    handle_pipes(t_token *t)
 
 int    is_rid_nexto_symbol(t_token *t)
 {
-    if (is_symbol(*t->value) && *t->value != '|' && t->next)
-        if (is_symbol(*t->next->value))
-            return (syntax_error("syntax error"));
+    if (is_symbol(*t->value) && *t->value != '|')
+        if (is_symbol(*t->next->value) && no_pipeout_token(t))
+            return (1);
     return (0);
 }
 
@@ -39,8 +39,8 @@ int handle_redirections(t_token *t, t_data *d)
         free_everything(d, 1);
     p = ft_lstlast(t);
     if (is_symbol(*p->value))
-        return (syntax_error("syntax error"));
-    while (t)
+        return (1);
+    while (t && t->next)
     {
         if (is_rid_nexto_symbol(t))
             return (1);

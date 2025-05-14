@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/13 18:12:22 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:37:33 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int extra_strlen(char *s)
         {
             if ((i > 0 && s[i - 1] != ' '))
                 len++;
-            if (s[i + 1] && s[i + 1] != ' ')
+            if (s[i + 1] && s[i + 1] != ' ' && !is_symbol(s[i + 1]))
                 len++;
             len++;
         }
@@ -87,8 +87,10 @@ void    ft_lst_tokens(t_data *d)
     char **tokens;
 
     len = extra_strlen(d->line);
-    printf ("\n%d\n", len);
+    // printf ("\n%d\n", len);
     str = ft_strsdup(d->line, len, d);
+    // printf ("\n%s\n", str);
     tokens = ft_split(str, ' ', d);
+    // print_strs(tokens);
     make_tokens(tokens, &d->token, d);
 }

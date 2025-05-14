@@ -6,32 +6,42 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/12 04:05:11 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:28:32 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-int is_not_redir(t_token_type t)
+int is_not_redir(t_token *t)
 {
-    return (t != REDIRECT_IN
-            && t != REDIRECT_OUT
-            && t != APPEND
-            && t != HEREDOC);
+	if (!t)
+	{
+		printf ("\n\ndkhlat l not_red function walakin its NULL\n\n");
+		return (1);
+	}
+	if (t->type != REDIRECT_IN
+            && t->type != REDIRECT_OUT
+            && t->type != APPEND
+            && t->type != HEREDOC)
+		{
+			printf ("thers is a redirection before\n");
+			return (1);
+		}
+	printf ("thers is somthing else thana red before\n");
+	return (0);
 }
-
 
 void copy_args(char **args, t_token *t, t_data *d)
 {
-	int i = 0;
-	t_token *prev = NULL;
+	int 	i;
 
+	i = 0;
 	while (t && t->type != PIPE)
 	{
-        if ((t->type == WORD || t->next == QUOTED)
-        && (!prev || (is_not_redir(prev->type))))
+        if ((t->type == WORD || t->type == QUOTED))
+		{
 			args[i++] = ft_strdup(t->value, d);
-		prev = t;
+		}
 		t = t->next;
 	}
 	args[i] = NULL;
@@ -40,16 +50,36 @@ void copy_args(char **args, t_token *t, t_data *d)
 
 int args_len(t_token *t)
 {
-	int len = 0;
-	t_token *prev = NULL;
+	int 	len;
 
+	len = 0;
 	while (t && t->type != PIPE)
 	{
-		if ((t->type == WORD || t->next == QUOTED)
-        && (!prev || (is_not_redir(prev->type))))
+        if ((t->type == WORD || t->type == QUOTED))
 			len++;
-		prev = t;
 		t = t->next;
 	}
-	return len;
+	return (len);
+}
+
+int	no_pipeout(char *s, int i)
+{
+	if (i > 0 && s[i] == '|' && s[i - 1] == '>')
+		return (0);
+	return (1);
+}
+void	change_tokens_types(t_token *t)
+{
+	int	flag;
+
+	flag = 0;
+	while (t && t->next)
+	{
+		if (!is_not_redir(t))
+		{
+			if (t->next->type == WORD)
+				t->next->type = REDIR_WORD;
+		}
+		t = t->next;
+	}
 }

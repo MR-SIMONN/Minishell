@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/13 09:46:20 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:16:13 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ char **add_args(t_token *t, t_data *d)
 
     len = args_len(t);//count how many words, allocate it
     args = ft_malloc(sizeof(char *) * (len + 1), d);
-    copy_args(args, t, d);//n then copy theme one by one
+    if (t)
+        copy_args(args, t, d);//n then copy theme one by one
     return (args);//n then return it :)
 }
 
@@ -89,7 +90,7 @@ void fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
 	{
 		if (!cmd)
 			cmd = new_cmd(d);
-		if ((t->type == WORD || t->next == QUOTED) && !cmd->args)
+		if ((t->type == WORD || t->type == QUOTED) && !cmd->args)
 		{
 			cmd->args = add_args(t, d);
 			if (cmd->args && cmd->args[0])

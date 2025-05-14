@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:59:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/13 17:48:36 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:13:13 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ int parsing(t_data *d)
     if (empty_cmd(d->line))
         return (1);
     if (is_invalid_syntax(d->line, d))
-        return (1);
+        return (syntax_error("syntax error before tokens"));
     ft_lst_tokens (d);
     if (handle_syntax_error(d->token, d))
-        return (1);
+        return (syntax_error("syntax error after tokens"));
+    change_tokens_types(d->token);
     return (0);
 }
