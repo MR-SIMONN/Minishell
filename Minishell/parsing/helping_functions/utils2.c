@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/14 20:28:32 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:00:40 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ int is_not_redir(t_token *t)
             && t->type != APPEND
             && t->type != HEREDOC)
 		{
-			printf ("thers is a redirection before\n");
 			return (1);
 		}
-	printf ("thers is somthing else thana red before\n");
 	return (0);
 }
 

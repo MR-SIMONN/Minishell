@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/14 20:23:24 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/16 13:42:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,22 +86,17 @@ int invalid_pipeout(char *s)
         {
             if (s[i + 1] == '>' || s[i + 1] == '|')
                 i+=2;
-            else
+            else if(s[i + 1] == ' ')
             {
                 f = 1;
                 i++;
             }
         }
         if (s[i] && s[i] == '|' && f)
-        {
-            printf("\npipe out :)\n");
             return (1);
-        }
-        else
-        {
-            i++;
+        else if (s[i] != ' ' && f)
             f = 0;
-        }
+        i++;
     }
     return (0);
 }
