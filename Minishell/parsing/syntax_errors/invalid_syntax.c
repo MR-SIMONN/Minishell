@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/12 06:43:19 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/16 13:42:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int unclosed_quote(char *s, t_data *d)
     f = 0;
     check_qoutes(s, &f);
     if (f)
-        return (syntax_error("syntax error"), 1);
+        return (1);
     return (0);
 }
 int invalid_redirection(char *s)
@@ -66,12 +66,41 @@ int invalid_redirection(char *s)
         else if (is_two_symbols(s, i) && s[i] && !f)
             s_e = check_two(s, i);
         else if ((s[i] == ';' || s[i] == '&') && !f)
-            s_e = syntax_error("syntax error");
+            s_e = 1;
         if (s_e)
             return (1);
     }
     return (0);
 }
+
+int invalid_pipeout(char *s)
+{
+    int i;
+    int f;
+
+    i = 0;
+    f = 0;
+    while (s[i] && s[i + 1])
+    {
+        if (s[i] == '>')
+        {
+            if (s[i + 1] == '>' || s[i + 1] == '|')
+                i+=2;
+            else if(s[i + 1] == ' ')
+            {
+                f = 1;
+                i++;
+            }
+        }
+        if (s[i] && s[i] == '|' && f)
+            return (1);
+        else if (s[i] != ' ' && f)
+            f = 0;
+        i++;
+    }
+    return (0);
+}
+
 int is_invalid_syntax(char *s, t_data *d)
 {
     if (!s)
@@ -79,6 +108,8 @@ int is_invalid_syntax(char *s, t_data *d)
     if (unclosed_quote(s, d))
         return (1);
     if (invalid_redirection(s))
+        return (1);
+    if (invalid_pipeout(s))
         return (1);
     return (0);
 }

@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   print_strs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 23:59:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/14 20:13:13 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/05/13 11:40:33 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/05/14 15:16:35 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Minishell.h"
+#include "../Minishell.h"
 
-int parsing(t_data *d)
+void    print_strs(char **s)
 {
-    if (empty_cmd(d->line))
-        return (1);
-    if (is_invalid_syntax(d->line, d))
-        return (syntax_error("syntax error before tokens"));
-    ft_lst_tokens (d);
-    if (handle_syntax_error(d->token, d))
-        return (syntax_error("syntax error after tokens"));
-    change_tokens_types(d->token);
-    return (0);
+    int i;
+
+    i = 0;
+    while (s[i])
+    {
+        printf ("string  %d -----> [%s]\n", i, s[i]);
+        i++;
+    }
 }
