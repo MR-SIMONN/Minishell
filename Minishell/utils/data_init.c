@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 00:14:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/26 16:32:33 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/05/02 00:45:13 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-size_t ft_strlen (char *str)
+void    set_strcut_values(t_data *d)
 {
-    size_t i;
-
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);
+    d->line = NULL;
+    d->heap = NULL;
+    d->token = NULL;
+    d->cmds = NULL;
+    // d->path = NULL;
 }

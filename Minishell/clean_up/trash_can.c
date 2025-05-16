@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:52:10 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/18 17:32:27 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/12 06:19:23 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,22 @@ void	clear_trash(t_heap **lst)
 	{
 		temp = (*lst)->next;
 		free((*lst)->address);
+		(*lst)->address = NULL;
 		free(*lst);
 		*lst = temp;
 	}
 }
 
 //this function is to free all the heap allocated memmory throughout the program
-void	free_everything(t_data *data)
+void	free_everything(t_data *data, int i)
 {
+	printf ("\nfreed\n");// just for debuging
 	clear_trash(&data->heap);
 	//from now on anything u allocated u must add it to the struct and free it in this function
-	
-	write(1, "exit\n", 6);
-	exit(0);
+	//including fds :)
+	if (i >= 0)
+	{
+		printf ("wa exitaaaaaaa %d\n", i);
+		exit(i);
+	}
 }

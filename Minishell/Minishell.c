@@ -6,40 +6,58 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/04/20 00:18:23 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/13 10:42:38 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-// void handle_str(t_data *data)
-// {
-//     int i;
+int    read_cmds(t_data *d)
+{
+    d->line = readline("\033[1;36m-> minishell\033[0m$");
+    if (!d->line)
+        return (free_everything(d, 1), 0);
+    add_history(d->line);
+    store_addr(d->line, d);
+    if (parsing(d))
+        return (0);
+    fill_d_cmd(&d->cmds, d->token, d);
+    return (1);
+}
 
-//     i = 0;
-    
+void    minishell(int ac, char **av, char **env, t_data *d)
+{
+    int all_good;
+
+    all_good = 0;
+    (void)ac;
+    (void)av;
+    (void)env;
+    while (1 + 1 == 2)
+    {
+        set_strcut_values(d);
+        all_good = read_cmds(d);
+        if (all_good)
+        {
+            print_tokens (d->token);//  --> just for testing :)
+            print_cmds(d->cmds);//      --> just for testing :)
+            // execution (d->env, d->cmds, &d);
+            free_everything(d, -1);
+        }
+        else
+            free_everything(d, -1);
+    }
+}
+
+// void ff()
+// {
+//     system("leaks Minishell");
 // }
 
-void    read_cmds(t_data *data)
-{
-    // char    **lines;
-
-    data->line = readline("\033[1;36m-> minishell\033[0m$");
-    if (!data->line)
-        free_everything(data);
-    store_addr(data->line, data); 
-    strings_to_token(data->line, data);
-}
-    
 int main (int ac, char **av, char **env)
 {
     t_data  data;
 
-    (void)ac;
-    (void)av;
-    (void)env;
-    while (1 + 1 != 3)
-    {
-        read_cmds(&data);
-    }
+    // atexit(ff);
+    minishell(ac, av, env, &data);
 }

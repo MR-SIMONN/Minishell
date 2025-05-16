@@ -6,7 +6,11 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/16 14:11:00 by moel-hai         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/12 06:37:47 by moel-hai         ###   ########.fr       */
+>>>>>>> 642ffa8063552dd75f6e4569205fa66e7c499cd8
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +37,10 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
+<<<<<<< HEAD
     REDIR_WORD,     // a string after a red
+=======
+>>>>>>> 642ffa8063552dd75f6e4569205fa66e7c499cd8
     QUOTED,         // a quoted string
     WORD,           // a normal string
     PIPE,           // |
@@ -67,7 +74,11 @@ typedef struct s_cmd
     t_str           *heredoc_del;
     int             pipe;
     struct s_cmd    *next;
+<<<<<<< HEAD
 }   t_cmd;// wafen a khay smail hani kolchi bikhir l3a2ila, fach tchof had lcomment hbet lte7t gaa3 ghatl9a comment wahed khor
+=======
+}   t_cmd;
+>>>>>>> 642ffa8063552dd75f6e4569205fa66e7c499cd8
 
 typedef struct s_data
 {
@@ -84,7 +95,10 @@ typedef struct s_data
 int     parsing(t_data *d);
 int     empty_cmd(char *s);
 int     is_invalid_syntax(char *s, t_data *d);
+<<<<<<< HEAD
 void	change_tokens_types(t_token *t);
+=======
+>>>>>>> 642ffa8063552dd75f6e4569205fa66e7c499cd8
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
 int     args_len(t_token *t);
 void    copy_args(char **args, t_token *t, t_data *d);
@@ -105,8 +119,11 @@ void	ft_cmdadd_back(t_cmd **c, t_cmd   *new);
 t_str	*last_str(t_str *p);
 void    ft_error(char *message);
 void    skip_it(char *s, int *i, char c);
+<<<<<<< HEAD
 int     no_pipeout(char *s, int i);
 int     no_pipeout_token(t_token *t);
+=======
+>>>>>>> 642ffa8063552dd75f6e4569205fa66e7c499cd8
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -129,7 +146,13 @@ char	*ft_strsdup(char *s1, int l, t_data *d);
 //testing functions
 void    print_tokens(t_token *head);
 void	print_cmds(t_cmd *cmd);
+<<<<<<< HEAD
 void    print_strs(char **s);
 
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor
+=======
+
+# endif
+//barca drbatha rial
+>>>>>>> 642ffa8063552dd75f6e4569205fa66e7c499cd8
