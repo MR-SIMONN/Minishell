@@ -77,10 +77,8 @@ static char	*ft_stridup(char *s, int *i, char c, t_data *d)
 {
 	char	*str;
 	int		j;
-	int		index;
 	char	quote;
 
-	index = *i;
 	j = 0;
 	quote = 0;
 	str = ft_malloc(sizeof(char) * (ft_word_len(s, *i, c) + 1), d);
