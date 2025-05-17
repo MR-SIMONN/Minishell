@@ -32,12 +32,10 @@ void    check_qoutes(char *s, int *f)
 }
 int unclosed_quote(char *s, t_data *d)
 {
-    int     i;
     int     f;
 
     if (!s)
         free_everything(d, 1);
-    i = 0;
     f = 0;
     check_qoutes(s, &f);
     if (f)

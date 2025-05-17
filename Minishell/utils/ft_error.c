@@ -14,9 +14,6 @@
 
 void ft_error(char *message)
 {
-    int i;
-
-    i = 0;
     printf ("%s", message);
     exit(EXIT_FAILURE);
 }

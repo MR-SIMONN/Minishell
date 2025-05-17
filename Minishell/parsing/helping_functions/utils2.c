@@ -68,9 +68,6 @@ int	no_pipeout(char *s, int i)
 }
 void	change_tokens_types(t_token *t)
 {
-	int	flag;
-
-	flag = 0;
 	while (t && t->next)
 	{
 		if (!is_not_redir(t))
