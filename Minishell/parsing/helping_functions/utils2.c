@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/16 12:00:40 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:46:43 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int is_not_redir(t_token *t)
 {
 	if (!t)
-	{
-		printf ("\n\ndkhlat l not_red function walakin its NULL\n\n");
 		return (1);
-	}
 	if (t->type != REDIRECT_IN
             && t->type != REDIRECT_OUT
             && t->type != APPEND
@@ -36,7 +33,7 @@ void copy_args(char **args, t_token *t, t_data *d)
 	i = 0;
 	while (t && t->type != PIPE)
 	{
-        if ((t->type == WORD || t->type == QUOTED))
+        if ((t->type == WORD || is_quoted (t->type)))
 		{
 			args[i++] = ft_strdup(t->value, d);
 		}
@@ -53,7 +50,7 @@ int args_len(t_token *t)
 	len = 0;
 	while (t && t->type != PIPE)
 	{
-        if ((t->type == WORD || t->type == QUOTED))
+        if ((t->type == WORD || is_quoted (t->type)))
 			len++;
 		t = t->next;
 	}

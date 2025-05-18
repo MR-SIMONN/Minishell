@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/16 14:11:00 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:54:27 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
+    S_QUOTED,       // a single quoted string
+    D_QUOTED,       // a dubble quoted string
     REDIR_WORD,     // a string after a red
-    QUOTED,         // a quoted string
     WORD,           // a normal string
     PIPE,           // |
     REDIRECT_OUT,   // >
@@ -105,9 +106,10 @@ void	ft_cmdadd_back(t_cmd **c, t_cmd   *new);
 t_str	*last_str(t_str *p);
 void    ft_error(char *message);
 void    skip_it(char *s, int *i, char c);
-
 int     no_pipeout(char *s, int i);
 int     no_pipeout_token(t_token *t);
+int     is_quoted(t_token_type type);
+void    quotes_stuff(char *s, int i, char *c, int *quotes);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);

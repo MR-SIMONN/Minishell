@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 23:59:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/16 14:48:08 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/05/16 15:41:57 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/05/18 11:51:13 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Minishell.h"
+# include "../../Minishell.h"
 
-int parsing(t_data *d)
+int is_quoted(t_token_type type)
 {
-    if (empty_cmd(d->line))
-        return (1);
-    if (is_invalid_syntax(d->line, d))
-        return (syntax_error("syntax error"));
-    ft_lst_tokens (d);
-    if (handle_syntax_error(d->token, d))
-        return (syntax_error("syntax error"));
-    change_tokens_types(d->token);
-    return (0);
+    return (type == D_QUOTED || type == S_QUOTED);
+}
+
+void    quotes_stuff(char *s, int i, char *c, int *quotes)
+{
+    if ((s[i] == '\'' || s[i] == '\"') && !*quotes)
+    {
+        *c = s[i];
+        *quotes = 1;
+    }
+    else if (s[i] == *c && *quotes)
+        *quotes = 0;
 }

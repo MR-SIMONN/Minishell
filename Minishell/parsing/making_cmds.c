@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/14 19:16:13 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:54:05 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ void fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
 	{
 		if (!cmd)
 			cmd = new_cmd(d);
-		if ((t->type == WORD || t->type == QUOTED) && !cmd->args)
+		if ((t->type == WORD || is_quoted (t->type)) && !cmd->args)
 		{
 			cmd->args = add_args(t, d);
 			if (cmd->args && cmd->args[0])
 				cmd->cmd = ft_strdup(cmd->args[0], d);
 		}
-		if (t->type != WORD && t->type != PIPE && t->type != QUOTED)
+		if (t->type != WORD && t->type != PIPE && !is_quoted (t->type))
 			handle_redir(t, cmd, d);
 		if (t->type == PIPE)
 		{
@@ -109,11 +109,5 @@ void fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
 	if (cmd)
 		ft_cmdadd_back(c, cmd);
 }
-
-
-
-//need to create these functions :
-//cmdback   ---> ✅
-//add_args  ---> ✅
 
 //handle this wierd cmd ---> cat < in1 >> out1 << EOF > out2 --->
