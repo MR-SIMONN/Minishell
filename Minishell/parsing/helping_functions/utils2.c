@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/16 15:46:43 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/18 13:57:06 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ int	no_pipeout(char *s, int i)
 }
 void	change_tokens_types(t_token *t)
 {
-	int	flag;
-
-	flag = 0;
 	while (t && t->next)
 	{
 		if (!is_not_redir(t))

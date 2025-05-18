@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/18 11:52:05 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/18 13:57:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,10 @@ void    check_qoutes(char *s, int *f)
 }
 int unclosed_quote(char *s, t_data *d)
 {
-    int     i;
     int     f;
 
     if (!s)
         free_everything(d, 1);
-    i = 0;
     f = 0;
     check_qoutes(s, &f);
     if (f)
