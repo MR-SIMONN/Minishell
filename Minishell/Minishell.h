@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/20 07:03:49 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:02:42 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ char	*ft_strsdup(char *s1, int l, t_data *d);
 //testing functions
 void    print_tokens(t_token *head);
 void	print_cmds(t_cmd *cmd);
+void	print_envs(t_env *env);
 void    print_strs(char **s);
 
 # endif

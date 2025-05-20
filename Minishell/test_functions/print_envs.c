@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   print_envs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 17:30:32 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/20 21:38:28 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/05/20 21:57:02 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/05/20 22:09:12 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-char	*ft_substr(char *s, unsigned int start, size_t len, t_data *d)
+void	print_envs(t_env *env)
 {
-	size_t			i;
-	char			*str;
-
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen (s))
-		return (ft_strdup("\0", d));
-	if (len > ft_strlen (s + start))
-		len = ft_strlen (s + start);
-	i = 0;
-	str = ft_malloc (len + 1, d);
-	while (i < len)
-		str[i++] = s[start++];
-	str[i] = '\0';
-	return (str);
+    printf("\n---  env list  -------------------------------------------------------\n");
+	while (env)
+	{
+		if (env->key && env->value)
+			printf("%s=%s\n", env->key, env->value);
+		else if (env->key)
+			printf("%s=\n", env->key);
+		env = env->next;
+	}
+    printf("-----------------------------------------------------------------------\n");
 }
