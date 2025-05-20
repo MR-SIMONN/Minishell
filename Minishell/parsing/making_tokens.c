@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/20 04:58:09 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/20 06:09:45 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void     make_tokens(char **t, t_token **p, t_data *d)
 
 void    spaces_len(char *s, int *i, int *len, int quote)
 {
-    if (quote)
-        printf("\n\nits quoted!!!\n\n"); 
     if (is_two_symbols(s, *i))
     {
         if (!quote)

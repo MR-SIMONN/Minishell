@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/18 11:54:27 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/20 07:03:49 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ typedef struct s_str
     struct s_str    *next;
 } t_str;
 
+typedef struct s_env
+{
+    char            *key;
+    char            *value;
+    char            *both;
+    struct s_env    *next;
+} t_env;
+
 typedef struct s_token
 {
     char            *value;
@@ -76,7 +84,7 @@ typedef struct s_data
     t_heap  *heap;
     t_token *token;
     t_cmd   *cmds;
-    // t_env   *env;
+    t_env   *env;
     // char    *path;
     // more data needed tho
 }   t_data;
@@ -86,13 +94,14 @@ int     parsing(t_data *d);
 int     empty_cmd(char *s);
 int     is_invalid_syntax(char *s, t_data *d);
 void	change_tokens_types(t_token *t);
+void    ft_lst_tokens(t_data *d);
+void    store_envs(t_env **envs, char **env, t_data *d);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
 int     args_len(t_token *t);
 void    copy_args(char **args, t_token *t, t_data *d);
 int     check_one(char *s, int i);
 int     check_two(char *s, int i);
 int     is_symbol(char c);
-void    ft_lst_tokens(t_data *d);
 void    handle_symbols(char *s, int *len, int i);
 int     is_two_symbols(char *s, int i);
 int     is_one_symbol(char *s, int i);
@@ -106,6 +115,7 @@ void	ft_cmdadd_back(t_cmd **c, t_cmd   *new);
 t_str	*last_str(t_str *p);
 void    ft_error(char *message);
 void    skip_it(char *s, int *i, char c);
+void	env_add_back(t_env **envs, t_env *new);
 int     no_pipeout(char *s, int i);
 int     no_pipeout_token(t_token *t);
 int     is_quoted(t_token_type type);
