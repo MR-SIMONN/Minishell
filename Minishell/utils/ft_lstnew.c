@@ -12,9 +12,28 @@
 
 #include "../Minishell.h"
 
+int is_variable(char *s, int quote)
+{
+    int i;
+
+    i = 0;
+    while (s[i])
+    {
+        if (s[i] == '$' && s[i + 1])
+        {
+            if (quote != 1)
+                return (1);
+        }
+        i++;
+    }
+    return (0);
+}
+
 t_token_type    token_type(char *s, int quote)
 {
-    if (quote == 1)
+    if (is_variable(s, quote))
+        return (var);
+    else if (quote == 1)
         return (S_QUOTED);
     else if (quote == 2)
         return (D_QUOTED);

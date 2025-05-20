@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/20 22:02:42 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/20 23:18:38 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
+    var,            // a string contanis $ 
     S_QUOTED,       // a single quoted string
     D_QUOTED,       // a dubble quoted string
     REDIR_WORD,     // a string after a red
