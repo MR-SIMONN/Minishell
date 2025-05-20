@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:20:24 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/14 16:34:11 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/18 14:14:42 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int handle_redirections(t_token *t, t_data *d)
     if (!t || !d)
         free_everything(d, 1);
     p = ft_lstlast(t);
-    if (is_symbol(*p->value))
+    if (is_symbol(*p->value) && !is_quoted(p->type))
         return (1);
     while (t && t->next)
     {

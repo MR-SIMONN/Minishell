@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/18 11:52:05 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/20 01:18:28 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ int invalid_pipeout(char *s)
     int quotes;
     char c;
 
-    i = 0;
-    f = 0;
-    quotes = 0;
+    (1) && (i = 0, f = 0, quotes = 0);
     while (s[i] && s[i + 1])
     {
         quotes_stuff(s, i, &c, &quotes);
@@ -96,9 +94,8 @@ int invalid_pipeout(char *s)
         }
         if (s[i] && s[i] == '|' && f)
             return (1);
-        else if (s[i] != ' ' && f)
+        else if (s[i++] != ' ' && f)
             f = 0;
-        i++;
     }
     return (0);
 }

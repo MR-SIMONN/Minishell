@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/16 15:30:59 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/20 04:58:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,29 +55,52 @@ void     make_tokens(char **t, t_token **p, t_data *d)
 	}
 }
 
+void    spaces_len(char *s, int *i, int *len, int quote)
+{
+    if (quote)
+        printf("\n\nits quoted!!!\n\n"); 
+    if (is_two_symbols(s, *i))
+    {
+        if (!quote)
+            handle_symbols(s, len, *i);
+        *len += 2;
+        (*i)++;
+    }
+    else if (is_one_symbol(s, *i))
+    {
+        if (!quote)
+        {
+            if (*i > 0 && s[*i - 1] != ' ' && no_pipeout(s, *i))
+                (*len)++;
+            if (s[*i + 1] && s[*i + 1] != ' ' && !is_symbol(s[*i + 1]))
+                (*len)++;
+        }
+        (*len)++;
+    }
+    else
+        (*len)++;
+}
+
 int extra_strlen(char *s)
 {
-    int i = 0;
-    int len = 0;
+    int i;
+    int len;
+    int quote;
+    char c;
 
+    i = 0;
+    len = 0;
+    quote = 0;
     while (s[i])
     {
-        if (is_two_symbols(s, i))
+        if ((s[i] == '\'' || s[i] == '\"') && !quote)
         {
-            handle_symbols(s, &len, i);
-            len += 2;
-            i++;
+            c = s[i];
+            quote = 1;
         }
-        else if (is_one_symbol(s, i))
-        {
-            if (i > 0 && s[i - 1] != ' ' && no_pipeout(s, i))
-                len++;
-            if (s[i + 1] && s[i + 1] != ' ' && !is_symbol(s[i + 1]))
-                len++;
-            len++;
-        }
-        else
-            len++;
+        else if (s[i] == c && quote)
+            quote = 0;
+        spaces_len(s, &i, &len, quote);
         i++;
     }
     return (len);
@@ -90,7 +113,9 @@ void    ft_lst_tokens(t_data *d)
     char **tokens;
 
     len = extra_strlen(d->line);
+    printf ("len is ----> %d\n", len);
     str = ft_strsdup(d->line, len, d);
+    printf ("%s\n", str);
     tokens = ft_split(str, ' ', d);
     make_tokens(tokens, &d->token, d);
 }
