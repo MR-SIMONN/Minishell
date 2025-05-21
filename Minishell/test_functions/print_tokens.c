@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 16:48:06 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/16 15:52:31 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:14:16 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char *get_token_type_name(t_token_type type)
 {
+    if (type == VAR)
+        return ("VAR");
     if (type == REDIR_WORD)
         return ("REDIR_WORD");
     if (type == D_QUOTED)

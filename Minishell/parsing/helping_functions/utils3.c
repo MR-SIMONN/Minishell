@@ -6,11 +6,16 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:41:57 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/20 07:05:09 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/21 10:36:27 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../Minishell.h"
+
+int	valid_char(char c)
+{
+	return (!(ft_isalnum(c) || c == '_'));
+}
 
 t_env	*last_env(t_env *lst)
 {

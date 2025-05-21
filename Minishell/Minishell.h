@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/20 23:18:38 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:11:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    var,            // a string contanis $ 
+    IGNORED,        //just skip this token just like it doesn't exist :)
+    VAR,            // a string contanis $ 
     S_QUOTED,       // a single quoted string
     D_QUOTED,       // a dubble quoted string
     REDIR_WORD,     // a string after a red
@@ -53,9 +54,9 @@ typedef struct s_str
 
 typedef struct s_env
 {
-    char            *key;
-    char            *value;
-    char            *both;
+    char            *key;   //USER=
+    char            *value; //=moel-hai
+    char            *both;  //USER=moel-hai
     struct s_env    *next;
 } t_env;
 
@@ -97,6 +98,9 @@ int     is_invalid_syntax(char *s, t_data *d);
 void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
+void    expending(t_token *t, t_data *d);
+int expended_token_len(t_env *env, char *s, char *key, int i);
+char    *new_expended_token(char *s, char *env_value, int len, t_data *d);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
 int     args_len(t_token *t);
 void    copy_args(char **args, t_token *t, t_data *d);
@@ -121,6 +125,10 @@ int     no_pipeout(char *s, int i);
 int     no_pipeout_token(t_token *t);
 int     is_quoted(t_token_type type);
 void    quotes_stuff(char *s, int i, char *c, int *quotes);
+int     valid_char(char c);
+char    *copy_var(char *s, int i, t_data *d);
+int     valid_var(char *s, t_env *env);
+char    *var_value(t_env *env, char *key);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -139,6 +147,9 @@ void	ft_lstadd_back(t_token **lst, t_token *new);
 t_token *ft_lstnew(char *content, t_data *d, int quote);
 t_token	*ft_lstlast(t_token *lst);
 char	*ft_strsdup(char *s1, int l, t_data *d);
+int     ft_isalpha(int c);
+int     ft_isdigit(int c);
+int     ft_isalnum(int c);
 
 //testing functions
 void    print_tokens(t_token *head);

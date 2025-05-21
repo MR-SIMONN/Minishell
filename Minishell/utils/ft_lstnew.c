@@ -32,7 +32,7 @@ int is_variable(char *s, int quote)
 t_token_type    token_type(char *s, int quote)
 {
     if (is_variable(s, quote))
-        return (var);
+        return (VAR);
     else if (quote == 1)
         return (S_QUOTED);
     else if (quote == 2)

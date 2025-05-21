@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/18 11:54:05 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:51:04 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
     cmd = NULL;
 	while (t)
 	{
-		if (!cmd)
+		if (!cmd) 
 			cmd = new_cmd(d);
 		if ((t->type == WORD || is_quoted (t->type)) && !cmd->args)
 		{
