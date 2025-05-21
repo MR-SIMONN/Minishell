@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 14:11:58 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:55:16 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int     valid_char(char c);
 char    *copy_var(char *s, int i, t_data *d);
 int     valid_var(char *s, t_env *env);
 char    *var_value(t_env *env, char *key);
+void	ignore_tokens(t_token **head);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);

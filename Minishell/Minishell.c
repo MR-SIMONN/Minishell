@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 10:12:50 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:38:26 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int    read_cmds(t_data *d, char **env)
         return (0);
     store_envs(&d->env, env, d);
     expending(d->token, d);
+    ignore_tokens(&d->token);
     fill_d_cmd(&d->cmds, d->token, d);
     return (1);
 }
