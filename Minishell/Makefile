@@ -13,6 +13,9 @@ parsing_part/test_functions/print_tokens.c \
 parsing_part/test_functions/print_cmds.c \
 parsing_part/test_functions/print_envs.c \
 parsing_part/test_functions/print_strs.c \
+execution/execution_command.c execution/builtins/cd.c execution/builtins/echo.c execution/builtins/env.c execution/builtins/exit.c execution/builtins/exit.c \
+execution/builtins/export.c execution/builtins/pwd.c execution/builtins/unset.c execution/builtin_funs.c \
+execution/utils/ft_atol.c execution/utils/ft_isdigit_pro.c execution/utils/ft_putstr_fd.c 
 
 
 NAME = Minishell

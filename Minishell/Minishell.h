@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 15:55:16 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/23 18:02:54 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <limits.h>
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -25,70 +27,87 @@
 
 typedef struct s_heap
 {
-    void    *address;
-    struct s_heap   *next;
+	void    *address;
+	struct s_heap   *next;
 }   t_heap;
 
 // token.h or in Minishell.h
 
 typedef enum e_token_type
 {
-    IGNORED,        //just skip this token just like it doesn't exist :)
-    VAR,            // a string contanis $ 
-    S_QUOTED,       // a single quoted string
-    D_QUOTED,       // a dubble quoted string
-    REDIR_WORD,     // a string after a red
-    WORD,           // a normal string
-    PIPE,           // |
-    REDIRECT_OUT,   // >
-    REDIRECT_IN,    // <
-    APPEND,         // >>
-    HEREDOC         // <<
+	IGNORED,        //just skip this token just like it doesn't exist :)
+	VAR,            // a string contanis $ 
+	S_QUOTED,       // a single quoted string
+	D_QUOTED,       // a dubble quoted string
+	REDIR_WORD,     // a string after a red
+	WORD,           // a normal string
+	PIPE,           // |
+	REDIRECT_OUT,   // >
+	REDIRECT_IN,    // <
+	APPEND,         // >>
+	HEREDOC         // <<
 } t_token_type;
+
+typedef enum e_builtin_type
+{
+	env_t,
+	export_t,
+	unset_t,
+	echo_t,
+	cd_t,
+	pwd_t,
+	exit_t
+} t_builtin_type;
 
 typedef struct s_str
 {
-    char            *s;
-    struct s_str    *next;
+	char            *s;
+	struct s_str    *next;
 } t_str;
 
 typedef struct s_env
 {
-    char            *key;   //USER=
-    char            *value; //=moel-hai
-    char            *both;  //USER=moel-hai
-    struct s_env    *next;
+	char            *key;   //USER=
+	char            *value; //=moel-hai
+	char            *both;  //USER=moel-hai
+	struct s_env    *next;
 } t_env;
+
+typedef struct s_exp
+{ 
+	char            *value; //declare -x {{      XPC_FLAGS="0x0"       }} <- this value
+	struct s_exp    *next;
+} t_exp;
 
 typedef struct s_token
 {
-    char            *value;
-    t_token_type    type;
-    struct s_token  *next;
+	char            *value;
+	t_token_type    type;
+	struct s_token  *next;
 } t_token;
 
 typedef struct s_cmd 
 {
-    char            *cmd;
-    char            **args;
-    t_str           *infile;
-    t_str           *outfile;
-    int             append;
-    int             heredoc;
-    t_str           *heredoc_del;
-    int             pipe;
-    struct s_cmd    *next;
+	char            *cmd;
+	char            **args;
+	t_str           *infile;
+	t_str           *outfile;
+	int             append;
+	int             heredoc;
+	t_str           *heredoc_del;
+	int             pipe;
+	struct s_cmd    *next;
 }   t_cmd;// wafen a khay smail hani kolchi bikhir l3a2ila, fach tchof had lcomment hbet lte7t gaa3 ghatl9a comment wahed khor
 
 typedef struct s_data
 {
-    char    *line;
-    t_heap  *heap;
-    t_token *token;
-    t_cmd   *cmds;
-    t_env   *env;
-    // char    *path;
-    // more data needed tho
+	char    *line;
+	t_heap  *heap;
+	t_token *token;
+	t_cmd   *cmds;
+	t_env   *env;
+	// char    *path;
+	// more data needed tho
 }   t_data;
 
 //parsing functions
@@ -99,7 +118,7 @@ void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
 void    expending(t_token *t, t_data *d);
-int expended_token_len(t_env *env, char *s, char *key, int i);
+int		expended_token_len(t_env *env, char *s, char *key, int i);
 char    *new_expended_token(char *s, char *env_value, int len, t_data *d);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
 int     args_len(t_token *t);
@@ -158,5 +177,25 @@ void	print_cmds(t_cmd *cmd);
 void	print_envs(t_env *env);
 void    print_strs(char **s);
 
+
+
+//Execution part ; functions :
+// int     execution(t_data *data,t_data *cmds, t_data *d);
+int	execution(t_env *env,t_cmd *cmds, t_data *d);
+int is_builtin(char *cmd);
+int execute_builtin(char *cmd,t_env *env, char **args);
+
+// bulltin funs
+int		cd_v(char **args);
+int		echo_v(char **args);
+void	env_v(t_env *list);
+void	exit_v(char **args);
+int		pwd_v(void);
+void    export_v(t_env *list,char **args);
+int		unset_v(t_env **env_lst, t_exp **exp_lst, char **args);
+// utils funcs :
+int		is_digit(const char *str);
+long    ft_atol(const char *str, int *range_check);
+void	ft_putstr_fd(char *s, int fd);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

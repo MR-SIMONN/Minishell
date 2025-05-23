@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:49 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/03 18:02:15 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:55:24 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../Minishell.h"
+
 int pwd_v(void)
 {
-    char *cwd = getcwd("NULL", 0); // remove double quotes , when include the null
-    if(!cwd)
+    char cwd[1024];
+    
+    if(!getcwd(cwd, 1024))
     {
-        perror("pwd");
+        perror("Minishell..");
         return (1);
     }
-    printf("%s\n", cwd);
-    free(cwd);
+    ft_putstr_fd(cwd, 1);
+    ft_putstr_fd("\n", 1);
     return (0);
 }

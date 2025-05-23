@@ -1,17 +1,19 @@
-#include <sys/wait.h>
+#include "../Minishell.h"
 
-int main()
+
+
+int	execution(t_env *env,t_cmd *cmds, t_data *d)
 {
-    pid_t pid;
-
-    pid = fork();
-    if(pid == 0)
-    {
-        printf("%d", pid);
-    }
-    else
-    {
-        printf("%d", pid);
-        printf("parent");
-    }
+	d =NULL;
+	
+	if(is_builtin(cmds->cmd) == 0 && cmds->pipe == 0)
+	{
+		// apply_redirection();
+		if(!execute_builtin(cmds->cmd, env, cmds->args))
+			return (1);
+		
+	}
+	// if (!ft_strcmp(cmds->cmd, "export"))
+	// 	export_v(env, cmds->args);
+	return (0);
 }

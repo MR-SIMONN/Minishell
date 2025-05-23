@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_isdigit_pro.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 16:21:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/22 19:08:14 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/05/22 14:55:30 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/05/23 17:43:44 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	env_v(t_env *list)
+int is_digit(const char *str)
 {
-	t_env *tmp;
-	
-	tmp = list;
-	while(tmp)
-	{
-		ft_putstr_fd(tmp->both, 1);
-		ft_putstr_fd("\n", 1);
-		tmp = tmp->next;
-	}
+    int i = 0;
+
+    while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+        i++;
+    if (str[i] == '-' || str[i] == '+')
+        i++;
+    if (str[i] < '0' || str[i] > '9')
+        return 0;
+    while (str[i] >= '0' && str[i] <= '9')
+        i++;
+    return (str[i] == '\0');
 }
