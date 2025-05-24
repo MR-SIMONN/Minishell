@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 15:55:16 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:05:02 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef enum e_token_type
     APPEND,         // >>
     HEREDOC         // <<
 } t_token_type;
+
+typedef struct s_exp
+{ 
+	char            *value;
+	struct s_exp    *next;
+} t_exp;
 
 typedef struct s_str
 {
@@ -87,6 +93,7 @@ typedef struct s_data
     t_token *token;
     t_cmd   *cmds;
     t_env   *env;
+	t_exp	*exp;
     // char    *path;
     // more data needed tho
 }   t_data;
@@ -99,7 +106,7 @@ void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
 void    expending(t_token *t, t_data *d);
-int expended_token_len(t_env *env, char *s, char *key, int i);
+int     expended_token_len(t_env *env, char *s, char *key, int i);
 char    *new_expended_token(char *s, char *env_value, int len, t_data *d);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
 int     args_len(t_token *t);
@@ -110,7 +117,7 @@ int     is_symbol(char c);
 void    handle_symbols(char *s, int *len, int i);
 int     is_two_symbols(char *s, int i);
 int     is_one_symbol(char *s, int i);
-void    set_strcut_values(t_data *d);
+void    set_strcut_values(t_data *d, int i);
 int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s);
 
