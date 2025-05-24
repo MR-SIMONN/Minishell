@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/23 15:34:02 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:41:27 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
             print_tokens(d->token);
             print_cmds(d->cmds);
             // print_envs(d->env);
-            execution (d->env, d->cmds, d);
+            execution (&d->env, d->cmds, d);
             free_everything(d, -1);
         }
         else

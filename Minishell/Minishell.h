@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/23 18:02:54 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:51:13 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,6 @@ typedef enum e_token_type
 	HEREDOC         // <<
 } t_token_type;
 
-typedef enum e_builtin_type
-{
-	env_t,
-	export_t,
-	unset_t,
-	echo_t,
-	cd_t,
-	pwd_t,
-	exit_t
-} t_builtin_type;
-
 typedef struct s_str
 {
 	char            *s;
@@ -75,7 +64,7 @@ typedef struct s_env
 
 typedef struct s_exp
 { 
-	char            *value; //declare -x {{      XPC_FLAGS="0x0"       }} <- this value
+	char            *value; //declare -x {{      a      }} <- this value
 	struct s_exp    *next;
 } t_exp;
 
@@ -106,6 +95,7 @@ typedef struct s_data
 	t_token *token;
 	t_cmd   *cmds;
 	t_env   *env;
+	t_exp	*exp;
 	// char    *path;
 	// more data needed tho
 }   t_data;
@@ -170,6 +160,9 @@ char	*ft_strsdup(char *s1, int l, t_data *d);
 int     ft_isalpha(int c);
 int     ft_isdigit(int c);
 int     ft_isalnum(int c);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strnstr(const char *haystack, char *needle, size_t len);
+char	*ft_strjoin(char *s1, char *s2, t_data *d);
 
 //testing functions
 void    print_tokens(t_token *head);
@@ -181,9 +174,9 @@ void    print_strs(char **s);
 
 //Execution part ; functions :
 // int     execution(t_data *data,t_data *cmds, t_data *d);
-int	execution(t_env *env,t_cmd *cmds, t_data *d);
+int	execution(t_env **env,t_cmd *cmds, t_data *d);
 int is_builtin(char *cmd);
-int execute_builtin(char *cmd,t_env *env, char **args);
+int execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
 
 // bulltin funs
 int		cd_v(char **args);
@@ -191,11 +184,18 @@ int		echo_v(char **args);
 void	env_v(t_env *list);
 void	exit_v(char **args);
 int		pwd_v(void);
-void    export_v(t_env *list,char **args);
+int		export_v(t_env **env_lst, char **args, t_data *d);
 int		unset_v(t_env **env_lst, t_exp **exp_lst, char **args);
 // utils funcs :
 int		is_digit(const char *str);
 long    ft_atol(const char *str, int *range_check);
 void	ft_putstr_fd(char *s, int fd);
+char	*ft_strjoin_eq(char *s1, char *s2, t_data *d);
+t_env	*ft_lstnew_export_to_env(char *key, char *value, char *both, t_data *d);
+t_exp	*ft_lstnew_export_to_value(char *value, t_data *d);
+t_env	*ft_env_lstlast(t_env *lst);
+void	ft_env_lstadd_back(t_env **lst, t_env *new);
+t_exp	*ft_exp_lstlast(t_exp *lst);
+void	ft_exp_lstadd_back(t_exp **lst, t_exp *new);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

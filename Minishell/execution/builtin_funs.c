@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:15:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/23 18:10:20 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:25:51 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,20 @@ int is_builtin(char *cmd)
 }
 
 
-int execute_builtin(char *cmd,t_env *env, char **args)
+int execute_builtin(char *cmd,t_env **env, char **args, t_data *d)
 {
     if (!cmd)
         return (1);
     if (ft_strcmp(cmd, "env") == 0)
-        env_v(env);
+        env_v(*env);
     // else if (ft_strcmp(cmd, "cd") == 0)
     //     cd_v(d->cmds->args);
     else if (ft_strcmp(cmd, "pwd") == 0)
         pwd_v();
     // else if (ft_strcmp(cmd, "unset") == 0)
     //      unset_v();
-    // else if (ft_strcmp(cmd, "export") == 0)
-    //     export_v(env, args);
+    else if (ft_strcmp(cmd, "export") == 0)
+        export_v(env, args, d);
     else if (ft_strcmp(cmd, "echo") == 0)
         echo_v(args);
     else if (ft_strcmp(cmd, "exit") == 0)

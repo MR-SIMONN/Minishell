@@ -1,29 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 21:05:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/24 15:39:30 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/05/24 14:46:48 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/05/24 14:47:13 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, t_data *d)
 {
-	int	i;
+	char	*res;
+	size_t	i;
+	size_t	j;
 
-	if (!s1 && !s2)
-		return (0);
-	if (!s1)
-		return (-1);
-	if (!s2)
-		return (1);
 	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
+	j = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	res = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1, d);
+	if (!res)
+		return (NULL);
+	while (s1[i])
+	{
+		res[i] = s1[i];
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	while (s2[j])
+	{
+		res[i++] = s2[j++];
+	}
+	res[i] = '\0';
+	return (res);
 }

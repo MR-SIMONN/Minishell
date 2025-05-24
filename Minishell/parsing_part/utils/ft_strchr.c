@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 21:05:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/24 15:39:30 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/05/23 22:05:26 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/05/23 22:53:49 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+char	*ft_strchr(const char *s, int c)
 {
-	int	i;
+	size_t		i;
+	int			flag;
 
-	if (!s1 && !s2)
-		return (0);
-	if (!s1)
-		return (-1);
-	if (!s2)
-		return (1);
+	flag = -1;
 	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+		{
+			flag = i;
+		}
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	if ((char)c == '\0')
+		return ((char *)&s[i]);
+	if (flag != -1)
+		return ((char *)&s[flag]);
+	return (NULL);
 }

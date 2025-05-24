@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:43:26 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:16:28 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ void    set_strcut_values(t_data *d)
     d->token = NULL;
     d->cmds = NULL;
     d->env = NULL;
+    d->exp = NULL;
 }
