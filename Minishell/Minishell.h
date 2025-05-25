@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/24 14:51:13 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:05:36 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int     is_symbol(char c);
 void    handle_symbols(char *s, int *len, int i);
 int     is_two_symbols(char *s, int i);
 int     is_one_symbol(char *s, int i);
-void    set_strcut_values(t_data *d);
+void    set_strcut_values(t_data *d, int i);
 int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s);
 
@@ -149,6 +149,7 @@ void	free_all(char **s, int i);
 
 //libft functions
 int     ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(const char *s1, char *s2, size_t ncmp);
 char	*ft_strdup(char *s1, t_data *d);
 size_t  ft_strlen (char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len, t_data *data);
@@ -179,13 +180,13 @@ int is_builtin(char *cmd);
 int execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
 
 // bulltin funs
-int		cd_v(char **args);
+int		cd_v(char **args, t_env **env,t_data *d);
 int		echo_v(char **args);
 void	env_v(t_env *list);
 void	exit_v(char **args);
 int		pwd_v(void);
 int		export_v(t_env **env_lst, char **args, t_data *d);
-int		unset_v(t_env **env_lst, t_exp **exp_lst, char **args);
+int		unset_v(t_env **env_lst, t_data *d ,char **args);
 // utils funcs :
 int		is_digit(const char *str);
 long    ft_atol(const char *str, int *range_check);
@@ -197,5 +198,10 @@ t_env	*ft_env_lstlast(t_env *lst);
 void	ft_env_lstadd_back(t_env **lst, t_env *new);
 t_exp	*ft_exp_lstlast(t_exp *lst);
 void	ft_exp_lstadd_back(t_exp **lst, t_exp *new);
+void	remove_from_env_lst(t_env **env_lst, char *key);
+void	remove_from_export_lst(t_exp **exp_lst, char *key);
+t_exp	*find_exp_node(t_exp *exp_lst, char *key);
+t_env	*find_env_node(t_env *env_lst, char *key);
+int	is_exported(t_exp *exp_lst, char *key);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

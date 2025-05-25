@@ -3,21 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/24 15:16:28 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:04:41 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void    set_strcut_values(t_data *d)
+void    set_strcut_values(t_data *d, int i)
 {
-    d->line = NULL;
-    d->heap = NULL;
-    d->token = NULL;
-    d->cmds = NULL;
-    d->env = NULL;
-    d->exp = NULL;
+    if (i == 0)
+    {
+        d->line = NULL;
+        d->heap = NULL;
+        d->token = NULL;
+        d->cmds = NULL;
+        d->env = NULL;
+        d->exp = NULL;
+    }
+    else
+    {
+        d->line = NULL;
+        d->heap = NULL;
+        d->token = NULL;
+        d->cmds = NULL;
+    }
 }

@@ -6,33 +6,11 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:46 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/24 16:03:31 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/25 15:37:58 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
-
-static int	is_exported(t_exp *exp_lst, char *key)
-{
-	while (exp_lst)
-	{
-		if (ft_strcmp(exp_lst->value, key) == 0)
-			return (1);
-		exp_lst = exp_lst->next;
-	}
-	return (0);
-}
-
-static t_env	*find_env_node(t_env *env_lst, char *key)
-{
-	while (env_lst)
-	{
-		if (ft_strcmp(env_lst->key, key) == 0)
-			return (env_lst);
-		env_lst = env_lst->next;
-	}
-	return (NULL);
-}
 
 static void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 {
@@ -46,8 +24,6 @@ static void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 		tmp = tmp->next;
 	}
 	tmp1 = exp_lst;
-    if(tmp1)
-        printf("hello");
 	while (tmp1)
 	{
 		printf("declare -x %s\n", tmp1->value);
@@ -75,20 +51,12 @@ static int	is_valid_identifier(char *str, int len)
 
 static void	update_env_value(t_env *node, char *new_value, char *new_both)
 {
-	char	*old_value;
-	char	*old_both;
-
 	if (!node)
 		return ;
-	old_value = node->value;
-	old_both = node->both;
 	node->value = new_value;
 	node->both = new_both;
-	if (old_value)
-		free(old_value);
-	if (old_both)
-		free(old_both);
 }
+
 
 static void	handle_append(t_env **env_lst, char *arg, t_data *d)
 {
@@ -96,6 +64,7 @@ static void	handle_append(t_env **env_lst, char *arg, t_data *d)
 	char	*key;
 	char	*append_value;
 	t_env	*existing;
+	t_exp	*export_existing;
 	char	*new_value;
 	char	*both;
 	t_env	*new_node;
@@ -107,6 +76,7 @@ static void	handle_append(t_env **env_lst, char *arg, t_data *d)
 	append_value = ft_substr(arg, plus_pos + 2, 
 			ft_strlen(arg) - plus_pos - 2, d);
 	existing = find_env_node(*env_lst, key);
+	export_existing = find_exp_node(d->exp, key);
 	if (existing)
 	{
 		new_value = ft_strjoin(existing->value, append_value, d);
@@ -115,9 +85,12 @@ static void	handle_append(t_env **env_lst, char *arg, t_data *d)
 	}
 	else
 	{
+		if(export_existing)
+			remove_from_export_lst(&d->exp, key);
 		both = ft_strjoin_eq(key, append_value, d);
 		new_node = ft_lstnew_export_to_env(key, append_value, both, d);
 		ft_env_lstadd_back(env_lst, new_node);
+		
 	}
 }
 
@@ -128,6 +101,7 @@ static void	handle_assignment(t_env **env_lst, char *arg, t_data *d)
 	char	*value;
 	char	*both;
 	t_env	*existing;
+	t_exp	*export_existing;
 	t_env	*new_node;
 
 	eq_pos = 0;
@@ -137,15 +111,17 @@ static void	handle_assignment(t_env **env_lst, char *arg, t_data *d)
 	value = ft_substr(arg, eq_pos + 1, ft_strlen(arg) - eq_pos - 1, d);
 	both = ft_strjoin_eq(key, value, d);
 	existing = find_env_node(*env_lst, key);
+	export_existing = find_exp_node(d->exp, key);
 	if (existing)
 	{
 		update_env_value(existing, value, both);
 	}
 	else
 	{
+		if(export_existing)
+			remove_from_export_lst(&d->exp, key);
 		new_node = ft_lstnew_export_to_env(key, value, both, d);
 		ft_env_lstadd_back(env_lst, new_node);
-        
 	}
 }
 

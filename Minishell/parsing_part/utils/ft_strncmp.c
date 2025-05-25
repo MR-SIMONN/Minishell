@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 20:15:05 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/24 20:18:57 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/05/24 20:20:14 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/05/24 20:23:41 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-char	*ft_strnstr(const char *haystack, char *needle, size_t len)
+int	ft_strncmp(const char *s1, char *s2, size_t ncmp)
 {
-	size_t	needle_len;
 	size_t	i;
 
-	needle_len = ft_strlen(needle);
-	if (needle_len == 0)
-		return ((char *)haystack);
-	if (len == 0)
-		return (NULL);
 	i = 0;
-	while ((i <= len - needle_len) && haystack[i] != '\0')
+	while (i < ncmp && s1[i] && s2[i])
 	{
-		if (len < needle_len)
-			return (NULL);
-		if (ft_strncmp(&haystack[i], needle, needle_len) == 0)
+		if (s1[i] != s2[i])
 		{
-			return ((char *)&haystack[i]);
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		}
 		i++;
 	}
-	return (NULL);
+	if (i < ncmp && (s1[i] || s2[i]))
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return (0);
 }
