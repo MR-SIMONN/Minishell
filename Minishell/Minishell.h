@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/24 19:05:02 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:50:03 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,12 @@ int     no_pipeout_token(t_token *t);
 int     is_quoted(t_token_type type);
 void    quotes_stuff(char *s, int i, char *c, int *quotes);
 int     valid_char(char c);
-char    *copy_var(char *s, int i, t_data *d);
+char    *copy_var_name(char *s, int i, t_data *d);
 int     valid_var(char *s, t_env *env);
 char    *var_value(t_env *env, char *key);
 void	ignore_tokens(t_token **head);
+int	    var_count(char *s);
+int	    decrease_len(t_token *t);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);

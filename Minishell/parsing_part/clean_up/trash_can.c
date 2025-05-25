@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:52:10 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:41:32 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:48:27 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_everything(t_data *data, int i)
 	//including fds :)
 	if (i >= 0)
 	{
-		printf ("wa exitaaaaaaa %d\n", i);
+		printf ("exit ---> %d\n", i);
 		exit(i);
 	}
 }

@@ -6,63 +6,93 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/24 17:37:11 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/25 21:51:29 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Minishell.h"
 
+
 void    expend_it(t_token *t, char *key, int index, t_data *d)
 {
     int len;
 
-    while (t->value[index] && !valid_char(t->value[index]))
+    if (!var_value(d->env, key))
+        return;
+    while (t->value[index] && valid_char(t->value[index]))
         index++;
     len = expended_token_len(d->env, t->value, key, index);
     t->value = new_expended_token(t->value, var_value(d->env, key), len, d);
 }
 
-void    var_first(t_token *t, int i, t_data *d)
+char    *delete_invalid_var(t_token *t, t_data *d)
 {
+    int     i;
+    int     j;
+    int     len;
     char    *s;
+    int     flag;
 
-    s = copy_var(t->value, i, d);
-    if (valid_var(s, d->env))
-        expend_it(t, s, i, d);
-    else
-        t->type = IGNORED;
+    i = 0;
+    j = 0;
+    flag = 0;
+    len = decrease_len(t);
+    s = ft_malloc(len + 1, d);
+    while (t->value[i])
+    {
+		if (t->value[i] == '$' && !flag)
+		{
+			i++;
+			while (t->value[i] && !valid_char(t->value[i]))
+				i++;
+			flag = 1;
+		}
+		else if(t->value[i])
+            s[j++] = t->value[i++];
+    }
+    return (s[j] = '\0', s);
 }
 
-void    var_second(t_token *t, int i, t_data *d)
+void    check_var(t_token *t, int *i, t_data *d)
 {
     char    *s;
 
-    s = copy_var(t->value, i + 1, d);
+    printf("%s\n\n", t->value);
+    s = copy_var_name(t->value, (*i) + 1, d);
+    printf("%s\n", s);
     if (valid_var(s, d->env))
-        expend_it(t, s, i + 1, d);
+    {
+        printf("ggg\n\n");
+        expend_it(t, s, (*i) + 1, d);
+        *i = 0;
+    }
     else
-        t->value[i] = '\0';
+        t->value = delete_invalid_var(t, d);
 }
 
 void    expending(t_token *t, t_data *d)
 {
     int i;
 
-    i = 0;
     while (t)
     {
+        i = 0;
         if (t->type == VAR)
         {
-            skip_it(t->value, &i, ' ');
-            if (t->value[i] == '$')
-                var_first(t, ++i, d);
-            else
+            while (t->value && t->value[i])
             {
-                while (t->value[i] && t->value[i] != '$')
-                i++;
-                var_second(t, i, d);
+                if (t->value[i] == '$' && t->value[i + 1] 
+                    && t->value[i + 1] != '$' && valid_char(t->value[i]))
+                {
+                    check_var(t, &i, d);
+                    i++;
+                }
+                else
+                    i++;
             }
         }
+        if (var_count(t->value))
+            expending(t, d);
         t = t->next;
     }
 }
