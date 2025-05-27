@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/25 20:50:03 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:01:15 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ char    *var_value(t_env *env, char *key);
 void	ignore_tokens(t_token **head);
 int	    var_count(char *s);
 int	    decrease_len(t_token *t);
+int	    is_var(char c);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
