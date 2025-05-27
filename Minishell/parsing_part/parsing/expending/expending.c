@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/25 21:51:29 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:26:39 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    expend_it(t_token *t, char *key, int index, t_data *d)
 
     if (!var_value(d->env, key))
         return;
-    while (t->value[index] && valid_char(t->value[index]))
+    while (t->value[index] && !valid_char(t->value[index]))
         index++;
     len = expended_token_len(d->env, t->value, key, index);
     t->value = new_expended_token(t->value, var_value(d->env, key), len, d);
@@ -43,7 +43,7 @@ char    *delete_invalid_var(t_token *t, t_data *d)
 		if (t->value[i] == '$' && !flag)
 		{
 			i++;
-			while (t->value[i] && !valid_char(t->value[i]))
+			while (t->value[i] && valid_char(t->value[i]))
 				i++;
 			flag = 1;
 		}
@@ -77,22 +77,20 @@ void    expending(t_token *t, t_data *d)
     while (t)
     {
         i = 0;
-        if (t->type == VAR)
+        if (t->type == VAR && var_count(t->value) > 0)
         {
-            while (t->value && t->value[i])
+            while (t->value && t->value[i] && var_count(t->value) > 0)
             {
+                // if ()
                 if (t->value[i] == '$' && t->value[i + 1] 
-                    && t->value[i + 1] != '$' && valid_char(t->value[i]))
-                {
+                    && t->value[i + 1] != '$')
                     check_var(t, &i, d);
-                    i++;
-                }
                 else
                     i++;
             }
+            if (var_count(t->value) > 0)
+                expending(t, d);
         }
-        if (var_count(t->value))
-            expending(t, d);
         t = t->next;
     }
 }

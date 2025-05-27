@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:47:38 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/25 21:54:31 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:28:03 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char    *new_expended_token(char *s, char *env_value, int len, t_data *d)
     while (s[i] && s[i] != '$')
         str[j++] = s[i++];
     after_var = ++i;
-    while (s[after_var] && !valid_char(s[after_var]))
+    while (s[after_var] && valid_char(s[after_var]))
         after_var++;
     i = 0;
     while (env_value && env_value[i])
@@ -73,14 +73,14 @@ char    *copy_var_name(char *s, int i, t_data *d)
 
     len = 0;
     j = i;
-    while (s[j] && !valid_char(s[j]))
+    while (s[j] && valid_char(s[j]))
     {
         j++;
         len++;
     }
     str = ft_malloc(len + 1, d);
     j = 0;
-    while (s[i] && !valid_char(s[i]))
+    while (s[i] && valid_char(s[i]))
         str[j++] = s[i++];
     return (str[j] = '\0', str);
 }
