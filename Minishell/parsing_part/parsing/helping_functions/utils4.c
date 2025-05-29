@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:47:38 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/29 16:52:26 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:27:39 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,8 @@ int valid_var(char *s, t_env *env)
     while (env)
     {
         if (!ft_strcmp(s, env->key))
-        {
-            printf("valid\n");
             return (1);
-        }
         env = env->next;
     }
-    printf("not valid\nremoved\n\n");
     return (0);
 }

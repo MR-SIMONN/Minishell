@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/29 16:53:02 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:22:49 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-// #include <>
-// #include <>
+
+# define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 typedef struct s_heap
 {
@@ -112,6 +112,7 @@ typedef struct s_expend_infos
 int     parsing(t_data *d);
 int     empty_cmd(char *s);
 int     is_invalid_syntax(char *s, t_data *d);
+int     parentheses(char *s);
 void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
@@ -130,6 +131,7 @@ int     is_one_symbol(char *s, int i);
 void    set_strcut_values(t_data *d, int i);
 int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s);
+void	make_backup_env(t_env **envs, t_data *d);
 
 //utils functions
 t_str	*new_strnode(char *string, t_data *d);
@@ -150,6 +152,7 @@ void	ignore_tokens(t_token **head);
 int	    var_count(char *s);
 int	    decrease_len(t_token *t);
 int	    is_var(char c);
+t_env   *new_env(char *s, t_data *d);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -159,6 +162,7 @@ void	*ft_malloc(size_t size, t_data *data);
 void	free_all(char **s, int i);
 
 //libft functions
+char	*ft_strjoin(char *s1, char *s2, t_data *d);
 int     ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s1, t_data *d);
 size_t  ft_strlen (char *str);

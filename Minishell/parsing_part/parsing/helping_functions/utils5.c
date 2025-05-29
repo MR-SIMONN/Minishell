@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/27 20:32:29 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:26:20 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ int	var_count(char *s)
 	while (s[i])
 	{
 		if (s[i] == '$' && is_var(s[i + 1]))
-		{
-				printf("the is -----> %c\n",s[i + 1]);
 				len++;
-		}
 		i++;
 	}
 	return (len);
