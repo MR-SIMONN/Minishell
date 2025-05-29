@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/27 13:14:07 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:54:48 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int    read_cmds(t_data *d)
 {
-    d->line = readline("\033[1;36m-> minishell\033[0m$");
+    d->line = readline("\033[1;36m-> minishell\033[0m$ ");
     if (!d->line)
         return (free_everything(d, 1), 0);
     add_history(d->line);

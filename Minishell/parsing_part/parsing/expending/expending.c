@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/27 20:40:35 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:49:13 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void    expend_it(t_token *t, char *key, int index, t_data *d)
         index++;
     len = expended_token_len(d->env, t->value, key, index);
     printf ("\nlen is ---->   %d\n", len);
-    t->value = new_expended_token(t->value, var_value(d->env, key), len, d);
+    t->value = new_expended_token(t->value, var_value(d->env, key), len, d, index, key);
 }
 
 char    *delete_invalid_var(t_token *t, t_data *d)
@@ -79,7 +79,7 @@ void    expending(t_token *t, t_data *d)
         i = 0;
         if (t->type == VAR && var_count(t->value) > 0)
         {
-            while (t->value[i])
+            while (t->value[i] && var_count(t->value) > 0)
             {
                 // printf ("\n%d\n", var_count(t->value));
                 // exit (0);

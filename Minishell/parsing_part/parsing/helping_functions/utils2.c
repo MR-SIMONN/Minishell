@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/24 16:56:22 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:18:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	change_tokens_types(t_token *t)
 		if (!is_not_redir(t))
 		{
 			if (t->next->type == WORD)
+				t->next->type = REDIR_WORD;
+			else if (t->type == HEREDOC && t->next->type == VAR)
 				t->next->type = REDIR_WORD;
 		}
 		t = t->next;

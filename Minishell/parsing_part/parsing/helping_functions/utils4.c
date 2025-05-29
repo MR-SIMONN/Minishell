@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:47:38 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/27 21:25:27 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:30:26 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char    *var_value(t_env *env, char *key)
     return (NULL);
 }
 
-char    *new_expended_token(char *s, char *env_value, int len, t_data *d)
+char    *new_expended_token(char *s, char *env_value, int len, t_data *d, int after_key, char *key)
 {
     int     i;
     int     j;
@@ -32,10 +32,11 @@ char    *new_expended_token(char *s, char *env_value, int len, t_data *d)
 
     i = 0;
     j = 0;
+    after_var = after_key - ft_strlen(key) - 1;
     str = ft_malloc(len + 1, d);
-    while ((s[i] && s[i] != '$'))
+    while (s[i] && i < after_var)
         str[j++] = s[i++];
-    after_var = ++i;
+    after_var = after_key - ft_strlen(key);
     while (s[after_var] && valid_char(s[after_var]))
         after_var++;
     i = 0;

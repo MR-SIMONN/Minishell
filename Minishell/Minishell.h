@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/27 16:01:15 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:30:57 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
 void    expending(t_token *t, t_data *d);
 int     expended_token_len(t_env *env, char *s, char *key, int i);
-char    *new_expended_token(char *s, char *env_value, int len, t_data *d);
+// char    *new_expended_token(char *s, char *env_value, int len, t_data *d);
+char    *new_expended_token(char *s, char *env_value, int len, t_data *d, int after_key, char *key);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
 int     args_len(t_token *t);
 void    copy_args(char **args, t_token *t, t_data *d);
