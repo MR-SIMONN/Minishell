@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:47:38 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/29 14:30:26 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:52:26 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char    *var_value(t_env *env, char *key)
     return (NULL);
 }
 
-char    *new_expended_token(char *s, char *env_value, int len, t_data *d, int after_key, char *key)
+char    *new_expended_token(t_expend_infos  infos)
 {
     int     i;
     int     j;
@@ -32,18 +32,18 @@ char    *new_expended_token(char *s, char *env_value, int len, t_data *d, int af
 
     i = 0;
     j = 0;
-    after_var = after_key - ft_strlen(key) - 1;
-    str = ft_malloc(len + 1, d);
-    while (s[i] && i < after_var)
-        str[j++] = s[i++];
-    after_var = after_key - ft_strlen(key);
-    while (s[after_var] && valid_char(s[after_var]))
+    after_var = infos.after_key - ft_strlen(infos.key) - 1;
+    str = ft_malloc(infos.len + 1, infos.d);
+    while (infos.s[i] && i < after_var)
+        str[j++] = infos.s[i++];
+    after_var = infos.after_key - ft_strlen(infos.key);
+    while (infos.s[after_var] && valid_char(infos.s[after_var]))
         after_var++;
     i = 0;
-    while (env_value && env_value[i])
-        str[j++] = env_value[i++];
-    while (s[after_var])
-        str[j++] = s[after_var++];
+    while (infos.env_value && infos.env_value[i])
+        str[j++] = infos.env_value[i++];
+    while (infos.s[after_var])
+        str[j++] = infos.s[after_var++];
     return (str[j] = '\0', str);
 }
 

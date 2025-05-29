@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/29 14:49:13 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:50:20 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,21 @@
 
 void    expend_it(t_token *t, char *key, int index, t_data *d)
 {
-    int len;
+    int             len;
+    t_expend_infos  infos;
 
     if (!var_value(d->env, key))
-        return;
+        return ;
     while (t->value[index] && valid_char(t->value[index]))
         index++;
+    infos.s = t->value;
+    infos.env_value = var_value(d->env, key);
+    infos.d = d;
+    infos.after_key = index;
+    infos.key = key;
     len = expended_token_len(d->env, t->value, key, index);
-    printf ("\nlen is ---->   %d\n", len);
-    t->value = new_expended_token(t->value, var_value(d->env, key), len, d, index, key);
+    infos.len = len;
+    t->value = new_expended_token(infos);
 }
 
 char    *delete_invalid_var(t_token *t, t_data *d)
