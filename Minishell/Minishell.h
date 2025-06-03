@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/29 20:22:49 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/03 03:54:53 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct s_data
     t_cmd   *cmds;
     t_env   *env;
 	t_exp	*exp;
-    // char    *path;
+    int     exit_value;
     // more data needed tho
 }   t_data;
 
@@ -117,7 +117,7 @@ void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
 void    expending(t_token *t, t_data *d);
-int     expended_token_len(t_env *env, char *s, char *key, int i);
+int     expended_token_len(t_data *d, char *s, char *key, int i);
 char    *new_expended_token(t_expend_infos  infos);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
 int     args_len(t_token *t);
@@ -147,12 +147,15 @@ void    quotes_stuff(char *s, int i, char *c, int *quotes);
 int     valid_char(char c);
 char    *copy_var_name(char *s, int i, t_data *d);
 int     valid_var(char *s, t_env *env);
-char    *var_value(t_env *env, char *key);
+char    *var_value(t_env *env, char *key, t_data *d);
 void	ignore_tokens(t_token **head);
 int	    var_count(char *s);
 int	    decrease_len(t_token *t);
 int	    is_var(char c);
 t_env   *new_env(char *s, t_data *d);
+int     valid_key(char c);
+int     quotes_len (char *s);
+int     is_word(t_token *t);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -175,6 +178,7 @@ char	*ft_strsdup(char *s1, int l, t_data *d);
 int     ft_isalpha(int c);
 int     ft_isdigit(int c);
 int     ft_isalnum(int c);
+char	*ft_itoa(int n, t_data *d);
 
 //testing functions
 void    print_tokens(t_token *head);

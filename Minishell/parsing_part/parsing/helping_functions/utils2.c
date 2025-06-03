@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/29 16:18:09 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/03 03:56:44 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void copy_args(char **args, t_token *t, t_data *d)
 	i = 0;
 	while (t && t->type != PIPE)
 	{
-        if ((t->type == WORD || is_quoted (t->type)
-			|| t->type == VAR))
+        if (is_word(t))
 			args[i++] = ft_strdup(t->value, d);
 		t = t->next;
 	}
@@ -49,8 +48,7 @@ int args_len(t_token *t)
 	len = 0;
 	while (t && t->type != PIPE)
 	{
-        if ((t->type == WORD || is_quoted (t->type)
-			|| t->type == VAR))
+        if (is_word(t))
 			len++;
 		t = t->next;
 	}

@@ -6,28 +6,51 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:43:05 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/03 04:03:53 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-char    *delete_quotes(char *s, t_data *d)
+char    *delete_random_quotes(char *s, t_data *d)
 {
     int i;
     int j;
     int len;
     char *str;
 
-    i = 1;
+    i = 0;
     j = 0;
-    len = ft_strlen(s) - 2;
+    len = ft_strlen(s) - quotes_len(s);
     str = ft_malloc(len + 1, d);
     while (s[i])
     {
         if (s[i] == '\'' || s[i] == '\"')
-            break;
-        str[j++] = s[i++];
+            i++;
+        if (s[i])
+            str[j++] = s[i++];
+    }
+    return (str[j] = '\0', str);
+}
+
+char    *delete_quotes(char *s, t_data *d)
+{
+    int     i;
+    int     j;
+    int     len;
+    char    *str;
+    char    c;
+
+    i = 1;
+    j = 0;
+    len = ft_strlen(s) - 2;
+    str = ft_malloc(len + 1, d);
+    c = s[0];
+    while (s[i + 1])
+    {
+        if (s[i] != c)
+            str[j++] = s[i];
+        i++;
     }
     str[j] = '\0';
     return (str);
@@ -42,13 +65,17 @@ void     make_tokens(char **t, t_token **p, t_data *d)
 	while (t[i])
 	{
         quote = 0;
-        if (t[i][0] == '\'' || t[i][0] == '\"')
+        if (t[i][0] == '\'' || t[i][0] == '\"' || quotes_len(t[i]) > 0)
         {
             if (t[i][0] == '\'')
                 quote = 1;
-            else
+            else if (t[i][0] == '\"')
                 quote = 2;
-            t[i] = delete_quotes(t[i], d);
+            if ((t[i][0] == '\'' && t[i][ft_strlen(t[i]) - 1] == '\'') 
+                || (t[i][0] == '\"' && t[i][ft_strlen(t[i]) - 1] == '\"'))
+                t[i] = delete_quotes(t[i], d);
+            else
+                t[i] = delete_random_quotes(t[i], d);
         }
 		ft_lstadd_back(p, ft_lstnew(t[i], d, quote));
 		i++;

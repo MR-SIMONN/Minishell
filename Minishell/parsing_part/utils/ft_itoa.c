@@ -1,34 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_init.c                                        :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/03 01:49:23 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/06/02 23:09:13 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/06/02 23:10:20 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void    set_strcut_values(t_data *d, int i)
+static long	nbr_len(int nb)
 {
-    if (i == 0)
-    {
-        d->line = NULL;
-        d->heap = NULL;
-        d->token = NULL;
-        d->cmds = NULL;
-        d->env = NULL;
-        d->exp = NULL;
-        d->exit_value = 0;
-    }
-    else
-    {
-        d->line = NULL;
-        d->heap = NULL;
-        d->token = NULL;
-        d->cmds = NULL;
-    }
+	long	len;
+
+	len = (nb <= 0);
+	while (nb)
+	{
+		nb /= 10;
+		len++;
+	}
+	return (len);
+}
+
+char	*ft_itoa(int n, t_data *d)
+{
+	long	temp;
+	long	len;
+	char	*str;
+
+	temp = n;
+	len = nbr_len (n);
+	str = ft_malloc(len + 1, d);
+	str[len] = '\0';
+	if (temp < 0)
+	{
+		str[0] = '-';
+		temp *= -1;
+	}
+	if (temp == 0)
+		str[0] = '0';
+	while (temp)
+	{
+		str[--len] = (temp % 10) + '0';
+		temp /= 10;
+	}
+	return (str);
 }

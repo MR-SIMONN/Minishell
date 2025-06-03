@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/29 18:26:20 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/02 22:52:21 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,5 @@ int	decrease_len(t_token *t)
 
 int	is_var(char c)
 {
-	return (c && valid_char(c));
+	return (c && (valid_char(c) || c == '?'));
 }
