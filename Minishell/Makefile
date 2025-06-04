@@ -14,7 +14,7 @@ parsing_part/utils/ft_strdup.c parsing_part/utils/ft_strlen.c parsing_part/utils
 parsing_part/utils/ft_substr.c parsing_part/utils/skip_it.c parsing_part/utils/symbols.c \
 parsing_part/utils/ft_isalnum.c parsing_part/utils/ft_isalpha.c parsing_part/utils/ft_isdigit.c \
 parsing_part/utils/ft_strjoin.c parsing_part/utils/ft_itoa.c parsing_part/parsing/expending/expending.c \
-parsing_part/parsing/helping_functions/utils6.c \
+parsing_part/parsing/helping_functions/utils6.c parsing_part/parsing/helping_functions/utils7.c\
 parsing_part/test_functions/print_tokens.c \
 parsing_part/test_functions/print_cmds.c \
 parsing_part/test_functions/print_envs.c \

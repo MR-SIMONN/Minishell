@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/03 02:02:48 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:49:22 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int    read_cmds(t_data *d)
         return (0);
     expending(d->token, d);
     ignore_tokens(&d->token);
+    get_rid_of_quotes(d->token, d);
     fill_d_cmd(&d->cmds, d->token, d);
     return (1);
 }
@@ -44,7 +45,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
         {
             d->exit_value = 0;
             print_tokens(d->token);
-            print_cmds(d->cmds);
+            // print_cmds(d->cmds);
             // print_envs(d->env);
             // execution (d->env, d->cmds, &d);
         }

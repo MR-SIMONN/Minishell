@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/03 03:54:53 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:50:40 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    IGNORED,        //just skip this token just like it doesn't exist :)
-    VAR,            // a string contanis $ 
+    VAR,            // a string contanis a variable
+    S_VAR,          // a single quoted string contanis a variable
+    D_VAR,          // a dubble quoted string contanis a variable
     S_QUOTED,       // a single quoted string
     D_QUOTED,       // a dubble quoted string
     REDIR_WORD,     // a string after a red
@@ -132,6 +133,7 @@ void    set_strcut_values(t_data *d, int i);
 int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s);
 void	make_backup_env(t_env **envs, t_data *d);
+void    get_rid_of_quotes(t_token *t, t_data *d);
 
 //utils functions
 t_str	*new_strnode(char *string, t_data *d);
@@ -156,6 +158,8 @@ t_env   *new_env(char *s, t_data *d);
 int     valid_key(char c);
 int     quotes_len (char *s);
 int     is_word(t_token *t);
+char    *delete_quotes(char *s, t_data *d);
+char    *delete_random_quotes(char *s, t_data *d);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);

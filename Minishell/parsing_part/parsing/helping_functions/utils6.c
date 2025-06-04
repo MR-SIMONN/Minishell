@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:30:54 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/03 03:53:51 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:41:01 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ int quotes_len (char *s)
 int is_word(t_token *t)
 {
 	return ((t->type == WORD || is_quoted (t->type)
-			|| t->type == VAR));
+			|| t->type == VAR || t->type == D_VAR));
 }

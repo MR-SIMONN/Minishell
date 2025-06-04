@@ -6,55 +6,11 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/03 04:03:53 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:47:28 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
-
-char    *delete_random_quotes(char *s, t_data *d)
-{
-    int i;
-    int j;
-    int len;
-    char *str;
-
-    i = 0;
-    j = 0;
-    len = ft_strlen(s) - quotes_len(s);
-    str = ft_malloc(len + 1, d);
-    while (s[i])
-    {
-        if (s[i] == '\'' || s[i] == '\"')
-            i++;
-        if (s[i])
-            str[j++] = s[i++];
-    }
-    return (str[j] = '\0', str);
-}
-
-char    *delete_quotes(char *s, t_data *d)
-{
-    int     i;
-    int     j;
-    int     len;
-    char    *str;
-    char    c;
-
-    i = 1;
-    j = 0;
-    len = ft_strlen(s) - 2;
-    str = ft_malloc(len + 1, d);
-    c = s[0];
-    while (s[i + 1])
-    {
-        if (s[i] != c)
-            str[j++] = s[i];
-        i++;
-    }
-    str[j] = '\0';
-    return (str);
-}
 
 void     make_tokens(char **t, t_token **p, t_data *d)
 {
@@ -71,11 +27,6 @@ void     make_tokens(char **t, t_token **p, t_data *d)
                 quote = 1;
             else if (t[i][0] == '\"')
                 quote = 2;
-            if ((t[i][0] == '\'' && t[i][ft_strlen(t[i]) - 1] == '\'') 
-                || (t[i][0] == '\"' && t[i][ft_strlen(t[i]) - 1] == '\"'))
-                t[i] = delete_quotes(t[i], d);
-            else
-                t[i] = delete_random_quotes(t[i], d);
         }
 		ft_lstadd_back(p, ft_lstnew(t[i], d, quote));
 		i++;
