@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/05 00:50:40 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:24:26 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int     parentheses(char *s);
 void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
-void    expending(t_token *t, t_data *d);
+void    expending(t_token *t, t_data *d, int quote);
 int     expended_token_len(t_data *d, char *s, char *key, int i);
 char    *new_expended_token(t_expend_infos  infos);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
@@ -166,7 +166,6 @@ void	free_everything(t_data *data, int i);
 void	clear_trash(t_heap **lst);
 void	store_addr(char *s, t_data *data);
 void	*ft_malloc(size_t size, t_data *data);
-void	free_all(char **s, int i);
 
 //libft functions
 char	*ft_strjoin(char *s1, char *s2, t_data *d);

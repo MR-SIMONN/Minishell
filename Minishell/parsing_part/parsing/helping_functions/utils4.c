@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:47:38 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/03 04:40:33 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:22:39 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 char    *var_value(t_env *env, char *key, t_data *d)
 {
+    if (key[0] == '?')
+        return (ft_itoa(d->exit_value, d));
     while (env)
     {
         if (!ft_strcmp(key, env->key))
             return (env->value);
-        else if (key[0] == '?')
-            return (ft_itoa(d->exit_value, d));
         env = env->next;
     }
     return (NULL);
@@ -41,8 +41,9 @@ char    *new_expended_token(t_expend_infos  infos)
     after_var = infos.after_key - ft_strlen(infos.key);
     if (infos.s[after_var] == '?')
         after_var++;
-    while (infos.s[after_var] && valid_char(infos.s[after_var]))
-        after_var++;
+    else
+        while (infos.s[after_var] && valid_char(infos.s[after_var]))
+            after_var++;
     i = 0;
     while (infos.env_value && infos.env_value[i])
         str[j++] = infos.env_value[i++];
@@ -74,6 +75,8 @@ char    *copy_var_name(char *s, int i, t_data *d)
     int     j;
     char    *str;
 
+    if (s[i] == '?')
+        return (ft_strdup("?", d));
     len = 0;
     j = i;
     while (s[j] && valid_char(s[j]))
@@ -89,12 +92,13 @@ char    *copy_var_name(char *s, int i, t_data *d)
 }
 int valid_var(char *s, t_env *env)
 {
+    if (s[0] == '?')
+        return (1);
     while (env)
     {
-        if (!ft_strcmp(s, env->key) || s[0] == '?')
-            return (printf ("valid\n"), 1);
+        if (!ft_strcmp(s, env->key))
+            return (1);
         env = env->next;
     }
-    printf ("not valid\n");
     return (0);
 }

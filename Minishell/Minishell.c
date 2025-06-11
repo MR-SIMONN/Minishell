@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/05 00:49:22 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:28:31 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int    read_cmds(t_data *d)
     store_addr(d->line, d);
     if (parsing(d))
         return (0);
-    expending(d->token, d);
+    expending(d->token, d, 0);
     ignore_tokens(&d->token);
     get_rid_of_quotes(d->token, d);
     fill_d_cmd(&d->cmds, d->token, d);
