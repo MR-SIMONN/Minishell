@@ -3,18 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:43 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/03 16:52:36 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/23 18:06:07 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int exit_v(char **args)
+#include "../../Minishell.h"
+
+void exit_v(char **args)
 {
-    int status = 0;
+    long status;
+    int is_out_range;
+    
+    is_out_range= 0;
+    status = 0;
+    if(!args[1])
+    {
+        ft_putstr_fd("exit", 1);
+        exit(0);
+    }
     if (args[1])
-        status = ft_atoi(args[1]);
-    printf("exit\n");
-    exit(status);
+    {
+        status = ft_atol(args[1], &is_out_range);
+        if (!is_digit(args[1]) || is_out_range)
+            ft_putstr_fd("exit : numeric argument required\n", 2);
+    }
+    if(args[2])
+            ft_putstr_fd("exit : too many arguments", 2);
+    if (is_digit(args[1]))
+        ft_putstr_fd("exit", 1);
+        exit((unsigned char)status);
 }

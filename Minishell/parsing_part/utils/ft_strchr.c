@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 16:21:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/22 19:08:14 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/06/12 14:49:56 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/06/12 14:49:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	env_v(t_env *list)
+char *ft_strchr(const char *s, int c)
 {
-	t_env *tmp;
-	
-	tmp = list;
-	while(tmp)
-	{
-		ft_putstr_fd(tmp->both, 1);
-		ft_putstr_fd("\n", 1);
-		tmp = tmp->next;
-	}
+    if (!s)
+        return (NULL);
+    
+    while (*s)
+    {
+        if (*s == (char)c)
+            return ((char *)s);
+        s++;
+    }
+    
+    if ((char)c == '\0')
+        return ((char *)s);
+    
+    return (NULL);
 }

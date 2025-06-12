@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   apply_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 16:21:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/22 19:08:14 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/05/23 16:14:22 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Minishell.h"
+#include "../Minishell.h"
 
-void	env_v(t_env *list)
-{
-	t_env *tmp;
-	
-	tmp = list;
-	while(tmp)
-	{
-		ft_putstr_fd(tmp->both, 1);
-		ft_putstr_fd("\n", 1);
-		tmp = tmp->next;
-	}
-}
+// void    apply_redirections(t_cmd *cmd)
+// {
+//     if(!cmd->infile);
+    
+// }

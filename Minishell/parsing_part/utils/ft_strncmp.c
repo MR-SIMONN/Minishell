@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 16:21:51 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/25 15:40:22 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/06/12 15:10:31 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/06/12 15:10:33 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-int unset_v(t_env **env_lst, t_data *d ,char **args)
+int    ft_strncmp(const char *s1, char *s2, size_t ncmp)
 {
-    int i;
-    
+    size_t    i;
+
     i = 0;
-	while(args[i])
+    while (i < ncmp && s1[i] && s2[i])
     {
-        if(ft_strcmp(args[i], "_") == 0)
+        if (s1[i] != s2[i])
         {
-            i++;
-            continue;
-        }
-        else
-        {
-            remove_from_env_lst(env_lst, args[i]);
-            remove_from_export_lst(&d->exp, args[i]);
+            return ((unsigned char)s1[i] - (unsigned char)s2[i]);
         }
         i++;
     }
+    if (i < ncmp && (s1[i] || s2[i]))
+        return ((unsigned char)s1[i] - (unsigned char)s2[i]);
     return (0);
 }

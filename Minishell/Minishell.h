@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/11 14:24:26 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:12:03 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
+#include <sys/wait.h>
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -170,6 +172,7 @@ void	*ft_malloc(size_t size, t_data *data);
 //libft functions
 char	*ft_strjoin(char *s1, char *s2, t_data *d);
 int     ft_strcmp(char *s1, char *s2);
+int    ft_strncmp(const char *s1, char *s2, size_t ncmp);
 char	*ft_strdup(char *s1, t_data *d);
 size_t  ft_strlen (char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len, t_data *data);
@@ -182,12 +185,46 @@ int     ft_isalpha(int c);
 int     ft_isdigit(int c);
 int     ft_isalnum(int c);
 char	*ft_itoa(int n, t_data *d);
+char    *ft_strchr(const char *s, int c);
+char    *ft_strnstr(const char *haystack, char *needle, size_t len);
+char    *ft_strjoin(char *s1, char *s2, t_data *d);
 
 //testing functions
 void    print_tokens(t_token *head);
-void	print_cmds(t_cmd *cmd);
-void	print_envs(t_env *env);
+void    print_cmds(t_cmd *cmd);
+void    print_envs(t_env *env);
 void    print_strs(char **s);
 
+
+//Execution part ; functions :
+// int     execution(t_data *data,t_data *cmds, t_data *d);
+int    execution(t_env **env,t_cmd *cmds, t_data *d);
+int     is_builtin(char *cmd);
+int     execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
+
+// bulltin funs
+int     cd_v(char **args, t_env **env,t_data *d);
+int     echo_v(char **args);
+void    env_v(t_env *list);
+void    exit_v(char **args);
+int        pwd_v(void);
+int        export_v(t_env **env_lst, char **args, t_data *d);
+int        unset_v(t_env **env_lst, t_data *d ,char **args);
+// utils funcs :
+int     is_digit(const char *str);
+long    ft_atol(const char *str, int *range_check);
+void    ft_putstr_fd(char *s, int fd);
+char    *ft_strjoin_eq(char *s1, char *s2, t_data *d);
+t_env   *ft_lstnew_export_to_env(char *key, char *value, char *both, t_data *d);
+t_exp   *ft_lstnew_export_to_value(char *value, t_data *d);
+t_env   *ft_env_lstlast(t_env *lst);
+void    ft_env_lstadd_back(t_env **lst, t_env *new);
+t_exp   *ft_exp_lstlast(t_exp *lst);
+void    ft_exp_lstadd_back(t_exp **lst, t_exp *new);
+void    remove_from_env_lst(t_env **env_lst, char *key);
+void    remove_from_export_lst(t_exp **exp_lst, char *key);
+t_exp   *find_exp_node(t_exp *exp_lst, char *key);
+t_env   *find_env_node(t_env *env_lst, char *key);
+int     is_exported(t_exp *exp_lst, char *key);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

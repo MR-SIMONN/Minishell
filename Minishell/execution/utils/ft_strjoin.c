@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 16:21:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/22 19:08:14 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/05/23 21:03:54 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/05/23 22:49:15 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	env_v(t_env *list)
+char	*ft_strjoin_eq(char *s1, char *s2, t_data *d)
 {
-	t_env *tmp;
-	
-	tmp = list;
-	while(tmp)
+	char	*res;
+	size_t	i = 0;
+	size_t	j = 0;
+
+	if (!s1 || !s2)
+		return (NULL);
+
+	res = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 2, d);
+	if (!res)
+		return (NULL);
+
+	while (s1[i])
 	{
-		ft_putstr_fd(tmp->both, 1);
-		ft_putstr_fd("\n", 1);
-		tmp = tmp->next;
+		res[i] = s1[i];
+		i++;
 	}
+	res[i++] = '=';
+
+	while (s2[j])
+	{
+		res[i++] = s2[j++];
+	}
+	res[i] = '\0';
+
+	return (res);
 }
