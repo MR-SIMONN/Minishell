@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/12 17:28:12 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:52:41 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+#include <signal.h>
 #include <sys/wait.h>
 #include <stdbool.h>
 #include <readline/readline.h>
@@ -136,6 +137,7 @@ int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s);
 void	make_backup_env(t_env **envs, t_data *d);
 void    get_rid_of_quotes(t_token *t, t_data *d);
+void    signal_stuff();
 
 //utils functions
 t_str	*new_strnode(char *string, t_data *d);

@@ -6,18 +6,11 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/05 00:50:08 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:11:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Minishell.h"
-
-    // if ((t[i][0] == '\'' && t[i][ft_strlen(t[i]) - 1] == '\'') 
-    //     || (t[i][0] == '\"' && t[i][ft_strlen(t[i]) - 1] == '\"'))
-    //     t[i] = delete_quotes(t[i], d);
-    // else
-    //     t[i] = delete_random_quotes(t[i], d);
-
 
 char    *delete_random_quotes(char *s, t_data *d)
 {
@@ -73,4 +66,18 @@ void    get_rid_of_quotes(t_token *t, t_data *d)
             t->value = delete_random_quotes(t->value, d);
         t = t->next;
     }
+}
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	printf ("\n");
+    rl_replace_line("", 0);
+	rl_on_new_line();   // move readline to new line
+	rl_redisplay(); // redraw prompt
+}
+
+void    signal_stuff()
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }

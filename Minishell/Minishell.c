@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/12 17:28:42 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:08:12 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
+
 int    read_cmds(t_data *d)
 {
     d->line = readline("-> minishell$ ");
     if (!d->line)
-        return (free_everything(d, 1), 0);
+        return (free_everything(d, 0), 0);
     add_history(d->line);
     store_addr(d->line, d);
     if (parsing(d))
@@ -44,6 +45,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
         if (all_good)
         {
             d->exit_value = 0;
+            signal_stuff();
             print_tokens(d->token);
             // print_cmds(d->cmds);
             // print_envs(d->env);
