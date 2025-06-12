@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:41:57 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/24 16:18:17 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:20:19 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	valid_char(char c)
 {
-	return (!(ft_isalnum(c) || c == '_'));//returns 0 if alphanum otherwis it returns 1
+	return (ft_isalnum(c) || c == '_');//returns 1 if alphanum otherwis it returns 0
 }
 
 t_env	*last_env(t_env *lst)

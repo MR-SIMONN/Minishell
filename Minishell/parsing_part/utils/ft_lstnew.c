@@ -21,18 +21,26 @@ int is_variable(char *s, int quote)
     {
         if (s[i] == '$' && s[i + 1])
         {
-            if (quote != 1)
+            if (quote == 0)
+                return (0);
+            else if (quote == 1)
                 return (1);
+            else
+                return (2);
         }
         i++;
     }
-    return (0);
+    return (-1);
 }
 
 t_token_type    token_type(char *s, int quote)
 {
-    if (is_variable(s, quote))
+    if (is_variable(s, quote) == 0)
         return (VAR);
+    else if (is_variable(s, quote) == 1)
+        return (S_VAR);
+    else if (is_variable(s, quote) == 2)
+        return (D_VAR);
     else if (quote == 1)
         return (S_QUOTED);
     else if (quote == 2)

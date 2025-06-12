@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 05:12:07 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:43:02 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:22:52 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*copy_envalue(char *s, t_data *d)
 	return (str);
 }
 
-t_env *new_env(char *s, t_data *d)
+t_env	*new_env(char *s, t_data *d)
 {
 	t_env *e;
 
@@ -52,6 +52,11 @@ void    store_envs(t_env **envs, char **env, t_data *d)
 {
     int i;
 
+if (!env || !env[0])
+	{
+		make_backup_env(envs, d);
+		return ;
+	}
     i = 0;
 	while (env[i])
 	{

@@ -41,17 +41,6 @@ static int	ft_cw(char *str, char c)
 	return (words);
 }
 
-void	free_all(char **s, int i)
-{
-	while (i--)
-	{
-		free (s[i]);
-		s[i] = NULL;
-	}
-	free (s);
-	s = NULL;
-}
-
 static int	ft_word_len(char *str, int i, char c)
 {
 	int		word_len;
