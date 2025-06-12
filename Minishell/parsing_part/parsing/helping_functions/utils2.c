@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:41:59 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:37:03 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ void copy_args(char **args, t_token *t, t_data *d)
 	i = 0;
 	while (t && t->type != PIPE)
 	{
-        if ((t->type == WORD || is_quoted (t->type)))
-		{
+        if (is_word(t))
 			args[i++] = ft_strdup(t->value, d);
-		}
 		t = t->next;
 	}
 	args[i] = NULL;
@@ -50,7 +48,7 @@ int args_len(t_token *t)
 	len = 0;
 	while (t && t->type != PIPE)
 	{
-        if ((t->type == WORD || is_quoted (t->type)))
+        if (is_word(t))
 			len++;
 		t = t->next;
 	}
@@ -70,6 +68,9 @@ void	change_tokens_types(t_token *t)
 		if (!is_not_redir(t))
 		{
 			if (t->next->type == WORD)
+				t->next->type = REDIR_WORD;
+			else if (t->type == HEREDOC 
+				&& (t->next->type == VAR || t->next->type == D_VAR))
 				t->next->type = REDIR_WORD;
 		}
 		t = t->next;

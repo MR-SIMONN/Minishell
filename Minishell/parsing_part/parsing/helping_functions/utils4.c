@@ -6,14 +6,16 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:47:38 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:42:07 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:22:39 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Minishell.h"
 
-char    *var_value(t_env *env, char *key)
+char    *var_value(t_env *env, char *key, t_data *d)
 {
+    if (key[0] == '?')
+        return (ft_itoa(d->exit_value, d));
     while (env)
     {
         if (!ft_strcmp(key, env->key))
@@ -23,7 +25,7 @@ char    *var_value(t_env *env, char *key)
     return (NULL);
 }
 
-char    *new_expended_token(char *s, char *env_value, int len, t_data *d)
+char    *new_expended_token(t_expend_infos  infos)
 {
     int     i;
     int     j;
@@ -32,56 +34,66 @@ char    *new_expended_token(char *s, char *env_value, int len, t_data *d)
 
     i = 0;
     j = 0;
-    str = ft_malloc(len + 3, d);
-    while (s[i] && s[i] != '$')
-        str[j++] = s[i++];
-    after_var = ++i;
-    while (s[after_var] && !valid_char(s[after_var]))
+    after_var = infos.after_key - ft_strlen(infos.key) - 1;
+    str = ft_malloc(infos.len + 1, infos.d);
+    while (infos.s[i] && i < after_var)
+        str[j++] = infos.s[i++];
+    after_var = infos.after_key - ft_strlen(infos.key);
+    if (infos.s[after_var] == '?')
         after_var++;
+    else
+        while (infos.s[after_var] && valid_char(infos.s[after_var]))
+            after_var++;
     i = 0;
-    while (env_value[i])
-        str[j++] = env_value[i++];
-    while (s[after_var])
-        str[j++] = s[after_var++];
+    while (infos.env_value && infos.env_value[i])
+        str[j++] = infos.env_value[i++];
+    while (infos.s[after_var])
+        str[j++] = infos.s[after_var++];
     return (str[j] = '\0', str);
 }
 
-int expended_token_len(t_env *env, char *s, char *key, int i)
+int expended_token_len(t_data *d, char *s, char *key, int i)
 {
-    int len;
     int var_len;
+    int after_len;
+    int before_len;
 
-    len = 0;
-    var_len = ft_strlen(var_value(env, key));
+    before_len = i - ft_strlen(key) - 1;
+    after_len = 0;
+    var_len = ft_strlen(var_value(d->env, key, d));
     while (s[i])
     {
         i++;
-        len++;
+        after_len++;
     }
-    return (len + var_len);
+    return (before_len + var_len + after_len);
 }
 
-char    *copy_var(char *s, int i, t_data *d)
+char    *copy_var_name(char *s, int i, t_data *d)
 {
     int     len;
     int     j;
     char    *str;
 
+    if (s[i] == '?')
+        return (ft_strdup("?", d));
     len = 0;
     j = i;
-    while (s[j] && !valid_char(s[j]))
+    while (s[j] && valid_char(s[j]))
     {
         j++;
         len++;
     }
     str = ft_malloc(len + 1, d);
     j = 0;
-    while (s[i] && !valid_char(s[i]))
+    while (s[i] && valid_char(s[i]))
         str[j++] = s[i++];
     return (str[j] = '\0', str);
 }
 int valid_var(char *s, t_env *env)
 {
+    if (s[0] == '?')
+        return (1);
     while (env)
     {
         if (!ft_strcmp(s, env->key))

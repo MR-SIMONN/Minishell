@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:42:28 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:30:32 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int is_invalid_syntax(char *s, t_data *d)
     if (invalid_redirection(s))
         return (1);
     if (invalid_pipeout(s))
+        return (1);
+    if (parentheses(s))
         return (1);
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:41:57 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:42:03 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:16:28 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	valid_char(char c)
 {
-	return (!(ft_isalnum(c) || c == '_'));
+	return (ft_isalnum(c) || c == '_');//returns 1 if alphanum otherwis it returns 0
 }
 
 t_env	*last_env(t_env *lst)

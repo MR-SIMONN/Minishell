@@ -3,34 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/03 16:51:06 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:24:37 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int echo_v(char **args)
+#include "../../Minishell.h"
+//input   --> echo -nnnnnnn hello
+//output  --> "hello"
+
+//intput  --> echo -nnnnnnnn -n -n -n hellofriend
+//output  --> "hellofriend"
+
+//input  --> echo -nnnnnnn -n -n -n -nnnn454 hekkiasa
+//output --> "-nnnn454 hekkiasa"
+
+int ft_check_option(char *s)
 {
     int i;
-    int new_line;
+    int flag;
 
-    i = 1;
-    new_line = 1;
-    
-    if(args[1] && ft_strcmp(args[1], "-n") == 0)
+    flag = 1;
+    i = 0;
+    if (s[i] == '-')
     {
-        new_line = 0;
+        i++;
+        if (s[i] == 'n')
+        {
+            while (s[i] == 'n')
+            {
+                flag = 0;
+                i++;
+            }
+            if (s[i] != '\0')
+                flag = 1;
+        }
+    }
+    return (flag);
+}
+
+int echo_v(char **args)
+{
+    int i = 1;
+    int newline = 1;
+    if(!args[1])
+    {
+        ft_putstr_fd("\n", 1);
+        return (0);
+    }
+    if (args[1] && ft_check_option(args[1]) == 0)
+    {
+        newline = 0;
+        i = 2;
+    }
+    while (args[i])
+    {
+        ft_putstr_fd(args[i], 1);
+        if (args[i + 1])
+            ft_putstr_fd(" ", 1);
         i++;
     }
-    while(args[i])
-    {
-        printf("%s", args[i]);
-        if(args[i + 1])
-            printf(" ");
-        i++;
-    }
-    if(new_line)
-        printf("\n");
-    return 0;
+    if (newline)
+        ft_putstr_fd("\n", 1);
+    return (0);
 }

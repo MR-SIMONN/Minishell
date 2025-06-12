@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 23:59:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/31 18:29:44 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/06/12 15:10:31 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/06/12 15:10:33 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../Minishell.h"
+#include "../../Minishell.h"
 
-int parsing(t_data *d)
+int    ft_strncmp(const char *s1, char *s2, size_t ncmp)
 {
-    if (empty_cmd(d->line))
-        return (1);
-    if (is_invalid_syntax(d->line, d))
+    size_t    i;
+
+    i = 0;
+    while (i < ncmp && s1[i] && s2[i])
     {
-        d->exit_value = 258;
-        return (syntax_error("syntax error"));
+        if (s1[i] != s2[i])
+        {
+            return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+        }
+        i++;
     }
-    ft_lst_tokens (d);
-    if (handle_syntax_error(d->token, d))
-    {
-        d->exit_value = 258;
-        return (syntax_error("syntax error"));
-    }
-    change_tokens_types(d->token);
+    if (i < ncmp && (s1[i] || s2[i]))
+        return ((unsigned char)s1[i] - (unsigned char)s2[i]);
     return (0);
 }
