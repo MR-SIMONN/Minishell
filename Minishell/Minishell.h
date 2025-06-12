@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/12 15:12:03 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:28:12 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 
 typedef struct s_heap
 {
-    void    *address;
-    struct s_heap   *next;
+	void    *address;
+	struct s_heap   *next;
 }   t_heap;
 
 // token.h or in Minishell.h
@@ -49,16 +49,10 @@ typedef enum e_token_type
     HEREDOC         // <<
 } t_token_type;
 
-typedef struct s_exp
-{ 
-	char            *value;
-	struct s_exp    *next;
-} t_exp;
-
 typedef struct s_str
 {
-    char            *s;
-    struct s_str    *next;
+	char            *s;
+	struct s_str    *next;
 } t_str;
 
 typedef struct s_env
@@ -69,24 +63,30 @@ typedef struct s_env
     struct s_env    *next;
 } t_env;
 
+typedef struct s_exp
+{ 
+	char            *value; //declare -x {{      a      }} <- this value
+	struct s_exp    *next;
+} t_exp;
+
 typedef struct s_token
 {
-    char            *value;
-    t_token_type    type;
-    struct s_token  *next;
+	char            *value;
+	t_token_type    type;
+	struct s_token  *next;
 } t_token;
 
 typedef struct s_cmd 
 {
-    char            *cmd;
-    char            **args;
-    t_str           *infile;
-    t_str           *outfile;
-    int             append;
-    int             heredoc;
-    t_str           *heredoc_del;
-    int             pipe;
-    struct s_cmd    *next;
+	char            *cmd;
+	char            **args;
+	t_str           *infile;
+	t_str           *outfile;
+	int             append;
+	int             heredoc;
+	t_str           *heredoc_del;
+	int             pipe;
+	struct s_cmd    *next;
 }   t_cmd;// wafen a khay smail hani kolchi bikhir l3a2ila, fach tchof had lcomment hbet lte7t gaa3 ghatl9a comment wahed khor
 
 typedef struct s_data
