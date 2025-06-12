@@ -62,7 +62,7 @@ execution/utils/ft_strjoin.c \
 execution/utils/linked.c \
 execution/utils/exp_env_utils.c
 
-NAME = Minishell
+NAME = minishell
 
 OBJS = $(SRCS:%.c=%.o)
 
