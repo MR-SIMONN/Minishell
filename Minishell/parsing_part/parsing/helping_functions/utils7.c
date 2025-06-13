@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/12 19:11:30 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/13 22:09:20 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	handle_sigint(int sig)
 {
 	(void)sig;
 	printf ("\n");
-    rl_replace_line("", 0);
+    // rl_replace_line("", 0);
 	rl_on_new_line();   // move readline to new line
 	rl_redisplay(); // redraw prompt
 }

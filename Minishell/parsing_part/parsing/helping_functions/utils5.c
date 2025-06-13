@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/02 22:52:21 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:23:21 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	var_count(char *s)
 	return (len);
 }
 
-int	decrease_len(t_token *t)
+int	decrease_len(char *s)
 {
 	int	i;
 	int	len;
@@ -72,12 +72,12 @@ int	decrease_len(t_token *t)
 	i = 0;
 	len = 0;
 	flag = 0;
-	while (t->value[i])
+	while (s[i])
 	{
-		if (t->value[i] == '$' && !flag)
+		if (s[i] == '$' && !flag)
 		{
 			i++;
-			while (t->value[i] && valid_char(t->value[i]))
+			while (s[i] && valid_char(s[i]))
 				i++;
 			flag = 1;
 		}

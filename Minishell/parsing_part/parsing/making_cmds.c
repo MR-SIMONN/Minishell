@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/03 03:56:02 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:10:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,20 @@ void handle_redir(t_token *t, t_cmd *cmd, t_data *d)
         return;
     n_t = t->next->value;
     if (t->type == REDIRECT_IN)
-        stradd_back(&cmd->infile, new_strnode(ft_strdup(n_t, d), d));
+        stradd_back(&cmd->infile, new_strnode(ft_strdup(n_t, d), t, d));
     else if (t->type == HEREDOC)
     {
-        stradd_back(&cmd->heredoc_del, new_strnode(ft_strdup(n_t, d), d));
+        stradd_back(&cmd->heredoc_del, new_strnode(ft_strdup(n_t, d), t, d));
         cmd->heredoc = 1;
     }
     else if (t->type == REDIRECT_OUT)
     {
-        stradd_back(&cmd->outfile, new_strnode(ft_strdup(n_t, d), d));
+        stradd_back(&cmd->outfile, new_strnode(ft_strdup(n_t, d), t, d));
         cmd->append = 0;
     }
     else if (t->type == APPEND)
     {
-        stradd_back(&cmd->outfile, new_strnode(ft_strdup(n_t, d), d));
+        stradd_back(&cmd->outfile, new_strnode(ft_strdup(n_t, d), t, d));
         cmd->append = 1;
     }
 }

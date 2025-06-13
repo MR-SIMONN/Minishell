@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expending.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/12 17:23:57 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:27:50 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    expend_it(t_token *t, char *key, int index, t_data *d)
     t->value = new_expended_token(infos);
 }
 
-char    *delete_invalid_var(t_token *t, t_data *d)
+char    *delete_invalid_var(char *str, t_data *d)
 {
     int     i;
     int     j;
@@ -44,19 +44,19 @@ char    *delete_invalid_var(t_token *t, t_data *d)
     i = 0;
     j = 0;
     flag = 0;
-    len = decrease_len(t);
+    len = decrease_len(str);
     s = ft_malloc(len + 1, d);
-    while (t->value[i])
+    while (str[i])
     {
-		if (t->value[i] == '$' && !flag)
+		if (str[i] == '$' && !flag)
 		{
 			i++;
-			while (t->value[i] && valid_char(t->value[i]))
+			while (str[i] && valid_char(str[i]))
 				i++;
 			flag = 1;
 		}
-		else if(t->value[i])
-            s[j++] = t->value[i++];
+		else if(str[i])
+            s[j++] = str[i++];
     }
     return (s[j] = '\0', s);
 }
@@ -69,7 +69,7 @@ void    check_var(t_token *t, int i, t_data *d)
     if (valid_var(s, d->env))
         expend_it(t, s, i + 1, d);
     else
-        t->value = delete_invalid_var(t, d);
+        t->value = delete_invalid_var(t->value, d);
 }
 
 void    expending(t_token *t, t_data *d, int quote)
