@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/13 22:09:20 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/13 22:40:14 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ char    *delete_random_quotes(char *s, t_data *d)
     i = 0;
     j = 0;
     len = ft_strlen(s) - quotes_len(s);
+    // printf ("IIIIIIIIIIIIIIIIIIII nooottt  normal -->  %d - %d = %d\n", (int)ft_strlen(s),+ quotes_len(s), len);
     str = ft_malloc(len + 1, d);
     while (s[i])
     {
         if (s[i] == '\'' || s[i] == '\"')
             i++;
-        if (s[i])
+        if (s[i] && s[i] != '\'' && s[i] != '\"')
             str[j++] = s[i++];
     }
     return (str[j] = '\0', str);
@@ -41,6 +42,7 @@ char    *delete_quotes(char *s, t_data *d)
     char    *str;
     char    c;
 
+    // printf ("IIIIIIIIIIIIIIIIIIII   normal\n");
     i = 1;
     j = 0;
     len = ft_strlen(s) - 2;

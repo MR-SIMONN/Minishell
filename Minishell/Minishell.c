@@ -6,12 +6,11 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/13 22:19:22 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/13 22:48:48 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
-
 
 int    read_cmds(t_data *d)
 {
@@ -46,7 +45,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
         {
             d->exit_value = 0;
             signal_stuff();
-            print_tokens(d->token);
+            // print_tokens(d->token);
             // print_cmds(d->cmds);
             // print_envs(d->env);
             execution (&d->env, d->cmds, d);

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/13 21:27:50 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/13 22:30:25 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void    expending(t_token *t, t_data *d, int quote)
     while (t)
     {
         i = 0;
-        if (t->type == VAR || t->type == D_VAR)
+        quote = 0;
+        if (t->type == VAR || t->type == D_VAR || t->type == S_VAR)
         {
             while (t->value[i] && var_count(t->value) > 0)
             {
@@ -88,8 +89,11 @@ void    expending(t_token *t, t_data *d, int quote)
                     i++;
                     quote = 1;
                 }
-                else if (t->value[i] == '\'' && quote)
+                if (t->value[i] == '\'' && quote)
+                {
+                    i++;
                     quote = 0;
+                }
                 else if (t->value[i] && t->value[i] == '$'
                     && is_var(t->value[i + 1]) && !quote)
                     check_var(t, i, d);
