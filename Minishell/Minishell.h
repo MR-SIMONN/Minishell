@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/12 17:28:12 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:25:18 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+#include <fcntl.h>
 #include <sys/wait.h>
 #include <stdbool.h>
 #include <readline/readline.h>
@@ -199,6 +200,7 @@ void    print_strs(char **s);
 //Execution part ; functions :
 // int     execution(t_data *data,t_data *cmds, t_data *d);
 int    execution(t_env **env,t_cmd *cmds, t_data *d);
+int     apply_redirection(t_cmd *cmd, t_data *d);
 int     is_builtin(char *cmd);
 int     execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
 
@@ -226,5 +228,6 @@ void    remove_from_export_lst(t_exp **exp_lst, char *key);
 t_exp   *find_exp_node(t_exp *exp_lst, char *key);
 t_env   *find_env_node(t_env *env_lst, char *key);
 int     is_exported(t_exp *exp_lst, char *key);
+void duping(int saved_stdin, int saved_stdout);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor
