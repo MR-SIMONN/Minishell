@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/13 11:25:18 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/14 14:30:40 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef enum e_token_type
     S_QUOTED,       // a single quoted string
     D_QUOTED,       // a dubble quoted string
     REDIR_WORD,     // a string after a red
+    D_REDIR_WORD,   // a dubble quoted string after a redAdd commentMore actions
+    S_REDIR_WORD,   // a single quoted string after a red
     WORD,           // a normal string
     PIPE,           // |
     REDIRECT_OUT,   // >
@@ -53,6 +55,7 @@ typedef enum e_token_type
 typedef struct s_str
 {
 	char            *s;
+    int             expendable;
 	struct s_str    *next;
 } t_str;
 
@@ -121,6 +124,7 @@ void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
 void    expending(t_token *t, t_data *d, int quote);
+char    *expand_heredoc(char *s, t_data *d);
 int     expended_token_len(t_data *d, char *s, char *key, int i);
 char    *new_expended_token(t_expend_infos  infos);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
@@ -137,9 +141,10 @@ int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s);
 void	make_backup_env(t_env **envs, t_data *d);
 void    get_rid_of_quotes(t_token *t, t_data *d);
+char    *delete_invalid_var(char *str, t_data *d);
 
 //utils functions
-t_str	*new_strnode(char *string, t_data *d);
+t_str	*new_strnode(char *string, t_token *t,  t_data *d);
 void	ft_cmdadd_back(t_cmd **c, t_cmd   *new);
 t_str	*last_str(t_str *p);
 void    ft_error(char *message);
@@ -155,7 +160,7 @@ int     valid_var(char *s, t_env *env);
 char    *var_value(t_env *env, char *key, t_data *d);
 void	ignore_tokens(t_token **head);
 int	    var_count(char *s);
-int	    decrease_len(t_token *t);
+int	    decrease_len(char *s);
 int	    is_var(char c);
 t_env   *new_env(char *s, t_data *d);
 int     valid_key(char c);

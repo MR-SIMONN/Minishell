@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils7.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/05 00:50:08 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/14 14:27:09 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char    *delete_random_quotes(char *s, t_data *d)
     {
         if (s[i] == '\'' || s[i] == '\"')
             i++;
-        if (s[i])
+        if (s[i] && s[i] != '\'' && s[i] != '\"')
             str[j++] = s[i++];
     }
     return (str[j] = '\0', str);

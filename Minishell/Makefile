@@ -20,6 +20,7 @@ parsing_part/parsing/syntax_errors/utils1.c \
 parsing_part/parsing/syntax_errors/utils2.c \
 parsing_part/parsing/syntax_errors/syntax_error.c \
 parsing_part/parsing/expending/expending.c \
+parsing_part/parsing/expending/heredoc.c \
 parsing_part/test_functions/print_tokens.c \
 parsing_part/test_functions/print_cmds.c \
 parsing_part/test_functions/print_envs.c \

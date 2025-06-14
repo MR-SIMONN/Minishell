@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/13 18:12:35 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/14 14:28:34 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ int apply_herdoc(t_str *heredocs, t_data *d)
 				d->line = NULL;
 				break;
 			}
-			// char *exp = expand_heredoc(d->line);
-			// ft_putstr_fd(exp, fd);
-			// ft_putstr_fd("\n", fd);
-    		// store_addr(d->line, d)
+			char *exp = expand_heredoc(d->line, d);
+			ft_putstr_fd(exp, fd);
+			ft_putstr_fd("\n", fd);
+    		store_addr(d->line, d);
 		}
 		current = current->next;
 	}
