@@ -61,9 +61,12 @@ execution/utils/ft_isdigit_pro.c \
 execution/utils/ft_putstr_fd.c \
 execution/utils/ft_lstnew_export.c \
 execution/utils/ft_strjoin.c \
+execution/utils/ft_splits.c \
+execution/utils/exec_helpers.c \
 execution/utils/linked.c \
 execution/utils/exp_env_utils.c \
-execution/dup_redirc.c
+execution/dup_redirc.c \
+execution/path_funs.c 
 
 NAME = minishell
 

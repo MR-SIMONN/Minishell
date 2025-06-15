@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/14 14:30:40 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:32:06 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/stat.h>
 
 # define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
@@ -233,6 +234,15 @@ void    remove_from_export_lst(t_exp **exp_lst, char *key);
 t_exp   *find_exp_node(t_exp *exp_lst, char *key);
 t_env   *find_env_node(t_env *env_lst, char *key);
 int     is_exported(t_exp *exp_lst, char *key);
-void duping(int saved_stdin, int saved_stdout);
+
+//part 2
+char    **get_path(t_env *env, t_data *d);
+char    *get_fullpath(char *path, char *command, t_data *d);
+char	**ft_splits(char *str, char delimiter, t_data *d);
+void    duping(int saved_stdin, int saved_stdout);
+int     permission_denied_error(char *path);
+int     command_not_found_error(char *cmd);
+int     this_is_a_directory(char *path);
+char    *right_path(char **path, t_cmd *cmds, t_data *d);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor
