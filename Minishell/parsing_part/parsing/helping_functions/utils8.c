@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_init.c                                        :+:      :+:    :+:   */
+/*   utils8.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/15 22:41:23 by moel-hai         ###   ########.fr       */
+/*   Created: 2025/06/15 22:21:21 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/06/15 23:58:18 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Minishell.h"
+#include "../../../Minishell.h"
 
-void    set_strcut_values(t_data *d, int i)
+int exit_status(int should_update, int new_status)
 {
-    if (i == 0)
-    {
-        d->line = NULL;
-        d->heap = NULL;
-        d->token = NULL;
-        d->cmds = NULL;
-        d->env = NULL;
-        d->exp = NULL;
-    }
-    else
-    {
-        d->line = NULL;
-        d->heap = NULL;
-        d->token = NULL;
-        d->cmds = NULL;
-    }
+	static int	e;
+
+	if (should_update)
+		e = new_status;
+	return (e);
+}
+void    ambiguous_error(char *str)
+{
+    if (!str)
+        return ;
+    printf ("minihell: $%s: ambiguous redirect\n", str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:47:38 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/12 17:18:34 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:44:29 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char    *var_value(t_env *env, char *key, t_data *d)
 {
     if (key[0] == '?')
-        return (ft_itoa(d->exit_value, d));
+        return (ft_itoa(exit_status(0, 0), d));
     while (env)
     {
         if (!ft_strcmp(key, env->key))

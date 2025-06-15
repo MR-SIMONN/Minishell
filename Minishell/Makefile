@@ -15,6 +15,7 @@ parsing_part/parsing/helping_functions/utils4.c \
 parsing_part/parsing/helping_functions/utils5.c \
 parsing_part/parsing/helping_functions/utils6.c \
 parsing_part/parsing/helping_functions/utils7.c \
+parsing_part/parsing/helping_functions/utils8.c \
 parsing_part/parsing/syntax_errors/invalid_syntax.c \
 parsing_part/parsing/syntax_errors/utils1.c \
 parsing_part/parsing/syntax_errors/utils2.c \
@@ -67,7 +68,7 @@ NAME = minishell
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror -fsanitize=address -g 
 
 DEPS = Minishell.h
 

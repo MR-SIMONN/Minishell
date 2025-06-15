@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/13 22:40:14 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:43:46 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char    *delete_random_quotes(char *s, t_data *d)
     i = 0;
     j = 0;
     len = ft_strlen(s) - quotes_len(s);
-    // printf ("IIIIIIIIIIIIIIIIIIII nooottt  normal -->  %d - %d = %d\n", (int)ft_strlen(s),+ quotes_len(s), len);
     str = ft_malloc(len + 1, d);
     while (s[i])
     {
@@ -42,7 +41,6 @@ char    *delete_quotes(char *s, t_data *d)
     char    *str;
     char    c;
 
-    // printf ("IIIIIIIIIIIIIIIIIIII   normal\n");
     i = 1;
     j = 0;
     len = ft_strlen(s) - 2;
@@ -72,13 +70,14 @@ void    get_rid_of_quotes(t_token *t, t_data *d)
 void	handle_sigint(int sig)
 {
 	(void)sig;
+    exit_status(1, 1);
 	printf ("\n");
-    // rl_replace_line("", 0);
+    rl_replace_line("", 0);
 	rl_on_new_line();   // move readline to new line
 	rl_redisplay(); // redraw prompt
 }
 
-void    signal_stuff()
+void    signal_stuff(void)
 {
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);

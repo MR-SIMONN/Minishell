@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/13 21:28:34 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/15 23:52:08 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
@@ -44,6 +45,7 @@ typedef enum e_token_type
     REDIR_WORD,     // a string after a red
     D_REDIR_WORD,   // a dubble quoted string after a red
     S_REDIR_WORD,   // a single quoted string after a red
+    REDIR_VAR,      // a var infront of a red except heredoc
     WORD,           // a normal string
     PIPE,           // |
     REDIRECT_OUT,   // >
@@ -123,7 +125,7 @@ int     parentheses(char *s);
 void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
-void    expending(t_token *t, t_data *d, int quote);
+int    expending(t_token *t, t_data *d, int quote);
 int     expended_token_len(t_data *d, char *s, char *key, int i);
 char    *new_expended_token(t_expend_infos  infos);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
@@ -141,7 +143,8 @@ int     syntax_error (char *s);
 void	make_backup_env(t_env **envs, t_data *d);
 void    get_rid_of_quotes(t_token *t, t_data *d);
 char    *delete_invalid_var(char *str, t_data *d);
-void    signal_stuff();
+void    ambiguous_error(char *str);
+void    signal_stuff(void);
 
 //utils functions
 t_str	*new_strnode(char *string, t_token *t, t_data *d);
@@ -168,6 +171,7 @@ int     quotes_len (char *s);
 int     is_word(t_token *t);
 char    *delete_quotes(char *s, t_data *d);
 char    *delete_random_quotes(char *s, t_data *d);
+int     exit_status(int should_update, int new_status);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -194,12 +198,6 @@ char	*ft_itoa(int n, t_data *d);
 char    *ft_strchr(const char *s, int c);
 char    *ft_strnstr(const char *haystack, char *needle, size_t len);
 char    *ft_strjoin(char *s1, char *s2, t_data *d);
-
-//testing functions
-void    print_tokens(t_token *head);
-void    print_cmds(t_cmd *cmd);
-void    print_envs(t_env *env);
-void    print_strs(char **s);
 
 
 //Execution part ; functions :
@@ -232,5 +230,14 @@ void    remove_from_export_lst(t_exp **exp_lst, char *key);
 t_exp   *find_exp_node(t_exp *exp_lst, char *key);
 t_env   *find_env_node(t_env *env_lst, char *key);
 int     is_exported(t_exp *exp_lst, char *key);
+
+
+//testing functions
+void    print_tokens(t_token *head);
+void    print_cmds(t_cmd *cmd);
+void    print_envs(t_env *env);
+void    print_strs(char **s);
+char    *get_token_type_name(t_token_type type);
+
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor
