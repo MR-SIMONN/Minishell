@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/16 10:12:58 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:38:18 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,5 +244,25 @@ int     permission_denied_error(char *path);
 int     command_not_found_error(char *cmd);
 int     this_is_a_directory(char *path);
 char    *right_path(char **path, t_cmd *cmds, t_data *d);
+int     setup_redirections(int input_fd, int output_fd);
+int     apply_herdoc(t_str *heredocs, t_data *d);
+int     apply_input_redirection(t_str *infiles);
+int     apply_output_redirection(t_str *outfiles, t_cmd cmds);
+int     apply_heredoc_redirection(t_cmd *cmd, t_data *d);
+int     execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
+				int input_fd, int output_fd);
+int	    execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d);
+int	    setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count);
+void	close_all_pipes(int pipes[][2], int cmd_count);
+void	close_pipes_in_child(int pipes[][2], int cmd_count, int cmd_index);
+int	    create_pipes(int pipes[][2], int cmd_count);
+int	    has_pipeline(t_cmd *cmds);
+int     execute_single_builtin(t_cmd *cmds, t_env **env, t_data *d);
+int	    execute_single_external(t_cmd *cmds, t_env **env, t_data *d);
+int     execute_pipeline(t_env **env, t_cmd *cmds, t_data *d);
+char    **get_env(t_env *env, t_data *d);
+int     count_commands(t_cmd *cmds);
+int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
+				int cmd_count);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

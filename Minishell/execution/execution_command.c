@@ -5,85 +5,101 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 20:43:49 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 11:26:35 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/06/16 13:38:05 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-char **get_env(t_env *env, t_data *d)
+int	count_commands(t_cmd *cmds)
 {
-	t_env	*current;
-	t_env 	*saved_current;
-	char	**envs;
-	int i;
+	int		count;
+	t_cmd	*current;
 
-	current = env;
-	saved_current = current;
-	i = 0;
-	while(current)
+	count = 0;
+	current = cmds;
+	while (current)
 	{
-		i++;
+		count++;
+		if (current->pipe == 0)
+			break ;
 		current = current->next;
 	}
-	envs = ft_malloc(i + 1 * sizeof(char *), d);
-	i = 0;
-	while(saved_current)
-	{
-		envs[i] = ft_strdup(saved_current->both, d);
-		saved_current = saved_current->next;
-	}
-	envs[i] = NULL;
-	return(envs);
+	return (count);
 }
-int execution(t_env **env, t_cmd *cmds, t_data *d)
-{
-	int saved_stdin;
-	int saved_stdout;
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
-	
-	if (apply_redirection(cmds, d) != 0)
-	{
-		duping(saved_stdin,saved_stdout);
-		return (1);
-	}
-	if (is_builtin(cmds->cmd) == 0 && cmds->pipe == 0)
-	{
-		
 
-		if (execute_builtin(cmds->cmd, env, cmds->args, d) != 0)
-		{
-			duping(saved_stdin,saved_stdout);
-			return (1);
-		}
-		duping(saved_stdin,saved_stdout);
-	}
-	else
+static pid_t	fork_and_execute(t_cmd *current, t_env **env, t_data *d,
+					int pipes[][2], int i, int cmd_count)
+{
+	pid_t	pid;
+	int		fds;
+	int		input_fd;
+	int		output_fd;
+
+	pid = fork();
+	if (pid == 0)
 	{
-		char **str = get_path(*env, d);
-		if (!str)
-		{
-    		ft_putstr_fd("minishell: command not found\n", 2);
-   			return (1);
-		}
-		char *path = right_path(str, cmds, d);
-		char **envs = get_env(*env, d);
-		int pid = fork();
-		if(pid == 0)
-		{
-			if(execve(path, cmds->args, envs) != 0)
-			{
-				if(path)
-					perror("execve");
-				exit(1);
-			}
-		}
-		else
-			duping(saved_stdin,saved_stdout);
-		
+		fds = setup_pipe_fds(pipes, i, cmd_count);
+		input_fd = fds >> 16;
+		output_fd = fds & 0xFFFF;
+		close_pipes_in_child(pipes, cmd_count, i);
+		exit(execute_single_cmd(current, env, d, input_fd, output_fd));
 	}
-	duping(saved_stdin,saved_stdout);
-	return (0);
+	else if (pid < 0)
+	{
+		perror("fork");
+		return (-1);
+	}
+	current = current->next;
+	return (pid);
+}
+
+int	wait_for_children(pid_t *pids, int cmd_count)
+{
+	int	i;
+	int	status;
+	int	final_status;
+
+	final_status = 0;
+	i = 0;
+	while (i < cmd_count)
+	{
+		waitpid(pids[i], &status, 0);
+		if (i == cmd_count - 1)
+			final_status = WEXITSTATUS(status);
+		i++;
+	}
+	return (final_status);
+}
+
+int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
+				int cmd_count)
+{
+	int		pipes[cmd_count - 1][2];
+	pid_t	pids[cmd_count];
+	t_cmd	*current;
+	int		i;
+
+	if (create_pipes(pipes, cmd_count) != 0)
+		return (1);
+	current = cmds;
+	i = 0;
+	while (i < cmd_count && current)
+	{
+		pids[i] = fork_and_execute(current, env, d, pipes, i, cmd_count);
+		if (pids[i] == -1)
+			return (1);
+		if (current->pipe == 0)
+			break ;
+		current = current->next;
+		i++;
+	}
+	close_all_pipes(pipes, cmd_count);
+	return (wait_for_children(pids, cmd_count));
+}
+
+int	execution(t_env **env, t_cmd *cmds, t_data *d)
+{
+	return (execute_pipeline(env, cmds, d));
 }

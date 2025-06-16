@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 10:11:17 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:35:32 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,33 @@ char **get_path(t_env *env, t_data *d)
         return (NULL);
         
     return (ft_splits(current->value, ':', d));
+}
+
+char **get_env(t_env *env, t_data *d)
+{
+    t_env *current = env;
+    t_env *saved_current = current;
+    char **envs;
+    int i = 0;
+
+    while(current)
+    {
+        i++;
+        current = current->next;
+    }
+    
+    envs = ft_malloc((i + 1) * sizeof(char *), d);
+    i = 0;
+    
+    while(saved_current)
+    {
+        envs[i] = ft_strdup(saved_current->both, d);
+        saved_current = saved_current->next;
+        i++;
+    }
+    envs[i] = NULL;
+    
+    return envs;
 }
 
 char *get_fullpath(char *path, char *command, t_data *d)

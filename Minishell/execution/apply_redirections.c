@@ -6,11 +6,59 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/14 14:39:04 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:15:00 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+int setup_redirections(int input_fd, int output_fd)
+{
+	if (input_fd != STDIN_FILENO)
+	{
+		if (dup2(input_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2 input");
+			return (1);
+		}
+		close(input_fd);
+	}
+	if (output_fd != STDOUT_FILENO)
+	{
+		if (dup2(output_fd, STDOUT_FILENO) == -1)
+		{
+			perror("dup2 output");
+			return (1);
+		}
+		close(output_fd);
+	}
+	return (0);
+}
+
+int	apply_heredoc_redirection(t_cmd *cmd, t_data *d)
+{
+	int	fd;
+
+	if (cmd->heredoc && cmd->heredoc_del != NULL)
+	{
+		if (apply_herdoc(cmd->heredoc_del, d) != 0)
+			return (1);
+		fd = open(".heredoc", O_RDONLY);
+		if (fd == -1)
+		{
+			perror(".heredoc");
+			return (1);
+		}
+		if (dup2(fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2 heredoc");
+			close(fd);
+			return (1);
+		}
+		close(fd);
+	}
+	return (0);
+}
 
 int apply_output_redirection(t_str *outfiles, t_cmd cmds)
 {
