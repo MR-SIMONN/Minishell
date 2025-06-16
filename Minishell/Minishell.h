@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/12 17:28:12 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:32:06 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+#include <fcntl.h>
 #include <sys/wait.h>
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/stat.h>
 
 # define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
@@ -41,6 +43,8 @@ typedef enum e_token_type
     S_QUOTED,       // a single quoted string
     D_QUOTED,       // a dubble quoted string
     REDIR_WORD,     // a string after a red
+    D_REDIR_WORD,   // a dubble quoted string after a redAdd commentMore actions
+    S_REDIR_WORD,   // a single quoted string after a red
     WORD,           // a normal string
     PIPE,           // |
     REDIRECT_OUT,   // >
@@ -52,6 +56,7 @@ typedef enum e_token_type
 typedef struct s_str
 {
 	char            *s;
+    int             expendable;
 	struct s_str    *next;
 } t_str;
 
@@ -120,6 +125,7 @@ void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
 void    expending(t_token *t, t_data *d, int quote);
+char    *expand_heredoc(char *s, t_data *d);
 int     expended_token_len(t_data *d, char *s, char *key, int i);
 char    *new_expended_token(t_expend_infos  infos);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
@@ -136,9 +142,10 @@ int     handle_syntax_error(t_token *t, t_data *d);
 int     syntax_error (char *s);
 void	make_backup_env(t_env **envs, t_data *d);
 void    get_rid_of_quotes(t_token *t, t_data *d);
+char    *delete_invalid_var(char *str, t_data *d);
 
 //utils functions
-t_str	*new_strnode(char *string, t_data *d);
+t_str	*new_strnode(char *string, t_token *t,  t_data *d);
 void	ft_cmdadd_back(t_cmd **c, t_cmd   *new);
 t_str	*last_str(t_str *p);
 void    ft_error(char *message);
@@ -154,7 +161,7 @@ int     valid_var(char *s, t_env *env);
 char    *var_value(t_env *env, char *key, t_data *d);
 void	ignore_tokens(t_token **head);
 int	    var_count(char *s);
-int	    decrease_len(t_token *t);
+int	    decrease_len(char *s);
 int	    is_var(char c);
 t_env   *new_env(char *s, t_data *d);
 int     valid_key(char c);
@@ -199,6 +206,7 @@ void    print_strs(char **s);
 //Execution part ; functions :
 // int     execution(t_data *data,t_data *cmds, t_data *d);
 int    execution(t_env **env,t_cmd *cmds, t_data *d);
+int     apply_redirection(t_cmd *cmd, t_data *d);
 int     is_builtin(char *cmd);
 int     execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
 
@@ -226,5 +234,15 @@ void    remove_from_export_lst(t_exp **exp_lst, char *key);
 t_exp   *find_exp_node(t_exp *exp_lst, char *key);
 t_env   *find_env_node(t_env *env_lst, char *key);
 int     is_exported(t_exp *exp_lst, char *key);
+
+//part 2
+char    **get_path(t_env *env, t_data *d);
+char    *get_fullpath(char *path, char *command, t_data *d);
+char	**ft_splits(char *str, char delimiter, t_data *d);
+void    duping(int saved_stdin, int saved_stdout);
+int     permission_denied_error(char *path);
+int     command_not_found_error(char *cmd);
+int     this_is_a_directory(char *path);
+char    *right_path(char **path, t_cmd *cmds, t_data *d);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

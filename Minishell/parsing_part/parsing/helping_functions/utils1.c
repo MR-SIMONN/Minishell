@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 22:44:11 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:41:55 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/14 14:16:13 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,16 @@ int empty_cmd(char *s)
     return (0);
 }
 
-t_str	*new_strnode(char *string, t_data *d)
+t_str	*new_strnode(char *string, t_token *t, t_data *d)
 {
 	t_str *p;
 
 	p = (t_str *)ft_malloc(sizeof(t_str), d);
 	p->s = string;
+	p->expendable = 0;
 	p->next = NULL;
+	if (t->type == HEREDOC && t->next->type == REDIR_WORD)
+		p->expendable = 1;
 	return (p);
 }
 

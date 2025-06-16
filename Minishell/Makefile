@@ -20,6 +20,7 @@ parsing_part/parsing/syntax_errors/utils1.c \
 parsing_part/parsing/syntax_errors/utils2.c \
 parsing_part/parsing/syntax_errors/syntax_error.c \
 parsing_part/parsing/expending/expending.c \
+parsing_part/parsing/expending/heredoc.c \
 parsing_part/test_functions/print_tokens.c \
 parsing_part/test_functions/print_cmds.c \
 parsing_part/test_functions/print_envs.c \
@@ -46,6 +47,7 @@ parsing_part/utils/ft_strnstr.c \
 parsing_part/utils/ft_strjoin.c \
 parsing_part/utils/ft_strncmp.c \
 execution/execution_command.c \
+execution/apply_redirections.c \
 execution/builtins/cd.c \
 execution/builtins/echo.c \
 execution/builtins/env.c \
@@ -59,8 +61,12 @@ execution/utils/ft_isdigit_pro.c \
 execution/utils/ft_putstr_fd.c \
 execution/utils/ft_lstnew_export.c \
 execution/utils/ft_strjoin.c \
+execution/utils/ft_splits.c \
+execution/utils/exec_helpers.c \
 execution/utils/linked.c \
-execution/utils/exp_env_utils.c
+execution/utils/exp_env_utils.c \
+execution/dup_redirc.c \
+execution/path_funs.c 
 
 NAME = minishell
 
