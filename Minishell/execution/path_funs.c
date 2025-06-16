@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_funs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/15 22:37:08 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:11:17 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ char *get_fullpath(char *path, char *command, t_data *d)
 
 int	is_directory(char *path)
 {
-	struct stat st;
-
-	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+	DIR *dir = opendir(path);
+	if (dir)
+	{
+		closedir(dir);
 		return (1);
+	}
 	return (0);
 }
 

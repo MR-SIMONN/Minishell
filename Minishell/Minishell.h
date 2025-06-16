@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/15 22:32:06 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:12:58 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <sys/stat.h>
+#include <dirent.h>
 
 # define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
