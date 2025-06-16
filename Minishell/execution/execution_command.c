@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 20:43:49 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 10:36:59 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:26:35 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,20 @@ int execution(t_env **env, t_cmd *cmds, t_data *d)
 		}
 		char *path = right_path(str, cmds, d);
 		char **envs = get_env(*env, d);
-		if(execve(path, cmds->args, envs) != 0)
+		int pid = fork();
+		if(pid == 0)
 		{
-			if(path)
-				perror("execve");
-			exit(1);
+			if(execve(path, cmds->args, envs) != 0)
+			{
+				if(path)
+					perror("execve");
+				exit(1);
+			}
 		}
-		duping(saved_stdin,saved_stdout);
+		else
+			duping(saved_stdin,saved_stdout);
+		
 	}
+	duping(saved_stdin,saved_stdout);
 	return (0);
 }
