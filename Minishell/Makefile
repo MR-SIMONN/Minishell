@@ -48,6 +48,7 @@ parsing_part/utils/ft_strnstr.c \
 parsing_part/utils/ft_strjoin.c \
 parsing_part/utils/ft_strncmp.c \
 execution/execution_command.c \
+execution/apply_redirections.c \
 execution/builtins/cd.c \
 execution/builtins/echo.c \
 execution/builtins/env.c \
@@ -61,14 +62,20 @@ execution/utils/ft_isdigit_pro.c \
 execution/utils/ft_putstr_fd.c \
 execution/utils/ft_lstnew_export.c \
 execution/utils/ft_strjoin.c \
+execution/utils/ft_splits.c \
+execution/utils/exec_helpers.c \
 execution/utils/linked.c \
-execution/utils/exp_env_utils.c
+execution/utils/exp_env_utils.c \
+execution/dup_redirc.c \
+execution/path_funs.c \
+execution/pipes_funs.c \
+execution/exec_funs.c
 
 NAME = minishell
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g 
+FLAGS = -Wall -Wextra -Werror 
 
 DEPS = Minishell.h
 

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/16 00:16:54 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:34:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,32 +77,22 @@ int    check_var(t_token *t, int i, t_data *d)
     return (0);
 }
 
-int expending(t_token *t, t_data *d, int quote)
+int expending(t_token *t, t_data *d, int s_quote, int d_quote)
 {
     int i;
     int ambiguous_probleme;
 
     while (t)
     {
-        i = 0;
-        quote = 0;
-        ambiguous_probleme = 0;
+        (1) && (i = 0, s_quote = 0, ambiguous_probleme = 0);
         if (t->type == VAR || t->type == D_VAR || t->type == S_VAR || t->type == REDIR_VAR)
         {
             while (t->value[i] && var_count(t->value) > 0)
             {
-                if (t->value[i] == '\'' && !quote)
-                {
-                    i++;
-                    quote = 1;
-                }
-                if (t->value[i] == '\'' && quote)
-                {
-                    i++;
-                    quote = 0;
-                }
+                if (t->value[i] == '\'' || t->value[i] == '\"')
+                    quotes_handling(t->value, &i, &s_quote, &d_quote);
                 else if (t->value[i] && t->value[i] == '$'
-                    && is_var(t->value[i + 1]) && !quote)
+                    && is_var(t->value[i + 1]) && !s_quote)
                     ambiguous_probleme = check_var(t, i, d);
                 else
                     i++;

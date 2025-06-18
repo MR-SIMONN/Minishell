@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/15 23:52:08 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/18 02:25:39 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+#include <fcntl.h>
 #include <signal.h>
 #include <sys/wait.h>
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <dirent.h>
 
 # define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
@@ -125,7 +127,8 @@ int     parentheses(char *s);
 void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
-int    expending(t_token *t, t_data *d, int quote);
+int     expending(t_token *t, t_data *d, int s_quote, int d_quote);
+char    *expand_heredoc(char *s, t_data *d);
 int     expended_token_len(t_data *d, char *s, char *key, int i);
 char    *new_expended_token(t_expend_infos  infos);
 void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
@@ -169,9 +172,10 @@ t_env   *new_env(char *s, t_data *d);
 int     valid_key(char c);
 int     quotes_len (char *s);
 int     is_word(t_token *t);
-char    *delete_quotes(char *s, t_data *d);
+char    *delete_quotes(char *s, char c, int flag, t_data *d);
 char    *delete_random_quotes(char *s, t_data *d);
 int     exit_status(int should_update, int new_status);
+void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -199,10 +203,17 @@ char    *ft_strchr(const char *s, int c);
 char    *ft_strnstr(const char *haystack, char *needle, size_t len);
 char    *ft_strjoin(char *s1, char *s2, t_data *d);
 
+//testing functions
+void    print_tokens(t_token *head);
+void    print_cmds(t_cmd *cmd);
+void    print_envs(t_env *env);
+void    print_strs(char **s);
+char    *get_token_type_name(t_token_type type);
 
 //Execution part ; functions :
 // int     execution(t_data *data,t_data *cmds, t_data *d);
 int    execution(t_env **env,t_cmd *cmds, t_data *d);
+int     apply_redirection(t_cmd *cmd, t_data *d);
 int     is_builtin(char *cmd);
 int     execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
 
@@ -231,13 +242,35 @@ t_exp   *find_exp_node(t_exp *exp_lst, char *key);
 t_env   *find_env_node(t_env *env_lst, char *key);
 int     is_exported(t_exp *exp_lst, char *key);
 
-
-//testing functions
-void    print_tokens(t_token *head);
-void    print_cmds(t_cmd *cmd);
-void    print_envs(t_env *env);
-void    print_strs(char **s);
-char    *get_token_type_name(t_token_type type);
+//part 2
+char    **get_path(t_env *env, t_data *d);
+char    *get_fullpath(char *path, char *command, t_data *d);
+char	**ft_splits(char *str, char delimiter, t_data *d);
+void    duping(int saved_stdin, int saved_stdout);
+int     permission_denied_error(char *path);
+int     command_not_found_error(char *cmd);
+int     this_is_a_directory(char *path);
+char    *right_path(char **path, t_cmd *cmds, t_data *d);
+int     setup_redirections(int input_fd, int output_fd);
+int     apply_herdoc(t_str *heredocs, t_data *d);
+int     apply_input_redirection(t_str *infiles);
+int     apply_output_redirection(t_str *outfiles, t_cmd cmds);
+int     apply_heredoc_redirection(t_cmd *cmd, t_data *d);
+int     execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
+				int input_fd, int output_fd);
+int	    execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d);
+int	    setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count);
+void	close_all_pipes(int pipes[][2], int cmd_count);
+void	close_pipes_in_child(int pipes[][2], int cmd_count, int cmd_index);
+int	    create_pipes(int pipes[][2], int cmd_count);
+int	    has_pipeline(t_cmd *cmds);
+int     execute_single_builtin(t_cmd *cmds, t_env **env, t_data *d);
+int	    execute_single_external(t_cmd *cmds, t_env **env, t_data *d);
+int     execute_pipeline(t_env **env, t_cmd *cmds, t_data *d);
+char    **get_env(t_env *env, t_data *d);
+int     count_commands(t_cmd *cmds);
+int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
+				int cmd_count);
 
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

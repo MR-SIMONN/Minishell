@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/16 00:18:18 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:39:07 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ int    read_cmds(t_data *d)
     d->line = readline("-> minishell$ ");
     if (!d->line)
         return (free_everything(d, 0), 0);
-    add_history(d->line);
+    if (d->line[0])
+        add_history(d->line);
     store_addr(d->line, d);
     if (parsing(d))
         return (0);
-    if (expending(d->token, d, 0))
+    if (expending(d->token, d, 0, 0))
         return (0);
     ignore_tokens(&d->token);
     get_rid_of_quotes(d->token, d);
@@ -46,11 +47,11 @@ void    minishell(int ac, char **av, char **env, t_data *d)
         all_good = read_cmds(d);
         if (all_good)
         {
-            exit_status(1, 0);
-            print_tokens(d->token);
+            // print_tokens(d->token);
             // print_cmds(d->cmds);
             // print_envs(d->env);
             execution (&d->env, d->cmds, d);
+            exit_status(1, 0);
         }
     }
 }
