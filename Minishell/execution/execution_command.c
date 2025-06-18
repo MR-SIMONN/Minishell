@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 13:38:05 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:24:50 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static pid_t	fork_and_execute(t_cmd *current, t_env **env, t_data *d,
 					int pipes[][2], int i, int cmd_count)
 {
 	pid_t	pid;
-	int		fds;
+	t_fds	fds;
 	int		input_fd;
 	int		output_fd;
 
@@ -41,8 +41,8 @@ static pid_t	fork_and_execute(t_cmd *current, t_env **env, t_data *d,
 	if (pid == 0)
 	{
 		fds = setup_pipe_fds(pipes, i, cmd_count);
-		input_fd = fds >> 16;
-		output_fd = fds & 0xFFFF;
+		input_fd = fds.input_fd;
+		output_fd = fds.output_fd;
 		close_pipes_in_child(pipes, cmd_count, i);
 		exit(execute_single_cmd(current, env, d, input_fd, output_fd));
 	}

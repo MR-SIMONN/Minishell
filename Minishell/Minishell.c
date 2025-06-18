@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/15 20:52:36 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:28:32 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
         if (all_good)
         {
             d->exit_value = 0;
-            print_tokens(d->token);
+            // print_tokens(d->token);
             // print_cmds(d->cmds);
             // print_envs(d->env);
             execution (&d->env, d->cmds, d);

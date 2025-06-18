@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 13:35:32 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:42:47 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ char *right_path(char **paths, t_cmd *cmds, t_data *d)
     int i = 0;
     char *full_path;
 
+    if (!cmds->cmd)
+        return (NULL);
     if (cmds->cmd[0] == '/' || cmds->cmd[0] == '.')
     {
         if (is_exec(cmds->cmd, cmds, 0) == 0)

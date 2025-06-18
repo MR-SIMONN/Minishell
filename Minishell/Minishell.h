@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/16 13:38:18 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:24:34 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ typedef struct s_str
     int             expendable;
 	struct s_str    *next;
 } t_str;
+
+typedef struct s_fds
+{
+    int input_fd;
+    int output_fd;
+} t_fds;
 
 typedef struct s_env
 {
@@ -252,7 +258,7 @@ int     apply_heredoc_redirection(t_cmd *cmd, t_data *d);
 int     execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
 				int input_fd, int output_fd);
 int	    execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d);
-int	    setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count);
+t_fds	setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count);
 void	close_all_pipes(int pipes[][2], int cmd_count);
 void	close_pipes_in_child(int pipes[][2], int cmd_count, int cmd_index);
 int	    create_pipes(int pipes[][2], int cmd_count);
