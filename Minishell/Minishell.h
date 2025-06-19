@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/18 19:24:34 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:39:48 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ int	    execute_single_external(t_cmd *cmds, t_env **env, t_data *d);
 int     execute_pipeline(t_env **env, t_cmd *cmds, t_data *d);
 char    **get_env(t_env *env, t_data *d);
 int     count_commands(t_cmd *cmds);
-int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
+int     execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 				int cmd_count);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor
