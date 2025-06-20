@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/14 14:17:15 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/15 23:40:00 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,13 @@ void	change_tokens_types(t_token *t)
 	{
 		if (!is_not_redir(t))
 		{
-			if (t->type != HEREDOC
-			&& (t->next->type == WORD || is_quoted(t->next->type)))
-				t->next->type = REDIR_WORD;
+			if (t->type != HEREDOC)
+			{
+				if (t->next->type == WORD || is_quoted(t->next->type))
+					t->next->type = REDIR_WORD;
+				else if (t->next->type == VAR)
+					t->next->type = REDIR_VAR;
+			}
 			else if (t->type == HEREDOC)
 			{
 				if (t->next->type == D_VAR || t->next->type == D_QUOTED)
@@ -79,6 +83,7 @@ void	change_tokens_types(t_token *t)
 				else if (t->next->type == VAR || t->next->type == WORD)
 					t->next->type = REDIR_WORD;
 			}
+				
 		}
 		t = t->next;
 	}

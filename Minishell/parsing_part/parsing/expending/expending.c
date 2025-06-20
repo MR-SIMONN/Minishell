@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expending.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/14 14:24:18 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/20 00:35:53 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char    *delete_invalid_var(char *str, t_data *d)
     return (s[j] = '\0', s);
 }
 
-void    check_var(t_token *t, int i, t_data *d)
+int    check_var(t_token *t, int i, t_data *d)
 {
     char    *s;
 
@@ -69,38 +69,38 @@ void    check_var(t_token *t, int i, t_data *d)
     if (valid_var(s, d->env))
         expend_it(t, s, i + 1, d);
     else
+    {
         t->value = delete_invalid_var(t->value, d);
+        if (t->type == REDIR_VAR)
+            return(ambiguous_error(s), 1);
+    }
+    return (0);
 }
 
-void    expending(t_token *t, t_data *d, int quote)
+int expending(t_token *t, t_data *d, int s_quote, int d_quote)
 {
-    int     i;
+    int i;
+    int ambiguous_probleme;
 
     while (t)
     {
-        i = 0;
-        quote = 0;
-        if (t->type == VAR || t->type == D_VAR || t->type == S_VAR)
+        (1) && (i = 0, s_quote = 0, ambiguous_probleme = 0);
+        if (t->type == VAR || t->type == D_VAR || t->type == S_VAR || t->type == REDIR_VAR)
         {
             while (t->value[i] && var_count(t->value) > 0)
             {
-                if (t->value[i] == '\'' && !quote)
-                {
-                    i++;
-                    quote = 1;
-                }
-                if (t->value[i] == '\'' && quote)
-                {
-                    i++;
-                    quote = 0;
-                }
+                if (t->value[i] == '\'' || t->value[i] == '\"')
+                    quotes_handling(t->value, &i, &s_quote, &d_quote);
                 else if (t->value[i] && t->value[i] == '$'
-                    && is_var(t->value[i + 1]) && !quote)
-                    check_var(t, i, d);
+                    && is_var(t->value[i + 1]) && !s_quote)
+                    ambiguous_probleme = check_var(t, i, d);
                 else
                     i++;
+                if (ambiguous_probleme)
+                    return (1);
             }
         }
         t = t->next;
     }
+    return (0);
 }

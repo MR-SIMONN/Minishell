@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/18 19:39:48 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:52:40 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 # ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <sys/wait.h>
 #include <stdbool.h>
 #include <readline/readline.h>
@@ -37,14 +39,15 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    VAR,            // a string contanis a variable
+    VAR,            // a string contains a variable
     S_VAR,          // a single quoted string contanis a variable
     D_VAR,          // a dubble quoted string contanis a variable
     S_QUOTED,       // a single quoted string
     D_QUOTED,       // a dubble quoted string
     REDIR_WORD,     // a string after a red
-    D_REDIR_WORD,   // a dubble quoted string after a redAdd commentMore actions
+    D_REDIR_WORD,   // a dubble quoted string after a red
     S_REDIR_WORD,   // a single quoted string after a red
+    REDIR_VAR,      // a var infront of a red except heredoc
     WORD,           // a normal string
     PIPE,           // |
     REDIRECT_OUT,   // >
@@ -53,10 +56,19 @@ typedef enum e_token_type
     HEREDOC         // <<
 } t_token_type;
 
+typedef enum e_redir_type
+{
+    OUT_FILE,
+    IN_FILE,
+    APPEND_FILE,
+    HERDOC_DEL
+} t_redir_type;
+
 typedef struct s_str
 {
 	char            *s;
     int             expendable;
+    t_redir_type    type;
 	struct s_str    *next;
 } t_str;
 
@@ -91,14 +103,12 @@ typedef struct s_cmd
 {
 	char            *cmd;
 	char            **args;
-	t_str           *infile;
-	t_str           *outfile;
-	int             append;
+    t_str           *files;
 	int             heredoc;
 	t_str           *heredoc_del;
 	int             pipe;
 	struct s_cmd    *next;
-}   t_cmd;// wafen a khay smail hani kolchi bikhir l3a2ila, fach tchof had lcomment hbet lte7t gaa3 ghatl9a comment wahed khor
+}   t_cmd;
 
 typedef struct s_data
 {
@@ -108,7 +118,6 @@ typedef struct s_data
     t_cmd   *cmds;
     t_env   *env;
 	t_exp	*exp;
-    int     exit_value;
     // more data needed tho
 }   t_data;
 
@@ -130,7 +139,7 @@ int     parentheses(char *s);
 void	change_tokens_types(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
-void    expending(t_token *t, t_data *d, int quote);
+int     expending(t_token *t, t_data *d, int s_quote, int d_quote);
 char    *expand_heredoc(char *s, t_data *d);
 int     expended_token_len(t_data *d, char *s, char *key, int i);
 char    *new_expended_token(t_expend_infos  infos);
@@ -149,6 +158,8 @@ int     syntax_error (char *s);
 void	make_backup_env(t_env **envs, t_data *d);
 void    get_rid_of_quotes(t_token *t, t_data *d);
 char    *delete_invalid_var(char *str, t_data *d);
+void    ambiguous_error(char *str);
+void    signal_stuff(void);
 
 //utils functions
 t_str	*new_strnode(char *string, t_token *t,  t_data *d);
@@ -173,8 +184,9 @@ t_env   *new_env(char *s, t_data *d);
 int     valid_key(char c);
 int     quotes_len (char *s);
 int     is_word(t_token *t);
-char    *delete_quotes(char *s, t_data *d);
-char    *delete_random_quotes(char *s, t_data *d);
+char    *delete_quotes(char *s, char c, int flag, t_data *d);
+int     exit_status(int should_update, int new_status);
+void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -212,7 +224,7 @@ void    print_strs(char **s);
 //Execution part ; functions :
 // int     execution(t_data *data,t_data *cmds, t_data *d);
 int    execution(t_env **env,t_cmd *cmds, t_data *d);
-int     apply_redirection(t_cmd *cmd, t_data *d);
+
 int     is_builtin(char *cmd);
 int     execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
 
@@ -253,7 +265,7 @@ char    *right_path(char **path, t_cmd *cmds, t_data *d);
 int     setup_redirections(int input_fd, int output_fd);
 int     apply_herdoc(t_str *heredocs, t_data *d);
 int     apply_input_redirection(t_str *infiles);
-int     apply_output_redirection(t_str *outfiles, t_cmd cmds);
+int     apply_output_redirection(t_str *outfiles);
 int     apply_heredoc_redirection(t_cmd *cmd, t_data *d);
 int     execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
 				int input_fd, int output_fd);
@@ -270,5 +282,6 @@ char    **get_env(t_env *env, t_data *d);
 int     count_commands(t_cmd *cmds);
 int     execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 				int cmd_count);
+int	apply_redirections (t_str *files);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

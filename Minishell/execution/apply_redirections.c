@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 13:15:00 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:45:15 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,79 +60,70 @@ int	apply_heredoc_redirection(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
-int apply_output_redirection(t_str *outfiles, t_cmd cmds)
+int apply_output_redirection(t_str *files)
 {
 	int fd;
-	t_str *current;
 
 	fd = -1;
-	current = outfiles;
-	while (current)
-	{
-		if (fd != -1)
-			close(fd);
-
-		if (cmds.append == 0)
-			fd = open(current->s, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else
-			fd = open(current->s, O_WRONLY | O_CREAT | O_APPEND, 0644);
-
-		if (fd == -1)
-		{
-			perror(current->s);
-			return (1);
-		}
-
-		current = current->next;
-	}
-
 	if (fd != -1)
-	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			close(fd);
-			return (1);
-		}
 		close(fd);
+	if (files->type == APPEND_FILE)
+		fd = open(files->s, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else
+		fd = open(files->s, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+	{
+		perror(files->s);
+		return (1);
 	}
-
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{
+		perror("dup2");
+		close(fd);
+		return (1);
+	}
+	close(fd);
 	return (0);
 }
 
-int apply_input_redirection(t_str *infiles)
+int apply_input_redirection(t_str *files)
 {
 	int fd;
-	t_str *current;
-
+	
 	fd = -1;
-	current = infiles;
-	while (current)
-	{
-		if (fd != -1)
-			close(fd);
-
-		fd = open(current->s, O_RDONLY);
-		if (fd == -1)
-		{
-			perror(current->s);
-			return (1);
-		}
-		current = current->next;
-	}
-
 	if (fd != -1)
-	{
-		if (dup2(fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			close(fd);
-			return (1);
-		}
 		close(fd);
+	fd = open(files->s, O_RDONLY);
+	if (fd == -1)
+	{
+		perror(files->s);
+		return (1);
 	}
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		perror("dup2");
+		close(fd);
+		return (1);
+	}
+	close(fd);
 	return (0);
 }
+
+int	apply_redirections (t_str *files)
+{
+	while (files)
+	{
+		if(files->type == APPEND_FILE && apply_output_redirection(files) != 0)
+			return(1);
+		if(files->type == OUT_FILE && apply_output_redirection(files) != 0)
+			return(1);
+		if(files->type == IN_FILE && apply_input_redirection(files) != 0)
+			return(1);
+		files=files->next;
+	}
+	return(0);
+}
+
 int apply_herdoc(t_str *heredocs, t_data *d)
 {
 	t_str *current;
@@ -170,18 +161,5 @@ int apply_herdoc(t_str *heredocs, t_data *d)
 		}
 		current = current->next;
 	}
-	return (0);
-}
-int apply_redirection(t_cmd *cmd, t_data *d)
-{
-	if (cmd->heredoc && cmd->heredoc_del != NULL)
-	{
-		if(apply_herdoc(cmd->heredoc_del, d) != 0)
-			return (1);
-	}
-	if (apply_input_redirection(cmd->infile) != 0)
-		return (1);
-	if (apply_output_redirection(cmd->outfile, *cmd) != 0)
-		return (1);
 	return (0);
 }

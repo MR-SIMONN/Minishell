@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/18 19:24:50 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:09:08 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,18 @@ int	wait_for_children(pid_t *pids, int cmd_count)
 	return (final_status);
 }
 
+void	wait_childrens(pid_t *pids, int i)
+{
+	int j;
+	
+	j = 0;
+	while(j < i)
+	{
+		waitpid(pids[j], NULL, 0);
+		j++;
+	}
+}
+
 int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 				int cmd_count)
 {
@@ -89,7 +101,11 @@ int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 	{
 		pids[i] = fork_and_execute(current, env, d, pipes, i, cmd_count);
 		if (pids[i] == -1)
+		{
+			wait_childrens(pids, i);
+			close_all_pipes(pipes, cmd_count);
 			return (1);
+		}
 		if (current->pipe == 0)
 			break ;
 		current = current->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   making_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/14 14:19:56 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:50:05 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ t_cmd *new_cmd(t_data *d)
     cmd = ft_malloc(sizeof(t_cmd), d);
     cmd->cmd = NULL;
     cmd->args = NULL;
-    cmd->infile = NULL;
-    cmd->outfile = NULL;
-    cmd->append = 0;
+    cmd->files = NULL;
     cmd->heredoc = 0;
     cmd->heredoc_del = NULL;
     cmd->pipe = 0;
@@ -62,23 +60,14 @@ void handle_redir(t_token *t, t_cmd *cmd, t_data *d)
     if (!t || !t->next || !t->next->value)
         return;
     n_t = t->next->value;
-    if (t->type == REDIRECT_IN)
-       stradd_back(&cmd->infile, new_strnode(ft_strdup(n_t, d), t, d));
-    else if (t->type == HEREDOC)
+    if (t->type == HEREDOC)
     {
         stradd_back(&cmd->heredoc_del, new_strnode(ft_strdup(n_t, d), t, d));
         cmd->heredoc = 1;
     }
-    else if (t->type == REDIRECT_OUT)
-    {
-        stradd_back(&cmd->outfile, new_strnode(ft_strdup(n_t, d), t, d));
-        cmd->append = 0;
-    }
-    else if (t->type == APPEND)
-    {
-        stradd_back(&cmd->outfile, new_strnode(ft_strdup(n_t, d), t, d));
-        cmd->append = 1;
-    }
+    else if (t->type == REDIRECT_IN || t->type == REDIRECT_OUT
+        || t->type == APPEND)
+        stradd_back(&cmd->files, new_strnode(ft_strdup(n_t, d), t, d));
 }
 
 void fill_d_cmd(t_cmd **c, t_token *t, t_data *d)

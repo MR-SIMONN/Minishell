@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:30:54 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/14 14:18:36 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:20:16 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,26 @@ int valid_key(char c)
 
 int quotes_len (char *s)
 {
-	int	i;
-	int	len;
+	int		i;
+	char	c;
+	int		flag;
+	int		len;
 
 	i = 0;
 	len = 0;
+	flag = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'' || s[i] == '\"')
-			len++;
+		if ((s[i] == '\'' || s[i] == '\"') && !flag)
+		{
+			c = s[i];
+			flag = 1;
+		}
+		else if (s[i] == c && flag)
+		{
+			flag = 0;
+			len += 2;
+		}
 		i++;
 	}
 	return (len);
