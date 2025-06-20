@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 13:15:00 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:58:39 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,9 @@ int apply_herdoc(t_str *heredocs, t_data *d)
 	t_str *current;
 	int fd;
 	char *exp;
-
 	current = heredocs;
 	unlink(".heredoc");
+	
 	while(current)
 	{
 		fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -170,18 +170,5 @@ int apply_herdoc(t_str *heredocs, t_data *d)
 		}
 		current = current->next;
 	}
-	return (0);
-}
-int apply_redirection(t_cmd *cmd, t_data *d)
-{
-	if (cmd->heredoc && cmd->heredoc_del != NULL)
-	{
-		if(apply_herdoc(cmd->heredoc_del, d) != 0)
-			return (1);
-	}
-	if (apply_input_redirection(cmd->infile) != 0)
-		return (1);
-	if (apply_output_redirection(cmd->outfile, *cmd) != 0)
-		return (1);
 	return (0);
 }

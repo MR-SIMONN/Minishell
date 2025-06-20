@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 22:44:11 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/13 21:11:42 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:51:37 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ t_str	*new_strnode(char *string, t_token *t, t_data *d)
 	p->s = string;
 	p->expendable = 0;
 	p->next = NULL;
+	if (t->type == REDIRECT_IN)
+		p->type = IN_FILE;
+	else if (t->type == REDIRECT_OUT)
+		p->type = OUT_FILE;
+	else if (t->type == APPEND)
+		p->type = APPEND_FILE;
+	else if (t->type == HEREDOC)
+		p->type = HERDOC_DEL;
 	if (t->type == HEREDOC && t->next->type == REDIR_WORD)
 		p->expendable = 1;
 	return (p);

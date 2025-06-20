@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/18 02:25:39 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:51:19 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    VAR,            // a string contanis a variable
+    VAR,            // a string contains a variable
     S_VAR,          // a single quoted string contanis a variable
     D_VAR,          // a dubble quoted string contanis a variable
     S_QUOTED,       // a single quoted string
@@ -56,10 +56,19 @@ typedef enum e_token_type
     HEREDOC         // <<
 } t_token_type;
 
+typedef enum e_redir_type
+{
+    OUT_FILE,
+    IN_FILE,
+    APPEND_FILE,
+    HERDOC_DEL
+} t_redir_type;
+
 typedef struct s_str
 {
 	char            *s;
     int             expendable;
+    t_redir_type    type;
 	struct s_str    *next;
 } t_str;
 
@@ -88,9 +97,9 @@ typedef struct s_cmd
 {
 	char            *cmd;
 	char            **args;
-	t_str           *infile;
-	t_str           *outfile;
-	int             append;
+	// t_str           *infile;
+	// t_str           *outfile;
+    t_str           *files;
 	int             heredoc;
 	t_str           *heredoc_del;
 	int             pipe;
@@ -173,7 +182,6 @@ int     valid_key(char c);
 int     quotes_len (char *s);
 int     is_word(t_token *t);
 char    *delete_quotes(char *s, char c, int flag, t_data *d);
-char    *delete_random_quotes(char *s, t_data *d);
 int     exit_status(int should_update, int new_status);
 void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote);
 
