@@ -6,20 +6,11 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/24 15:24:37 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:27:35 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
-//input   --> echo -nnnnnnn hello
-//output  --> "hello"
-
-//intput  --> echo -nnnnnnnn -n -n -n hellofriend
-//output  --> "hellofriend"
-
-//input  --> echo -nnnnnnn -n -n -n -nnnn454 hekkiasa
-//output --> "-nnnn454 hekkiasa"
-
 int ft_check_option(char *s)
 {
     int i;

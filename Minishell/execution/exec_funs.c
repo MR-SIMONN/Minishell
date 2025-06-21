@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_funs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 13:39:25 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/21 21:29:45 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ int	execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
 		return (1);
 	if (cmd->heredoc == 0 && setup_redirections(input_fd, output_fd) != 0)
 		return (1);
-	if (cmd->infile && apply_input_redirection(cmd->infile) != 0)
-		return (1);
-	if (cmd->outfile && apply_output_redirection(cmd->outfile, *cmd) != 0)
+	if(cmd->files && apply_redirections(cmd->files) != 0)
 		return (1);
 	if (is_builtin(cmd->cmd) == 0)
 		return (execute_builtin(cmd->cmd, env, cmd->args, d));
@@ -66,12 +64,7 @@ int	execute_single_builtin(t_cmd *cmds, t_env **env, t_data *d)
 		duping(saved_stdin, saved_stdout);
 		return (1);
 	}
-	if (cmds->infile && apply_input_redirection(cmds->infile) != 0)
-	{
-		duping(saved_stdin, saved_stdout);
-		return (1);
-	}
-	if (cmds->outfile && apply_output_redirection(cmds->outfile, *cmds) != 0)
+	if (cmds->files && apply_redirections(cmds->files) != 0)
 	{
 		duping(saved_stdin, saved_stdout);
 		return (1);

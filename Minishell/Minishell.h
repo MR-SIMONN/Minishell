@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/20 17:51:19 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/20 22:38:53 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
+
+
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <unistd.h>
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,6 +78,12 @@ typedef struct s_str
     t_redir_type    type;
 	struct s_str    *next;
 } t_str;
+
+typedef struct s_fds
+{
+    int input_fd;
+    int output_fd;
+} t_fds;
 
 typedef struct s_env
 {
@@ -157,6 +170,7 @@ void    get_rid_of_quotes(t_token *t, t_data *d);
 char    *delete_invalid_var(char *str, t_data *d);
 void    ambiguous_error(char *str);
 void    signal_stuff(void);
+void	handle_sigint(int sig);
 
 //utils functions
 t_str	*new_strnode(char *string, t_token *t, t_data *d);
@@ -262,12 +276,12 @@ char    *right_path(char **path, t_cmd *cmds, t_data *d);
 int     setup_redirections(int input_fd, int output_fd);
 int     apply_herdoc(t_str *heredocs, t_data *d);
 int     apply_input_redirection(t_str *infiles);
-int     apply_output_redirection(t_str *outfiles, t_cmd cmds);
+int     apply_output_redirection(t_str *files);
 int     apply_heredoc_redirection(t_cmd *cmd, t_data *d);
 int     execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
 				int input_fd, int output_fd);
 int	    execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d);
-int	    setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count);
+t_fds	setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count);
 void	close_all_pipes(int pipes[][2], int cmd_count);
 void	close_pipes_in_child(int pipes[][2], int cmd_count, int cmd_index);
 int	    create_pipes(int pipes[][2], int cmd_count);
@@ -279,6 +293,6 @@ char    **get_env(t_env *env, t_data *d);
 int     count_commands(t_cmd *cmds);
 int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 				int cmd_count);
-
+int	apply_redirections (t_str *files);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/25 17:10:49 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:11:22 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ void update_env_var(t_env **env_lst, char *key, char *value, t_data *d)
 
     // If not found, add new
     t_env *new_node = ft_malloc(sizeof(t_env), d);
-    if (!new_node)
-        return;
     new_node->key = ft_strdup(key, d);
     new_node->value = ft_strdup(value, d);
     new_node->next = *env_lst;
@@ -70,7 +68,7 @@ void update_env_cd(t_env **env, t_data *d)
 
 int cd_v(char **args, t_env **env, t_data *d)
 {
-    const char *target_path;
+    char *target_path;
     
     target_path = NULL;
     if (!args[1])
@@ -93,9 +91,7 @@ int cd_v(char **args, t_env **env, t_data *d)
         printf("%s\n", target_path);
     }
     else
-    {
         target_path = args[1];
-    }
 
     if (chdir(target_path) != 0)
     {

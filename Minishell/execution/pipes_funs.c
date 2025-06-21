@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:26:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 13:29:30 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:24:03 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,15 @@ void	close_all_pipes(int pipes[][2], int cmd_count)
 	}
 }
 
-int	setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count)
+t_fds	setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count)
 {
-	int	input_fd;
-	int	output_fd;
+	t_fds	fds;
 
-	input_fd = STDIN_FILENO;
-	output_fd = STDOUT_FILENO;
+	fds.input_fd = STDIN_FILENO;
+	fds.output_fd = STDOUT_FILENO;
 	if (cmd_index > 0)
-		input_fd = pipes[cmd_index - 1][0];
+		fds.input_fd = pipes[cmd_index - 1][0];
 	if (cmd_index < cmd_count - 1)
-		output_fd = pipes[cmd_index][1];
-	return ((input_fd << 16) | output_fd);
+		fds.output_fd = pipes[cmd_index][1];
+	return (fds);
 }

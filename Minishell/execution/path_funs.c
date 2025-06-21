@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_funs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 13:35:32 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:50:00 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ char *right_path(char **paths, t_cmd *cmds, t_data *d)
     int i = 0;
     char *full_path;
 
+    if (!cmds->cmd)
+        return (NULL);
     if (cmds->cmd[0] == '/' || cmds->cmd[0] == '.')
     {
         if (is_exec(cmds->cmd, cmds, 0) == 0)

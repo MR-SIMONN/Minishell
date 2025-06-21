@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/16 13:38:05 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:52:59 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static pid_t	fork_and_execute(t_cmd *current, t_env **env, t_data *d,
 					int pipes[][2], int i, int cmd_count)
 {
 	pid_t	pid;
-	int		fds;
+	t_fds	fds;
 	int		input_fd;
 	int		output_fd;
 
@@ -41,8 +41,8 @@ static pid_t	fork_and_execute(t_cmd *current, t_env **env, t_data *d,
 	if (pid == 0)
 	{
 		fds = setup_pipe_fds(pipes, i, cmd_count);
-		input_fd = fds >> 16;
-		output_fd = fds & 0xFFFF;
+		input_fd = fds.input_fd;
+		output_fd = fds.output_fd;
 		close_pipes_in_child(pipes, cmd_count, i);
 		exit(execute_single_cmd(current, env, d, input_fd, output_fd));
 	}
@@ -73,6 +73,18 @@ int	wait_for_children(pid_t *pids, int cmd_count)
 	return (final_status);
 }
 
+void	wait_childrens(pid_t *pids, int i)
+{
+	int j;
+	
+	j = 0;
+	while(j < i)
+	{
+		waitpid(pids[j], NULL, 0);
+		j++;
+	}
+}
+
 int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 				int cmd_count)
 {
@@ -89,7 +101,11 @@ int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 	{
 		pids[i] = fork_and_execute(current, env, d, pipes, i, cmd_count);
 		if (pids[i] == -1)
+		{
+			wait_childrens(pids, i);
+			close_all_pipes(pipes, cmd_count);
 			return (1);
+		}
 		if (current->pipe == 0)
 			break ;
 		current = current->next;
