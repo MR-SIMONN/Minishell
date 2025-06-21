@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/20 19:21:46 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/21 21:14:32 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int main (int ac, char **av, char **env)
 {
     t_data  data;
 
+    if (!isatty(0) || !isatty(1))
+        return (1);
     // atexit(ff);
     minishell(ac, av, env, &data);
     
