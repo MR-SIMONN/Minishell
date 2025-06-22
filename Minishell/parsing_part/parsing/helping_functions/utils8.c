@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 22:21:21 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/22 01:56:36 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:05:54 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,23 @@ void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote)
     else if (s[*i] == '\"' && *d_quote)
         *d_quote = 0;
 	(*i)++;
+}
+int is_space(char c)
+{
+    return (c == ' ' || c == '\t' || c == '\n'
+    || c == '\v' || c == '\f' || c == '\r');
+}
+
+int ambiguos_detected(char *s)
+{
+    int i;
+
+    i = 0;
+    while (s[i])
+    {
+        if (is_space(s[i]))
+            return (1);
+        i++;
+    }
+    return (0);
 }

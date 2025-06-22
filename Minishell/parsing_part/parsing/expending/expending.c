@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/20 00:35:53 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 22:59:41 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int    check_var(t_token *t, int i, t_data *d)
         if (t->type == REDIR_VAR)
             return(ambiguous_error(s), 1);
     }
+    if (t->type == REDIR_VAR && ambiguos_detected(t->value))
+        return(ambiguous_error(s), 1);
     return (0);
 }
 
@@ -85,7 +87,8 @@ int expending(t_token *t, t_data *d, int s_quote, int d_quote)
     while (t)
     {
         (1) && (i = 0, s_quote = 0, ambiguous_probleme = 0);
-        if (t->type == VAR || t->type == D_VAR || t->type == S_VAR || t->type == REDIR_VAR)
+        if (t->type == VAR || t->type == D_VAR
+        || t->type == S_VAR || t->type == REDIR_VAR)
         {
             while (t->value[i] && var_count(t->value) > 0)
             {

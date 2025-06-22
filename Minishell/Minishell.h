@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/22 19:38:47 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:05:41 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ char    *delete_invalid_var(char *str, t_data *d);
 void    ambiguous_error(char *str);
 void    signal_stuff(void);
 void	handle_sigint(int sig);
+int     ambiguos_detected(char *s);
 
 //utils functions
 t_str	*new_strnode(char *string, t_token *t, t_data *d);

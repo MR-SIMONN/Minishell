@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/22 21:45:39 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:07:29 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
         all_good = read_cmds(d);
         if (all_good)
         {
-            print_tokens(d->token);
+            // print_tokens(d->token);
             // print_cmds(d->cmds);
             // print_envs(d->env);
             exit_status(1, 0);

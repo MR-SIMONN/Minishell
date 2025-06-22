@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/22 21:09:02 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 22:47:07 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void    get_rid_of_quotes(t_token *t, t_data *d)
     (void)d;
     while (t)
     {
-        // printf ("quotes_len --> %d\n", quotes_len(t->value));
         if (quotes_len(t->value) > 1)
             t->value = delete_quotes(t->value, 0, 0, d);
         t = t->next;

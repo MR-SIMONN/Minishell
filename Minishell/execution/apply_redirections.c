@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/22 21:42:33 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:16:33 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,6 @@ int apply_herdoc(t_str *heredocs, t_data *d)
         if(pid == 0)
         {
             signal(SIGINT,signal_herdoc);
-			signal(SIGQUIT, SIG_DFL);
             fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
             if(fd < 0)
                 exit (1);
@@ -192,7 +191,6 @@ int apply_herdoc(t_str *heredocs, t_data *d)
 			tcgetattr(STDIN_FILENO, &tty);
             tty.c_lflag |= (ECHO | ICANON);
             tcsetattr(STDIN_FILENO, TCSANOW, &tty);
-
             if(WIFEXITED(status) == 1 && WEXITSTATUS(status) == 130)
                 return (130);
         }
