@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/22 18:30:16 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 19:29:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,145 +136,66 @@ int	apply_heredoc_redirection(t_cmd *cmd)
 	return (0);
 }
 
+void signal_herdoc(int sig)
+{
+    (void)sig;
+    write(STDOUT_FILENO, "\n", 1);
+    exit(130);
+}
 int apply_herdoc(t_str *heredocs, t_data *d)
 {
-	t_str *current;
-	int fd = -1;
-	char *exp;
+	struct termios  tty;
+    t_str *current;
+    int fd = 0;
+    char *exp;
+    current = heredocs;
+    unlink(".heredoc");
+    while(current)
+    {
+        signal(SIGINT,SIG_IGN);
+        int pid = fork();
+        int status ;
+        if(pid == 0)
+        {
+            signal(SIGINT,signal_herdoc);
+			signal(SIGQUIT, SIG_DFL);
+            fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
+            if(fd < 0)
+                exit (1);
+        	while(1)
+        	{
+            	d->line = readline(">");
+            	if (!d->line)
+                	break;
+            	if(ft_strcmp(current->s, d->line) == 0)
+            	{
+                	free(d->line);
+                	d->line = NULL;
+                	break;
+            	}
+            	if(current->expendable != 0)
+                	exp = expand_heredoc(d->line, d);
+            	else
+                	exp = d->line;
+            	ft_putstr_fd(exp, fd);
+            	ft_putstr_fd("\n", fd);
+            	store_addr(d->line, d);
+        	}
+        	close (fd);
+        	exit(0);
+        }
+        else
+        {
+            waitpid(pid,&status,0);
+            signal(SIGINT,handle_sigint);
+			tcgetattr(STDIN_FILENO, &tty);
+            tty.c_lflag |= (ECHO | ICANON);
+            tcsetattr(STDIN_FILENO, TCSANOW, &tty);
 
-	current = heredocs;
-	unlink(".heredoc");
-	while(current)
-	{
-		if (fd >= 0)
-			close(fd);
-		fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if(fd < 0)
-		{
-			if (fd >= 0)
-				close(fd);
-			return (1);
-		}
-		
-		while(1)
-		{
-			d->line = readline(">");
-    		if (!d->line)
-				break;
-			if(ft_strcmp(current->s, d->line) == 0)
-			{
-				free(d->line);
-				d->line = NULL;
-				break;
-			}
-			if(current->expendable != 0)
-			{
-				exp = expand_heredoc(d->line, d);
-				ft_putstr_fd(exp, fd);
-				ft_putstr_fd("\n", fd);
-				if (exp != d->line)
-					free(exp);
-			}
-			else
-			{
-				ft_putstr_fd(d->line, fd);
-				ft_putstr_fd("\n", fd);
-			}
-			free(d->line);
-			d->line = NULL;
-		}
-		current = current->next;
-	}
-	return (0);
+            if(WIFEXITED(status) == 1 && WEXITSTATUS(status) == 130)
+                return (130);
+        }
+        current = current->next;
+    }
+    return (0);
 }
-
-// void signal_herdoc(int sig)
-// {
-//     (void)sig;
-//     printf("\n");
-//     exit(130);
-// }
-
-// int apply_herdoc(t_str *heredocs, t_data *d)
-// {
-//     t_str *current;
-//     int fd = -1;
-//     char *exp;
-    
-//     current = heredocs;
-//     unlink(".heredoc");
-    
-//     while(current)
-//     {
-//         if (fd >= 0)
-//             close(fd);
-//         void (*original_sigint)(int) = signal(SIGINT, SIG_IGN);
-        
-//         int pid = fork();
-//         int status;
-        
-//         if(pid == 0)
-//         {
-//             signal(SIGINT, signal_herdoc);
-            
-//             fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
-//             if(fd < 0)
-//             {
-//                 perror("open .heredoc");
-//                 exit(1);
-//             }
-
-//             while(1)
-//             {
-//                 d->line = readline(">");
-//                 if (!d->line)
-//                     break;
-//                 if(ft_strcmp(current->s, d->line) == 0)
-//                 {
-//                     free(d->line);
-//                     d->line = NULL;
-//                     break;
-//                 }
-//                 if(current->expendable != 0)
-//                 {
-//                     exp = expand_heredoc(d->line, d);
-//                     ft_putstr_fd(exp, fd);
-//                     ft_putstr_fd("\n", fd);
-//                     if (exp != d->line)
-//                         free(exp);
-//                 }
-//                 else
-//                 {
-//                     ft_putstr_fd(d->line, fd);
-//                     ft_putstr_fd("\n", fd);
-//                 }
-//                 free(d->line);
-//                 d->line = NULL;
-//             }
-//             close(fd);
-//             exit(0);
-//         }
-//         else if (pid > 0)
-//         {
-//             waitpid(pid, &status, 0);
-//             signal(SIGINT, original_sigint);
-//             if(WIFEXITED(status) && WEXITSTATUS(status) == 130)
-//             {
-//                 return (130);
-//             }
-//             else if(WIFSIGNALED(status))
-//             {
-//                 return (130);
-//             }
-//         }
-//         else
-//         {
-//             perror("fork");
-//             return (1);
-//         }
-        
-//         current = current->next;
-//     }
-    
-//     return (0);
-// }

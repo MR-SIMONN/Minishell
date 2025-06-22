@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/22 18:25:01 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 19:38:47 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <unistd.h>
-
-
+#include <termios.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
