@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/20 18:52:40 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/22 14:21:09 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,8 @@ int     setup_redirections(int input_fd, int output_fd);
 int     apply_herdoc(t_str *heredocs, t_data *d);
 int     apply_input_redirection(t_str *infiles);
 int     apply_output_redirection(t_str *outfiles);
-int     apply_heredoc_redirection(t_cmd *cmd, t_data *d);
+int     apply_heredoc_redirection(t_cmd *cmd);
+int     process_heredocs_before_fork(t_cmd *cmds, t_data *d);
 int     execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
 				int input_fd, int output_fd);
 int	    execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d);

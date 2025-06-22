@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/20 18:23:52 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/22 14:21:22 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d)
 int	execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
 				int input_fd, int output_fd)
 {
-	if (apply_heredoc_redirection(cmd, d) != 0)
+	if (apply_heredoc_redirection(cmd) != 0)
 		return (1);
 	if (cmd->heredoc == 0 && setup_redirections(input_fd, output_fd) != 0)
 		return (1);
@@ -59,7 +59,7 @@ int	execute_single_builtin(t_cmd *cmds, t_env **env, t_data *d)
 
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-	if (apply_heredoc_redirection(cmds, d) != 0)
+	if (apply_heredoc_redirection(cmds) != 0)
 	{
 		duping(saved_stdin, saved_stdout);
 		return (1);
@@ -100,6 +100,8 @@ int	execute_pipeline(t_env **env, t_cmd *cmds, t_data *d)
 
 	if (!cmds)
 		return (0);
+	if (process_heredocs_before_fork(cmds, d) != 0)
+        return (1);
 	if (!has_pipeline(cmds))
 	{
 		if (is_builtin(cmds->cmd) == 0)
