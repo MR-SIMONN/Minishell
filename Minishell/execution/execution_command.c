@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/20 23:52:59 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 14:10:32 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static pid_t	fork_and_execute(t_cmd *current, t_env **env, t_data *d,
 	t_fds	fds;
 	int		input_fd;
 	int		output_fd;
-
+	
 	pid = fork();
 	if (pid == 0)
 	{
