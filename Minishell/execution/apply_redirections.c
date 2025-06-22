@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/22 19:29:58 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 21:42:33 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int	apply_heredoc_redirection(t_cmd *cmd)
 void signal_herdoc(int sig)
 {
     (void)sig;
+	exit_status(1, 1);
     write(STDOUT_FILENO, "\n", 1);
     exit(130);
 }
