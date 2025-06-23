@@ -41,6 +41,7 @@ t_token_type	one_symbol_type(char c)
 		return (REDIRECT_OUT);
 	else if (c == '<')
 		return (REDIRECT_IN);
+	return (WORD);
 }
 
 t_token_type	token_type(char *s, int quote)
