@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/22 14:10:32 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:35:05 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,9 @@ int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 
 int	execution(t_env **env, t_cmd *cmds, t_data *d)
 {
-	return (execute_pipeline(env, cmds, d));
+	struct termios  tty;
+	tcgetattr(STDIN_FILENO, &tty);
+	int i = execute_pipeline(env, cmds, d);
+	tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+	return (i);
 }

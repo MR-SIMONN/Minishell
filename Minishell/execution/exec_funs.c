@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_funs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/22 14:21:22 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:18:47 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ int	execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d)
 	char	*path;
 	char	**envs;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL);
 	paths = get_path(*env, d);
 	if (!paths)
 	{

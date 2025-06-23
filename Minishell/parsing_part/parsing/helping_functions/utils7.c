@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 01:30:01 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:44:50 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,4 @@ void	get_rid_of_quotes(t_token *t, t_data *d)
 	}
 }
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	exit_status(1, 1);
-	printf ("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
 
-void	signal_stuff(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
