@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/23 17:25:41 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:11:27 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int apply_herdoc(t_str *heredocs, t_data *d)
             tty.c_lflag |= ECHO;
             tcsetattr(STDIN_FILENO, TCSANOW, &tty);
             if(WIFEXITED(status) == 1 && WEXITSTATUS(status) == 130)
-                return (130);
+                return (exit_status(1, 1), 130);
         }
         current = current->next;
     }
