@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/22 23:16:33 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:34:32 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int apply_herdoc(t_str *heredocs, t_data *d)
         signal(SIGINT,SIG_IGN);
         int pid = fork();
         int status ;
-        if(pid == 0)
+		if(pid == 0)
         {
             signal(SIGINT,signal_herdoc);
             fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);

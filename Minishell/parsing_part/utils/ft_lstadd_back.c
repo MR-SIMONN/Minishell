@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../Minishell.h"
 
 void	ft_lstadd_back(t_token **lst, t_token *new)

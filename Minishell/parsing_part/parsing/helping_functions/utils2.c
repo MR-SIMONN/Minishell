@@ -6,49 +6,48 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/15 23:40:00 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 01:13:49 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Minishell.h"
 
-int is_not_redir(t_token *t)
+int	is_not_redir(t_token *t)
 {
 	if (!t)
 		return (1);
 	if (t->type != REDIRECT_IN
-            && t->type != REDIRECT_OUT
-            && t->type != APPEND
-            && t->type != HEREDOC)
-		{
-			return (1);
-		}
+		&& t->type != REDIRECT_OUT
+		&& t->type != APPEND
+		&& t->type != HEREDOC)
+	{
+		return (1);
+	}
 	return (0);
 }
 
-void copy_args(char **args, t_token *t, t_data *d)
+void	copy_args(char **args, t_token *t, t_data *d)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	while (t && t->type != PIPE)
 	{
-        if (is_word(t))
+		if (is_word(t))
 			args[i++] = ft_strdup(t->value, d);
 		t = t->next;
 	}
 	args[i] = NULL;
 }
 
-
-int args_len(t_token *t)
+int	args_len(t_token *t)
 {
-	int 	len;
+	int	len;
 
 	len = 0;
 	while (t && t->type != PIPE)
 	{
-        if (is_word(t))
+		if (is_word(t))
 			len++;
 		t = t->next;
 	}
@@ -61,6 +60,7 @@ int	no_pipeout(char *s, int i)
 		return (0);
 	return (1);
 }
+
 void	change_tokens_types(t_token *t)
 {
 	while (t && t->next)
@@ -83,7 +83,6 @@ void	change_tokens_types(t_token *t)
 				else if (t->next->type == VAR || t->next->type == WORD)
 					t->next->type = REDIR_WORD;
 			}
-				
 		}
 		t = t->next;
 	}

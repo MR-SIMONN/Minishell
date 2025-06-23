@@ -12,22 +12,22 @@
 
 #include "../../Minishell.h"
 
-void    set_strcut_values(t_data *d, int i)
+void	set_strcut_values(t_data *d, int i)
 {
-    if (i == 0)
-    {
-        d->line = NULL;
-        d->heap = NULL;
-        d->token = NULL;
-        d->cmds = NULL;
-        d->env = NULL;
-        d->exp = NULL;
-    }
-    else
-    {
-        d->line = NULL;
-        d->heap = NULL;
-        d->token = NULL;
-        d->cmds = NULL;
-    }
+	if (i == 0)
+	{
+		d->line = NULL;
+		d->heap = NULL;
+		d->token = NULL;
+		d->cmds = NULL;
+		d->env = NULL;
+		d->exp = NULL;
+	}
+	else
+	{
+		d->line = NULL;
+		d->heap = NULL;
+		d->token = NULL;
+		d->cmds = NULL;
+	}
 }

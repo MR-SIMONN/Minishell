@@ -6,28 +6,28 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 22:44:11 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/20 17:51:37 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 01:11:15 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Minishell.h"
 
-int empty_cmd(char *s)
+int	empty_cmd(char *s)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    skip_it(s, &i, ' ');
+	i = 0;
+	skip_it(s, &i, ' ');
 	if (s[i] == '|')
 		return (syntax_error("syntax error"));
-    if (!s[i] || (s[i] == ':' && !s[i + 1]))
-        return (1);
-    return (0);
+	if (!s[i] || (s[i] == ':' && !s[i + 1]))
+		return (1);
+	return (0);
 }
 
 t_str	*new_strnode(char *string, t_token *t, t_data *d)
 {
-	t_str *p;
+	t_str	*p;
 
 	p = (t_str *)ft_malloc(sizeof(t_str), d);
 	p->s = string;
@@ -64,7 +64,7 @@ t_cmd	*last_cmd(t_cmd *lst)
 	return (lst);
 }
 
-void	ft_cmdadd_back(t_cmd **c, t_cmd   *new)
+void	ft_cmdadd_back(t_cmd **c, t_cmd *new)
 {
 	t_cmd	*p;
 
@@ -78,4 +78,3 @@ void	ft_cmdadd_back(t_cmd **c, t_cmd   *new)
 	p = last_cmd(*c);
 	p->next = new;
 }
-

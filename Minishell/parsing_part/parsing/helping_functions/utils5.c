@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/13 21:23:21 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 01:21:48 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	ignore_tokens(t_token **head)
 	t_token	*curr;
 	t_token	*prev;
 
-    curr = *head;
-    prev = NULL;
+	curr = *head;
+	prev = NULL;
 	while (curr)
 	{
 		if (curr->value && emty_token(curr->value, curr->type))
@@ -47,6 +47,7 @@ void	ignore_tokens(t_token **head)
 		}
 	}
 }
+
 int	var_count(char *s)
 {
 	int	i;
@@ -57,7 +58,7 @@ int	var_count(char *s)
 	while (s[i])
 	{
 		if (s[i] == '$' && is_var(s[i + 1]))
-				len++;
+			len++;
 		i++;
 	}
 	return (len);

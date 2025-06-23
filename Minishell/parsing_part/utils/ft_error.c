@@ -12,8 +12,8 @@
 
 #include "../../Minishell.h"
 
-void ft_error(char *message)
+void	ft_error(char *message)
 {
-    printf ("%s", message);
-    exit(EXIT_FAILURE);
+	printf ("%s", message);
+	exit(EXIT_FAILURE);
 }

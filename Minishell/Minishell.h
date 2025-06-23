@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/22 23:05:41 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:53:32 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,6 @@ int     ft_isalnum(int c);
 char	*ft_itoa(int n, t_data *d);
 char    *ft_strchr(const char *s, int c);
 char    *ft_strnstr(const char *haystack, char *needle, size_t len);
-char    *ft_strjoin(char *s1, char *s2, t_data *d);
 
 //testing functions
 void    print_tokens(t_token *head);
@@ -235,7 +234,6 @@ char    *get_token_type_name(t_token_type type);
 //Execution part ; functions :
 // int     execution(t_data *data,t_data *cmds, t_data *d);
 int    execution(t_env **env,t_cmd *cmds, t_data *d);
-int     apply_redirection(t_cmd *cmd, t_data *d);
 int     is_builtin(char *cmd);
 int     execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
 
