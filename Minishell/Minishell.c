@@ -6,32 +6,27 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 18:24:40 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/24 01:29:08 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-int gv_sig ;
+int g_sig ;
 
 void	handle_sigint(int sig)
 {
-	if (gv_sig == 1)
-	{
-		printf("\n");
-		return;
-	}
 	(void)sig;
 	exit_status(1, 1);
 	printf ("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	rl_redisplay();
+	if(g_sig != 1)
+		rl_redisplay();
 }
 
 void	signal_stuff(void)
 {
-	signal(SIGTSTP, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -59,7 +54,7 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 	int	all_good;
 
 	all_good = 0;
-	gv_sig = 0;
+	g_sig = 0;
 	(void)ac;
 	(void)av;
 	set_strcut_values(d, 0);
@@ -73,13 +68,12 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 		
 		if (all_good)
 		{
-			// print_tokens(d->token);
-			// print_cmds(d->cmds);
+			print_tokens(d->token);
+			print_cmds(d->cmds);
 			// print_envs(d->env);
-			gv_sig = 1;
+			g_sig = 1;
 			exit_status(1, 0);
 			execution (&d->env, d->cmds, d);
-			gv_sig = 0;
 		}
 	}
 }

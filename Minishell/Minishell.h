@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/22 23:53:32 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/24 02:29:04 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
+    EXPENDED,       // a variable have been expanded successfully
     VAR,            // a string contains a variable
     S_VAR,          // a single quoted string contanis a variable
     D_VAR,          // a dubble quoted string contanis a variable
@@ -170,7 +171,7 @@ char    *delete_invalid_var(char *str, t_data *d);
 void    ambiguous_error(char *str);
 void    signal_stuff(void);
 void	handle_sigint(int sig);
-int     ambiguos_detected(char *s);
+void	split_to_toknes(t_token **t, t_data *d);
 
 //utils functions
 t_str	*new_strnode(char *string, t_token *t, t_data *d);
@@ -198,6 +199,9 @@ int     is_word(t_token *t);
 char    *delete_quotes(char *s, char c, int flag, t_data *d);
 int     exit_status(int should_update, int new_status);
 void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote);
+int     space_exists(char *s);
+int	    is_space(char c);
+void	skip_spaces(char *s, int *i);
 
 //garbage collector functions
 void	free_everything(t_data *data, int i);
@@ -212,7 +216,7 @@ int    ft_strncmp(const char *s1, char *s2, size_t ncmp);
 char	*ft_strdup(char *s1, t_data *d);
 size_t  ft_strlen (char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len, t_data *data);
-char	**ft_split(char *s, char c, t_data *d);
+char	**ft_split(char *s, t_data *d);
 void	ft_lstadd_back(t_token **lst, t_token *new);
 t_token *ft_lstnew(char *content, t_data *d, int quote);
 t_token	*ft_lstlast(t_token *lst);

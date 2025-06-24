@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:30:32 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/24 02:19:35 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	expend_it(t_token *t, char *key, int index, t_data *d)
 	infos.key = key;
 	infos.len = expended_token_len(d, t->value, key, index);
 	t->value = new_expended_token(infos);
+	if (t->type != REDIR_VAR)
+		t->type = EXPENDED;
 }
 
 char	*delete_invalid_var(char *str, t_data *d)
@@ -60,21 +62,23 @@ char	*delete_invalid_var(char *str, t_data *d)
 	return (s[j] = '\0', s);
 }
 
-int	check_var(t_token *t, int i, t_data *d)
+int	check_var(t_token **t, int i, t_data *d)
 {
 	char	*s;
 
-	s = copy_var_name(t->value, i + 1, d);
+	s = copy_var_name((*t)->value, i + 1, d);
 	if (valid_var(s, d->env))
-		expend_it(t, s, i + 1, d);
+		expend_it(*t, s, i + 1, d);
 	else
 	{
-		t->value = delete_invalid_var(t->value, d);
-		if (t->type == REDIR_VAR)
+		(*t)->value = delete_invalid_var((*t)->value, d);
+		if ((*t)->type == REDIR_VAR)
 			return (ambiguous_error(s), 1);
 	}
-	if (t->type == REDIR_VAR && ambiguos_detected(t->value))
+	if ((*t)->type == REDIR_VAR && space_exists((*t)->value))
 		return (ambiguous_error(s), 1);
+	if ((*t)->type == EXPENDED && space_exists((*t)->value))
+		split_to_toknes(t, d);
 	return (0);
 }
 
@@ -95,7 +99,7 @@ int	expending(t_token *t, t_data *d, int s_quote, int d_quote)
 					quotes_handling(t->value, &i, &s_quote, &d_quote);
 				else if (t->value[i] && t->value[i] == '$'
 					&& is_var(t->value[i + 1]) && !s_quote)
-					ambiguous_probleme = check_var(t, i, d);
+					ambiguous_probleme = check_var(&t, i, d);
 				else
 					i++;
 				if (ambiguous_probleme)

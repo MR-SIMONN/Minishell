@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 22:21:21 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 01:32:22 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/24 02:30:28 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	is_space(char c)
 		|| c == '\v' || c == '\f' || c == '\r');
 }
 
-int	ambiguos_detected(char *s)
+int	space_exists(char *s)
 {
 	int	i;
 

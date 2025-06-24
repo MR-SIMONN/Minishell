@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 01:21:48 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/24 01:22:59 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	ignore_tokens(t_token **head)
 
 	curr = *head;
 	prev = NULL;
-	while (curr)
+	while (curr && curr->value)
 	{
-		if (curr->value && emty_token(curr->value, curr->type))
+		if (emty_token(curr->value, curr->type))
 		{
 			if (!prev)
 				*head = curr->next;

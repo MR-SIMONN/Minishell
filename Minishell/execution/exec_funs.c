@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/23 18:18:47 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 23:17:18 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	signal(SIGTSTP, SIG_DFL);
 	paths = get_path(*env, d);
 	if (!paths)
 	{

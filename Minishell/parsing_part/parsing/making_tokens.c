@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:43:54 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/24 02:30:42 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ void	ft_lst_tokens(t_data *d)
 
 	len = extra_strlen(d->line);
 	str = ft_strsdup(d->line, len, d);
-	tokens = ft_split(str, ' ', d);
+	tokens = ft_split(str, d);
 	make_tokens(tokens, &d->token, d);
 }
