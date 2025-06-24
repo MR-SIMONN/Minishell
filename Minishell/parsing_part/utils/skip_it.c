@@ -12,8 +12,8 @@
 
 #include "../../Minishell.h"
 
-void    skip_it(char *s, int *i, char c)
+void	skip_it(char *s, int *i, char c)
 {
-    while (s[*i] && s[*i] == c)
-        (*i)++;
+	while (s[*i] && s[*i] == c)
+		(*i)++;
 }

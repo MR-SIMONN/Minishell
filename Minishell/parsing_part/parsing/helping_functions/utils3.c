@@ -6,15 +6,15 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:41:57 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/20 16:52:57 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 01:16:07 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../../Minishell.h"
+#include "../../../Minishell.h"
 
 int	valid_char(char c)
 {
-	return (ft_isalnum(c) || c == '_');//returns 1 if alphanum otherwis it returns 0
+	return (ft_isalnum(c) || c == '_');
 }
 
 t_env	*last_env(t_env *lst)
@@ -41,18 +41,18 @@ void	env_add_back(t_env **envs, t_env *new)
 	p->next = new;
 }
 
-int is_quoted(t_token_type type)
+int	is_quoted(t_token_type type)
 {
-    return (type == D_QUOTED || type == S_QUOTED);
+	return (type == D_QUOTED || type == S_QUOTED);
 }
 
-void    quotes_stuff(char *s, int i, char *c, int *quotes)
+void	quotes_stuff(char *s, int i, char *c, int *quotes)
 {
-    if ((s[i] == '\'' || s[i] == '\"') && !*quotes)
-    {
-        *c = s[i];
-        *quotes = 1;
-    }
-    else if (s[i] == *c && *quotes)
-        *quotes = 0;
+	if ((s[i] == '\'' || s[i] == '\"') && !*quotes)
+	{
+		*c = s[i];
+		*quotes = 1;
+	}
+	else if (s[i] == *c && *quotes)
+		*quotes = 0;
 }

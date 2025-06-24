@@ -6,11 +6,35 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/21 21:14:32 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:12:53 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
+
+int gv_sig ;
+
+void	handle_sigint(int sig)
+{
+	if (gv_sig == 1)
+	{
+		printf("\n");
+		return;
+	}
+	(void)sig;
+	exit_status(1, 1);
+	printf ("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	signal_stuff(void)
+{
+	signal(SIGTSTP, SIG_IGN);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 int    read_cmds(t_data *d)
 {
@@ -34,6 +58,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
     int all_good;
  
     all_good = 0;
+    gv_sig = 0;
     (void)ac;
     (void)av;
     set_strcut_values(d, 0);
@@ -50,7 +75,10 @@ void    minishell(int ac, char **av, char **env, t_data *d)
             // print_tokens(d->token);
             // print_cmds(d->cmds);
             // print_envs(d->env);
+            gv_sig = 1;
+			exit_status(1, 0);
             execution (&d->env, d->cmds, d);
+            gv_sig = 0;
         }
     }
 }

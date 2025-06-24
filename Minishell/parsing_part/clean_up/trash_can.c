@@ -6,13 +6,12 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:52:10 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/20 00:36:19 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 00:23:03 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-//this function is to free all the heap allocated memmory that was given to data->heap
 void	clear_trash(t_heap **lst)
 {
 	t_heap	*temp;
@@ -32,10 +31,7 @@ void	clear_trash(t_heap **lst)
 //this function is to free all the heap allocated memmory throughout the program
 void	free_everything(t_data *data, int i)
 {
-	// printf ("freed\n");// just for debuging
 	clear_trash(&data->heap);
-	//from now on anything u allocated u must add it to the struct and free it in this function
-	//including fds :)
 	if (i >= 0)
 	{
 		printf ("exit");

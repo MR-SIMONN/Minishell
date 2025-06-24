@@ -49,6 +49,7 @@ parsing_part/utils/ft_strjoin.c \
 parsing_part/utils/ft_strncmp.c \
 execution/execution_command.c \
 execution/apply_redirections.c \
+execution/apply_redirections_2.c \
 execution/builtins/cd.c \
 execution/builtins/echo.c \
 execution/builtins/env.c \

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:31:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:41:43 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 00:23:18 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	store_addr(char *s, t_data *data)
 	p->next = NULL;
 	ft_lstadd_front(&data->heap, p);
 }
+
 void	*ft_malloc(size_t size, t_data *d)
 {
 	void	*allocated;

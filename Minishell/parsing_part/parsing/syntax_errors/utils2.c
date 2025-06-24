@@ -6,32 +6,32 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 18:31:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/29 18:37:40 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 01:02:24 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Minishell.h"
 
-int parentheses(char *s)
+int	parentheses(char *s)
 {
-    int     i;
-    int     f;
-    char    c;
+	int		i;
+	int		f;
+	char	c;
 
-    i = 0;
-    f = 0;
-    while (s[i])
-    {
-        if ((s[i] == '\'' || s[i] == '\"') && !f)
-        {
-            c = s[i];
-            f = 1;
-        }
-        else if (s[i] == c && f)
-            f = 0;
-        if ((s[i] == '(' || s[i] == ')') && !f)
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	f = 0;
+	while (s[i])
+	{
+		if ((s[i] == '\'' || s[i] == '\"') && !f)
+		{
+			c = s[i];
+			f = 1;
+		}
+		else if (s[i] == c && f)
+			f = 0;
+		if ((s[i] == '(' || s[i] == ')') && !f)
+			return (1);
+		i++;
+	}
+	return (0);
 }

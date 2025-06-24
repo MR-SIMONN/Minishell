@@ -6,14 +6,20 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:54:02 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/25 15:45:38 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:09:05 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-int	is_exported(t_exp *exp_lst, char *key)
+int	is_exported(t_exp *exp_lst, t_env *env_lst, char *key)
 {
+	while (env_lst)
+	{
+		if (ft_strcmp(env_lst->key, key) == 0)
+			return (1);
+		env_lst = env_lst->next;
+	}
 	while (exp_lst)
 	{
 		if (ft_strcmp(exp_lst->value, key) == 0)

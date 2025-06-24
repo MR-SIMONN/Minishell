@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/22 14:21:09 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:14:31 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 # ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <unistd.h>
+#include <termios.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -87,7 +92,7 @@ typedef struct s_env
 } t_env;
 
 typedef struct s_exp
-{ 
+{
 	char            *value; //declare -x {{      a      }} <- this value
 	struct s_exp    *next;
 } t_exp;
@@ -106,6 +111,7 @@ typedef struct s_cmd
     t_str           *files;
 	int             heredoc;
 	t_str           *heredoc_del;
+    char       *heredocfilename;
 	int             pipe;
 	struct s_cmd    *next;
 }   t_cmd;
@@ -160,6 +166,8 @@ void    get_rid_of_quotes(t_token *t, t_data *d);
 char    *delete_invalid_var(char *str, t_data *d);
 void    ambiguous_error(char *str);
 void    signal_stuff(void);
+void	handle_sigint(int sig);
+int     ambiguos_detected(char *s);
 
 //utils functions
 t_str	*new_strnode(char *string, t_token *t,  t_data *d);
@@ -231,7 +239,7 @@ int     execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
 // bulltin funs
 int     cd_v(char **args, t_env **env,t_data *d);
 int     echo_v(char **args);
-void    env_v(t_env *list);
+void    env_v(t_env *list, char **args);
 void    exit_v(char **args);
 int        pwd_v(void);
 int        export_v(t_env **env_lst, char **args, t_data *d);
@@ -251,7 +259,7 @@ void    remove_from_env_lst(t_env **env_lst, char *key);
 void    remove_from_export_lst(t_exp **exp_lst, char *key);
 t_exp   *find_exp_node(t_exp *exp_lst, char *key);
 t_env   *find_env_node(t_env *env_lst, char *key);
-int     is_exported(t_exp *exp_lst, char *key);
+int     is_exported(t_exp *exp_lst, t_env *env_lst, char *key);
 
 //part 2
 char    **get_path(t_env *env, t_data *d);
@@ -263,11 +271,12 @@ int     command_not_found_error(char *cmd);
 int     this_is_a_directory(char *path);
 char    *right_path(char **path, t_cmd *cmds, t_data *d);
 int     setup_redirections(int input_fd, int output_fd);
-int     apply_herdoc(t_str *heredocs, t_data *d);
+int     apply_herdoc(t_cmd *cmd, t_data *d, int index);
 int     apply_input_redirection(t_str *infiles);
 int     apply_output_redirection(t_str *outfiles);
 int     apply_heredoc_redirection(t_cmd *cmd);
 int     process_heredocs_before_fork(t_cmd *cmds, t_data *d);
+void    unlink_all_heredocfiles(t_cmd *cmds);
 int     execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
 				int input_fd, int output_fd);
 int	    execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d);
@@ -283,6 +292,7 @@ char    **get_env(t_env *env, t_data *d);
 int     count_commands(t_cmd *cmds);
 int     execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 				int cmd_count);
-int	apply_redirections (t_str *files);
+int	    apply_redirections (t_str *files);
+int     handling_heredocs(t_cmd *cmd, int input_fd, int output_fd);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

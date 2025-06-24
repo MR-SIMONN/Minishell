@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/22 14:10:32 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/24 12:49:37 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static pid_t	fork_and_execute(t_cmd *current, t_env **env, t_data *d,
 		perror("fork");
 		return (-1);
 	}
-	current = current->next;
 	return (pid);
 }
 
@@ -117,5 +116,9 @@ int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 
 int	execution(t_env **env, t_cmd *cmds, t_data *d)
 {
-	return (execute_pipeline(env, cmds, d));
+	struct termios  tty;
+	tcgetattr(STDIN_FILENO, &tty);
+	int i = execute_pipeline(env, cmds, d);
+	tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+	return (i);
 }

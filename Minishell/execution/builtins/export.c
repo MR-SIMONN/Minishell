@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:46 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/25 15:37:58 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:08:03 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void	handle_assignment(t_env **env_lst, char *arg, t_data *d)
 	t_env	*existing;
 	t_exp	*export_existing;
 	t_env	*new_node;
-
+	
 	eq_pos = 0;
 	while (arg[eq_pos] != '=')
 		eq_pos++;
@@ -125,13 +125,15 @@ static void	handle_assignment(t_env **env_lst, char *arg, t_data *d)
 	}
 }
 
+
+
 static void	handle_export_only(char *arg, t_data *d)
 {
 	char	*key;
 	t_exp	*new_exp;
 
 	key = ft_strdup(arg, d);
-	if (!is_exported(d->exp, key))
+	if (!is_exported(d->exp, d->env, key))
 	{
 		new_exp = ft_lstnew_export_to_value(key, d);
 		ft_exp_lstadd_back(&d->exp, new_exp);

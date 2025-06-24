@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:30:54 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/18 01:20:16 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 01:25:27 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,23 @@ void	make_backup_env(t_env **envs, t_data *d)
 {
 	char	*pwd;
 
-    pwd = NULL;
+	pwd = NULL;
 	if (getcwd(pwd, 1024))
 		env_add_back(envs, new_env(ft_strjoin("PWD=", pwd, d), d));
 	else
 		env_add_back(envs, new_env("PWD=/", d));
 	env_add_back(envs, new_env("SHLVL=1", d));
-	env_add_back(envs, new_env(ft_strjoin("_=", ft_strjoin(pwd, "/Minishell", d), d), d));
+	env_add_back(envs, new_env(ft_strjoin("_=",
+				ft_strjoin(pwd, "/Minishell", d), d), d));
 	env_add_back(envs, new_env(ft_strjoin("PATH=", THE_PATH, d), d));
 }
-int valid_key(char c)
+
+int	valid_key(char c)
 {
 	return (c && c != ' ' && c != '$');
 }
 
-int quotes_len (char *s)
+int	quotes_len(char *s)
 {
 	int		i;
 	char	c;
@@ -57,9 +59,9 @@ int quotes_len (char *s)
 	return (len);
 }
 
-int is_word(t_token *t)
+int	is_word(t_token *t)
 {
 	return ((t->type == WORD || is_quoted (t->type)
 			|| t->type == VAR || t->type == D_VAR)
-			|| t->type == S_VAR);
+		|| t->type == S_VAR);
 }

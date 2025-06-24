@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/22 14:21:22 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:08:05 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ int	execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d)
 	char	**paths;
 	char	*path;
 	char	**envs;
-
+	
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL);
 	paths = get_path(*env, d);
 	if (!paths)
 	{
@@ -39,9 +42,9 @@ int	execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d)
 int	execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
 				int input_fd, int output_fd)
 {
-	if (apply_heredoc_redirection(cmd) != 0)
+	if(handling_heredocs(cmd, input_fd, output_fd) != 0)
 		return (1);
-	if (cmd->heredoc == 0 && setup_redirections(input_fd, output_fd) != 0)
+	if (apply_heredoc_redirection(cmd) != 0)
 		return (1);
 	if(cmd->files && apply_redirections(cmd->files) != 0)
 		return (1);
@@ -59,6 +62,15 @@ int	execute_single_builtin(t_cmd *cmds, t_env **env, t_data *d)
 
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
+	if (saved_stdin == -1 || saved_stdout == -1)
+    {
+        perror("dup");
+        if (saved_stdin != -1)
+			close(saved_stdin);
+        if (saved_stdout != -1)
+			close(saved_stdout);
+        return (1);
+    }
 	if (apply_heredoc_redirection(cmds) != 0)
 	{
 		duping(saved_stdin, saved_stdout);
@@ -97,7 +109,8 @@ int	execute_single_external(t_cmd *cmds, t_env **env, t_data *d)
 int	execute_pipeline(t_env **env, t_cmd *cmds, t_data *d)
 {
 	int	cmd_count;
-
+	int execute;
+	
 	if (!cmds)
 		return (0);
 	if (process_heredocs_before_fork(cmds, d) != 0)
@@ -105,10 +118,20 @@ int	execute_pipeline(t_env **env, t_cmd *cmds, t_data *d)
 	if (!has_pipeline(cmds))
 	{
 		if (is_builtin(cmds->cmd) == 0)
-			return (execute_single_builtin(cmds, env, d));
+		{
+			execute = execute_single_builtin(cmds, env, d);
+			unlink_all_heredocfiles(cmds);
+			return (execute);
+		}
 		else
-			return (execute_single_external(cmds, env, d));
+		{
+			execute = execute_single_external(cmds, env, d);
+			unlink_all_heredocfiles(cmds);
+			return (execute);
+		}
 	}
 	cmd_count = count_commands(cmds);
-	return (execute_pipeline_commands(env, cmds, d, cmd_count));
+	execute = execute_pipeline_commands(env, cmds, d, cmd_count);
+	unlink_all_heredocfiles(cmds);
+	return (execute);
 }
