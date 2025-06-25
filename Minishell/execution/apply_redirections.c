@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/23 23:23:21 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:20:00 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void signal_herdoc(int sig)
 {
     (void)sig;
 	exit_status(1, 1);
-    write(STDOUT_FILENO, "\n", 1);
+	printf ("\n");
     exit(130);
 }
 int apply_herdoc(t_str *heredocs, t_data *d)
@@ -154,7 +154,6 @@ int apply_herdoc(t_str *heredocs, t_data *d)
     unlink(".heredoc");
     while(current)
     {
-        signal(SIGINT,SIG_IGN);
         int pid = fork();
 		if(pid == 0)
         {
@@ -186,6 +185,7 @@ int apply_herdoc(t_str *heredocs, t_data *d)
         }
         else
         {
+			signal(SIGINT,SIG_IGN);
             waitpid(pid,&status,0);
             signal(SIGINT,handle_sigint);
 			tcgetattr(STDIN_FILENO, &tty);

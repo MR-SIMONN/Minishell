@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:43 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/19 21:23:08 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:57:17 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ void exit_v(char **args)
     
     is_out_range= 0;
     status = 0;
-
-    ft_putstr_fd("exit\n", 1);
+    
+    if (isatty(1) && isatty(0) && isatty(2))
+        ft_putstr_fd("exit\n", 1);
     if(!args[1])
         exit(0);
     if (!is_digit(args[1]) || (status = ft_atol(args[1], &is_out_range), is_out_range))

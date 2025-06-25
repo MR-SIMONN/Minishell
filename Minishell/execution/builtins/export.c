@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:46 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/25 15:37:58 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/25 18:40:31 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 	}
 }
 
-static int	is_valid_identifier(char *str, int len)
+int	is_valid_identifier(char *str, int len)
 {
 	int	i;
 

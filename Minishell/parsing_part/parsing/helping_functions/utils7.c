@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 17:44:50 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/25 22:54:15 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,62 @@ void	get_rid_of_quotes(t_token *t, t_data *d)
 	}
 }
 
+void	export_tokens(t_token *t)
+{
+	int	flag;
 
+	flag  = 0;
+	if (!ft_strcmp(t->value, "export"))
+		t = t->next;
+	while (t)
+	{
+		if (t && t->type == PIPE)
+		{
+			t = t->next;
+			if (!ft_strcmp(t->value, "export"))
+			{
+				flag = 0;
+				t = t->next;
+			}
+			else
+				flag = 1;
+		}
+		if (t && is_word(t) && !flag)
+			t->type = EXPORT_ARG;
+		if (t)
+			t = t->next;
+	}
+}
+int	is_splittable(t_token *t)
+{
+	int		i;
+	int		flag;
+	char	c;
+
+	i = 0;
+	flag = 0;
+	while (t->value[i] && t->value[i] != '='
+		&& !(t->value[i] == '+' && t->value[i + 1] == '='))
+		i++;
+	if (!is_valid_identifier(t->value, i))
+		return (1);
+	i = 0;
+	while (t->value[i])
+	{
+		if ((t->value[i] == '\'' || t->value[i] == '\'') && !flag)
+		{
+			c = t->value[i];
+			flag = 1;
+		}
+		if (t->value[i] == c && flag)
+		{
+			flag = 0;
+			if (t->value[++i])
+				return (0);
+			else if (t->value[i] == '$')
+				return (1);
+		}
+		i++;
+	}
+	return (1);
+}

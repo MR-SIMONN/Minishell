@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/24 02:29:04 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/25 22:54:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
+    EXPORT_ARG,     // a var 
     EXPENDED,       // a variable have been expanded successfully
     VAR,            // a string contains a variable
     S_VAR,          // a single quoted string contanis a variable
@@ -171,7 +172,9 @@ char    *delete_invalid_var(char *str, t_data *d);
 void    ambiguous_error(char *str);
 void    signal_stuff(void);
 void	handle_sigint(int sig);
-void	split_to_toknes(t_token **t, t_data *d);
+void	split_to_toknes(t_token *curr, t_data *d);
+void	export_tokens(t_token *t);
+int		is_splittable(t_token *t);
 
 //utils functions
 t_str	*new_strnode(char *string, t_token *t, t_data *d);
@@ -265,6 +268,7 @@ void    remove_from_export_lst(t_exp **exp_lst, char *key);
 t_exp   *find_exp_node(t_exp *exp_lst, char *key);
 t_env   *find_env_node(t_env *env_lst, char *key);
 int     is_exported(t_exp *exp_lst, char *key);
+int	is_valid_identifier(char *str, int len);
 
 //part 2
 char    **get_path(t_env *env, t_data *d);
