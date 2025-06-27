@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/24 19:14:33 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:24:45 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int apply_herdoc(t_cmd *cmd, t_data *d, int index)
     char *exp;
     char *name;
     int status;
-    struct termios  tty;
+    // struct termios  tty;
 
     current = cmd->heredoc_del;
     if (fd >= 0)
@@ -109,6 +109,7 @@ int apply_herdoc(t_cmd *cmd, t_data *d, int index)
         int pid = fork();
         if(pid == 0)
         {
+            signal(SIGINT, handle_sigint);
             if(fd < 0)
 			{
 				perror("open .heredoc file");
@@ -147,9 +148,9 @@ int apply_herdoc(t_cmd *cmd, t_data *d, int index)
         {
             waitpid(pid,&status,0);
             signal(SIGINT,handle_sigint);
-            tcgetattr(STDIN_FILENO, &tty);
-            tty.c_lflag |= ECHO;
-            tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+            // tcgetattr(STDIN_FILENO, &tty);
+            // tty.c_lflag |= ECHO;
+            // tcsetattr(STDIN_FILENO, TCSANOW, &tty);
             if(WIFEXITED(status) == 1 && WEXITSTATUS(status) == 130)
                 return (exit_status(1, 1), 130);
         }

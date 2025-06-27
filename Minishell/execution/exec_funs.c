@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/24 13:08:05 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:42:19 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,29 @@ int	execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d)
 	char	**paths;
 	char	*path;
 	char	**envs;
-	
+	int		status;
+
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGTSTP, SIG_DFL);
+	status = 0;
 	paths = get_path(*env, d);
-	if (!paths)
-	{
-		ft_putstr_fd("minishell: command not found\n", 2);
-		return (127);
-	}
-	path = right_path(paths, cmd, d);
+	path = right_path(paths, cmd, d, &status);
 	if (!path)
-		return (127);
+		return (status);
 	envs = get_env(*env, d);
+	if (!envs)
+    {
+        ft_putstr_fd("minishell: failed to get environment\n", 2);
+        return (1);
+    } 
 	if (execve(path, cmd->args, envs) == -1)
 	{
 		perror("execve");
-		return (1);
+		return (126);
 	}
-	return (0);
+	
+	return (status);
 }
 
 int	execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
@@ -65,10 +68,6 @@ int	execute_single_builtin(t_cmd *cmds, t_env **env, t_data *d)
 	if (saved_stdin == -1 || saved_stdout == -1)
     {
         perror("dup");
-        if (saved_stdin != -1)
-			close(saved_stdin);
-        if (saved_stdout != -1)
-			close(saved_stdout);
         return (1);
     }
 	if (apply_heredoc_redirection(cmds) != 0)
@@ -126,12 +125,14 @@ int	execute_pipeline(t_env **env, t_cmd *cmds, t_data *d)
 		else
 		{
 			execute = execute_single_external(cmds, env, d);
+			exit_status(1, execute);
 			unlink_all_heredocfiles(cmds);
 			return (execute);
 		}
 	}
 	cmd_count = count_commands(cmds);
 	execute = execute_pipeline_commands(env, cmds, d, cmd_count);
+	exit_status(1, execute);
 	unlink_all_heredocfiles(cmds);
 	return (execute);
 }

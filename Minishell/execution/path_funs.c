@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/24 20:52:14 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:28:18 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int last_char(char *path)
     return (i - 1);
 }
 
-int	is_exec(char *path, t_cmd *cmds, int silent)
+int	is_exec(char *path, t_cmd *cmds, int silent, int *status)
 {
 	if(path[last_char(path)] == '/')
     {
@@ -94,76 +94,106 @@ int	is_exec(char *path, t_cmd *cmds, int silent)
 	    {
 		    if (!silent)
 			    this_is_a_directory(cmds->cmd);
+            (*status) = 126;
 		    return (126);
 	    }
         else
         {
-            ft_putstr_fd("minishell: ", 1);
-            ft_putstr_fd(path, 1);
-            ft_putstr_fd(": No such file or directory\n", 1);
+            if(!silent)
+            {
+                ft_putstr_fd("minishell: ", 2);
+                ft_putstr_fd(path, 2);
+                ft_putstr_fd(": No such file or directory\n", 2);
+            }
+            (*status) = 127;
             return(127);
         }
     }
-	if (access(path, F_OK) == 0)
-	{
-		if (access(path, X_OK) != 0)
-		{
-			if (!silent)
-				return (permission_denied_error(path));
-			return (126);
-		}
-		return (0);
-	}
-	if (!silent)
-		return (command_not_found_error(cmds->cmd));
-	return (127);
+	if (access(path, F_OK) != 0)
+    {
+        if (!silent)
+            command_not_found_error(cmds->cmd);
+        (*status) = 127;
+        return (127);
+    }
+    if (is_directory(path))
+    {
+        if (!silent)
+            this_is_a_directory(cmds->cmd);
+        (*status) = 126;
+        return (126);
+    }
+    if (access(path, X_OK) != 0)
+    {
+        if (!silent)
+            permission_denied_error(path);
+        (*status) = 126;
+        return (126);
+    }
+    return (0);
 }
 
 
-char *right_path(char **paths, t_cmd *cmds, t_data *d)
+char *right_path(char **paths, t_cmd *cmds, t_data *d, int *status)
 {
     int i = 0;
     char *full_path;
 
     if (!cmds->cmd)
-        return (NULL);
-    
-    if (cmds->cmd[0] == '/' || cmds->cmd[0] == '.')
     {
-        if (is_exec(cmds->cmd, cmds, 0) == 0)
-            return (ft_strdup(cmds->cmd, d));
+        *status = 127;
         return (NULL);
     }
     
     if(cmds->cmd[last_char(cmds->cmd)] == '/')
     {
         if (is_directory(cmds->cmd))
-	    {
-			this_is_a_directory(cmds->cmd);
-		    return (NULL);
-	    }
+        {
+            this_is_a_directory(cmds->cmd);
+            *status = 126;
+            return (NULL);
+        }
         else
         {
-            ft_putstr_fd("minishell: ", 1);
-            ft_putstr_fd(cmds->cmd, 1);
-            ft_putstr_fd(": No such file or directory\n", 1);
-            return(NULL);
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(cmds->cmd, 2);
+            ft_putstr_fd(": No such file or directory\n", 2);
+            *status = 127;
+            return (NULL);
         }
     }
+    
+    if (cmds->cmd[0] == '/' || cmds->cmd[0] == '.')
+    {
+        if (is_exec(cmds->cmd, cmds, 0, status) == 0)
+            return (ft_strdup(cmds->cmd, d));
+        return (NULL);
+    }
+
     if (!paths)
     {
-        command_not_found_error(cmds->cmd);
+        if (access(cmds->cmd, F_OK) == 0)
+        {
+            if (is_exec(cmds->cmd, cmds, 0, status) == 0)
+                return (ft_strdup(cmds->cmd, d));
+            return (NULL);
+        }
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(cmds->cmd, 2);
+        ft_putstr_fd(": No such file or directory\n", 2);
+        *status = 127;
         return (NULL);
     }
 
     while (paths[i])
     {
         full_path = get_fullpath(paths[i], cmds->cmd, d);
-        if (is_exec(full_path, cmds, 1) == 0)
+        if (is_exec(full_path, cmds, 1, status) == 0)
             return (full_path);
         i++;
     }
     
     command_not_found_error(cmds->cmd);
+    *status = 127;
     return (NULL);
 }

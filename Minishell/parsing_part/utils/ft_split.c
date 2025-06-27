@@ -12,7 +12,7 @@
 
 #include "../../Minishell.h"
 
-static int	ft_cw(char *str, char c)
+static int	ft_cw(char *str)
 {
 	int		i;
 	int		words;
@@ -26,7 +26,7 @@ static int	ft_cw(char *str, char c)
 			quote = str[i];
 		else if (quote && str[i] == quote)
 			quote = 0;
-		if (str[i] != c || quote)
+		if (!is_space(str[i]) || quote)
 		{
 			if (flag == 0)
 			{
@@ -41,7 +41,7 @@ static int	ft_cw(char *str, char c)
 	return (words);
 }
 
-static int	ft_word_len(char *str, int i, char c)
+static int	ft_word_len(char *str, int i)
 {
 	int		word_len;
 	char	quote;
@@ -54,7 +54,7 @@ static int	ft_word_len(char *str, int i, char c)
 			quote = str[i];
 		else if (quote && str[i] == quote)
 			quote = 0;
-		if (str[i] == c && !quote)
+		if (is_space(str[i]) && !quote)
 			break ;
 		word_len++;
 		i++;
@@ -62,7 +62,7 @@ static int	ft_word_len(char *str, int i, char c)
 	return (word_len);
 }
 
-static char	*ft_stridup(char *s, int *i, char c, t_data *d)
+static char	*ft_stridup(char *s, int *i, t_data *d)
 {
 	char	*str;
 	int		j;
@@ -70,14 +70,14 @@ static char	*ft_stridup(char *s, int *i, char c, t_data *d)
 
 	j = 0;
 	quote = 0;
-	str = ft_malloc(sizeof(char) * (ft_word_len(s, *i, c) + 1), d);
+	str = ft_malloc(sizeof(char) * (ft_word_len(s, *i) + 1), d);
 	while (s[*i])
 	{
 		if (!quote && (s[*i] == '\'' || s[*i] == '\"'))
 			quote = s[*i];
 		else if (quote && s[*i] == quote)
 			quote = 0;
-		if (s[*i] == c && !quote)
+		if (is_space(s[*i]) && !quote)
 			break ;
 		str[j++] = s[*i];
 		*i += 1;
@@ -86,7 +86,7 @@ static char	*ft_stridup(char *s, int *i, char c, t_data *d)
 	return (str);
 }
 
-char	**ft_split(char *s, char c, t_data *d)
+char	**ft_split(char *s, t_data *d)
 {
 	int		i;
 	int		k;
@@ -96,16 +96,16 @@ char	**ft_split(char *s, char c, t_data *d)
 		return (NULL);
 	i = 0;
 	k = 0;
-	str = ft_malloc (sizeof(char *) * (ft_cw(s, c) + 1), d);
-	skip_it(s, &i, c);
+	str = ft_malloc (sizeof(char *) * (ft_cw(s) + 1), d);
+	skip_spaces(s, &i);
 	while (s[i])
 	{
-		if (s[i] != c)
+		if (!is_space(s[i]))
 		{
-			str[k] = ft_stridup(s, &i, c, d);
+			str[k] = ft_stridup(s, &i, d);
 			k++;
 		}
-		skip_it(s, &i, c);
+		skip_spaces(s, &i);
 	}
 	return (str[k] = 0, str);
 }

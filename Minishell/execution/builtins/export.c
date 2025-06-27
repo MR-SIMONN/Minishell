@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:46 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/24 20:08:03 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:28:21 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 	}
 }
 
-static int	is_valid_identifier(char *str, int len)
+int	is_valid_identifier(char *str, int len)
 {
 	int	i;
 
@@ -145,12 +145,14 @@ int	export_v(t_env **env_lst, char **args, t_data *d)
 	int		i;
 	char	*arg;
 	int		j;
-
+	int status;
+	
 	i = 1;
+	status = 0;
 	if (!args[1])
 	{
 		export_displayer(*env_lst, d->exp);
-		return (0);
+		return (exit_status(1, status));
 	}
 	while (args[i])
 	{
@@ -161,8 +163,9 @@ int	export_v(t_env **env_lst, char **args, t_data *d)
 		if (!is_valid_identifier(arg, j) || arg[0] == '=')
 		{
 			printf("export: `%s`: not a valid identifier\n", arg);
+			status = 1;
 			i++;
-			continue ;
+			continue;
 		}
 		if (ft_strnstr(arg, "+=", ft_strlen(arg)))
 			handle_append(env_lst, arg, d);
@@ -172,5 +175,5 @@ int	export_v(t_env **env_lst, char **args, t_data *d)
 			handle_export_only(arg, d);
 		i++;
 	}
-	return (0);
+	return (exit_status(1, status));
 }

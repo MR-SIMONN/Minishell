@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:59:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:45:00 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/27 00:41:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	parsing(t_data *d)
 		exit_status(1, 258);
 		return (syntax_error("syntax error"));
 	}
-	change_tokens_types(d->token);
+	after_redir_tokens(d->token);
+	after_export_tokens(d->token);
 	return (0);
 }

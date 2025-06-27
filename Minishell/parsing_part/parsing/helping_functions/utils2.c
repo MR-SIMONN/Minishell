@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 01:13:49 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:30:20 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,10 @@ int	args_len(t_token *t)
 	return (len);
 }
 
-int	no_pipeout(char *s, int i)
-{
-	if (i > 0 && s[i] == '|' && s[i - 1] == '>')
-		return (0);
-	return (1);
-}
-
-void	change_tokens_types(t_token *t)
+void	after_redir_tokens(t_token *t)
 {
 	while (t && t->next)
-	{
+	{	
 		if (!is_not_redir(t))
 		{
 			if (t->type != HEREDOC)

@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/24 20:18:09 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:33:26 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	env_v(t_env *list, char **args)
 		ft_putstr_fd("env: ", 1);
 		ft_putstr_fd(args[1], 1);
 		ft_putstr_fd(": No such file or directory\n", 1);
+		exit_status(1, 127);
 		return ;
 	}
 	tmp = list;
