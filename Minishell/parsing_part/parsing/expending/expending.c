@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/25 22:46:29 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:53:22 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ void	expend_it(t_token *t, char *key, int index, t_data *d)
 	infos.len = expended_token_len(d, t->value, key, index);
 	t->value = new_expended_token(infos);
 	if (t->type != REDIR_VAR)
-		t->type = EXPENDED;
+	{
+		if (t->type == EXPORT_ARG)
+			t->type = EXPENDED_EXP_ARG;
+		else
+			t->type = EXPENDED;
+	}
 }
 
 char	*delete_invalid_var(char *str, t_data *d)
@@ -77,7 +82,8 @@ int	check_var(t_token *t, int i, t_data *d)
 	}
 	if (t->type == REDIR_VAR && space_exists(t->value))
 		return (ambiguous_error(s), 1);
-	if (t->type == EXPENDED && space_exists(t->value) && is_splittable(t))
+	if (((t->type == EXPENDED || t->type == EXPENDED_EXP_ARG))
+		&& space_exists(t->value) && is_splittable(t))
 		split_to_toknes(t, d);
 	return (0);
 }
@@ -90,9 +96,8 @@ int	expending(t_token *t, t_data *d, int s_quote, int d_quote)
 	while (t)
 	{
 		(1) && (i = 0, s_quote = 0, ambiguous_probleme = 0);
-		if (t->type == VAR || t->type == D_VAR
-			|| t->type == S_VAR || t->type == REDIR_VAR
-			|| t->type == EXPORT_ARG)
+		if (t->type == VAR || t->type == D_VAR|| t->type == S_VAR
+		|| t->type == REDIR_VAR || t->type == EXPORT_ARG)
 		{
 			while (t->value[i] && var_count(t->value) > 0)
 			{

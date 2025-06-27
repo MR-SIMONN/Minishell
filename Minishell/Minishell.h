@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/25 22:54:58 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:50:11 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,24 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-    EXPORT_ARG,     // a var 
-    EXPENDED,       // a variable have been expanded successfully
-    VAR,            // a string contains a variable
-    S_VAR,          // a single quoted string contanis a variable
-    D_VAR,          // a dubble quoted string contanis a variable
-    S_QUOTED,       // a single quoted string
-    D_QUOTED,       // a dubble quoted string
-    REDIR_WORD,     // a string after a red
-    D_REDIR_WORD,   // a dubble quoted string after a red
-    S_REDIR_WORD,   // a single quoted string after a red
-    REDIR_VAR,      // a var infront of a red except heredoc
-    WORD,           // a normal string
-    PIPE,           // |
-    REDIRECT_OUT,   // >
-    REDIRECT_IN,    // <
-    APPEND,         // >>
-    HEREDOC         // <<
+	EXPENDED_EXP_ARG,	// an expended token after a export token
+    EXPORT_ARG,     	// a token after a export token
+    EXPENDED,       	// a variable have been expanded successfully
+    VAR,            	// a string contains a variable
+    S_VAR,          	// a single quoted string contanis a variable
+    D_VAR,          	// a dubble quoted string contanis a variable
+    S_QUOTED,       	// a single quoted string
+    D_QUOTED,       	// a dubble quoted string
+    REDIR_WORD,     	// a string after a red
+    D_REDIR_WORD,   	// a dubble quoted string after a red
+    S_REDIR_WORD,   	// a single quoted string after a red
+    REDIR_VAR,      	// a var infront of a red except heredoc
+    WORD,           	// a normal string
+    PIPE,           	// |
+    REDIRECT_OUT,   	// >
+    REDIRECT_IN,    	// <
+    APPEND,         	// >>
+    HEREDOC         	// <<
 } t_token_type;
 
 typedef enum e_redir_type
@@ -147,7 +148,7 @@ int     parsing(t_data *d);
 int     empty_cmd(char *s);
 int     is_invalid_syntax(char *s, t_data *d);
 int     parentheses(char *s);
-void	change_tokens_types(t_token *t);
+void	after_redir_tokens(t_token *t);
 void    ft_lst_tokens(t_data *d);
 void    store_envs(t_env **envs, char **env, t_data *d);
 int     expending(t_token *t, t_data *d, int s_quote, int d_quote);
@@ -173,8 +174,11 @@ void    ambiguous_error(char *str);
 void    signal_stuff(void);
 void	handle_sigint(int sig);
 void	split_to_toknes(t_token *curr, t_data *d);
-void	export_tokens(t_token *t);
+void	after_export_tokens(t_token *t);
 int		is_splittable(t_token *t);
+int		D_quoted(char *s);
+int		is_value_quoted(char *s);
+int		is_key_quoted(char *s);
 
 //utils functions
 t_str	*new_strnode(char *string, t_token *t, t_data *d);
@@ -183,8 +187,6 @@ t_str	*last_str(t_str *p);
 void    ft_error(char *message);
 void    skip_it(char *s, int *i, char c);
 void	env_add_back(t_env **envs, t_env *new);
-int     no_pipeout(char *s, int i);
-int     no_pipeout_token(t_token *t);
 int     is_quoted(t_token_type type);
 void    quotes_stuff(char *s, int i, char *c, int *quotes);
 int     valid_char(char c);

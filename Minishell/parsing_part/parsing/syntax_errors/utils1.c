@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 21:14:07 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 01:01:35 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:34:32 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_one(char *s, int i)
 	if (s[i] == '>' && s[i])
 	{
 		i++;
-		if (is_symbol(s[i]) && s[i] != '|' && s[i])
+		if (is_symbol(s[i]) && s[i])
 			return (1);
 	}
 	if (s[i] && s[i] == '<')
@@ -62,11 +62,3 @@ int	check_two(char *s, int i)
 	return (0);
 }
 
-int	no_pipeout_token(t_token *t)
-{
-	if (!t)
-		return (1);
-	if (t->type == REDIRECT_OUT && t->next->type == PIPE)
-		return (0);
-	return (1);
-}

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:56:04 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:26:32 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,35 +73,6 @@ int	invalid_redirection(char *s)
 	return (0);
 }
 
-int	invalid_pipeout(char *s)
-{
-	int		i;
-	int		f;
-	int		quotes;
-	char	c;
-
-	(1) && (i = 0, f = 0, quotes = 0);
-	while (s[i] && s[i + 1])
-	{
-		quotes_stuff(s, i, &c, &quotes);
-		if (s[i] == '>' && !quotes)
-		{
-			if (s[i + 1] == '>' || s[i + 1] == '|')
-				i += 2;
-			else if (s[i + 1] == ' ')
-			{
-				f = 1;
-				i++;
-			}
-		}
-		if (s[i] && s[i] == '|' && f)
-			return (1);
-		else if (s[i++] != ' ' && f)
-			f = 0;
-	}
-	return (0);
-}
-
 int	is_invalid_syntax(char *s, t_data *d)
 {
 	if (!s)
@@ -109,8 +80,6 @@ int	is_invalid_syntax(char *s, t_data *d)
 	if (unclosed_quote(s, d))
 		return (1);
 	if (invalid_redirection(s))
-		return (1);
-	if (invalid_pipeout(s))
 		return (1);
 	if (parentheses(s))
 		return (1);

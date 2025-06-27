@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:20:24 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:57:55 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:29:40 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	handle_pipes(t_token *t)
 int	is_rid_nexto_symbol(t_token *t)
 {
 	if (is_symbol(*t->value) && *t->value != '|')
-		if (is_symbol(*t->next->value) && no_pipeout_token(t))
+		if (is_symbol(*t->next->value))
 			return (1);
 	return (0);
 }

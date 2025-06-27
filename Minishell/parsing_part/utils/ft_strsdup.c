@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 21:27:47 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:44:09 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:30:15 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	add_spaces(char *s, int *i, char *str, int *j)
 	f = 0;
 	if (s[*i] && (is_one_symbol(s, *i) || is_two_symbols(s, *i)))
 	{
-		if (*i > 0 && s[*i - 1] != ' ' && no_pipeout(s, *i))
+		if (*i > 0 && s[*i - 1] != ' ')
 			str[(*j)++] = ' ';
 		if (is_two_symbols(s, *i))
 		{
@@ -34,7 +34,7 @@ void	add_spaces(char *s, int *i, char *str, int *j)
 		str[(*j)++] = s[(*i)++];
 	if (f && s[*i])
 	{
-		if (s[*i] != ' ' && s[*i] != '>' && s[*i] != '<' && no_pipeout(s, *i))
+		if (s[*i] != ' ' && s[*i] != '>' && s[*i] != '<')
 			str[(*j)++] = ' ';
 		f = 0;
 	}

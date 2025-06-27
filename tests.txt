@@ -1,0 +1,157 @@
+today is ---> 2025/06/27 in khouribga city at 03:00 PM
+and this is going to be legend stuff hhhhhh,
+here are my tests that i've gathered throughout my minishell project journey as a parser
+cmds to test :
+
+
+echo '$USER'								---> ✅
+$USER
+
+echo "$USER"								---> ✅
+moel-hai
+
+echo fcc$USER								---> ✅
+fccmoel-hai
+
+echo fcc.$USER								---> ✅
+fcc.moel-hai
+
+echo $USERfcc								---> ✅
+
+
+echo $USER.fcc								---> ✅
+moel-hai.fcc
+
+echo fcc$USERfcc							---> ✅
+fcc
+
+echo fcc.$USERfcc							---> ✅
+fcc.
+
+echo fcc$USER.fcc							---> ✅
+fccmoel-hai.fcc
+
+echo "$USER$HOME"							---> ✅
+moel-hai/mnt/homes/moel-hai
+
+echo "$USER$UNSET1"							---> ✅
+moel-hai
+
+echo "$UNSET1$USER"							---> ✅
+moel-hai
+
+echo "$USER$UNSET1$HOME"					---> ✅
+moel-hai/mnt/homes/moel-hai
+
+echo "$UNSET1$UNSET2"						---> ✅
+""
+
+echo "$USER-suffix"							---> ✅
+moel-hai-suffix
+
+echo "prefix-$USER"							---> ✅
+prefix-moel-hai
+
+echo "$USER $UNSET1 $HOME"					---> ✅
+moel-hai  /mnt/homes/moel-hai
+
+echo "$"									---> ✅
+$
+
+echo "$USER$"								---> ✅
+moel-hai$
+
+echo "$USER$UNSET1"							---> ✅
+moel-hai
+
+echo "$UNSET1$UNSET1$UNSET1"				---> ✅
+""
+
+echo "-> $USER - $UNSET1 <- $HOME <-"		---> ✅
+-> moel-hai -  <- /mnt/homes/moel-hai <-
+
+
+echo "$USER $ $HOME"						---> ✅
+moel-hai $ /mnt/homes/moel-hai
+
+echo "$$$USER"								---> ✅
+$$moel-hai
+
+echo "$USER$$HOME"							---> ✅
+moel-hai$/mnt/homes/moel-hai
+
+echo 's$USER'								---> ✅
+s$USER
+
+echo $USE"R"								---> ✅
+R
+
+echo $USER"ss"								---> ✅
+moel-haiss
+
+echo "$USER"ss								---> ✅
+moel-haiss
+
+echo "sss  $USER?dd"						---> ✅
+sss  moel-hai?dd
+
+echo $?HHH									---> ✅
+0HHH
+
+echo echo""$USER							---> ✅
+echomoel-hai
+
+echo ''''$USER''''							---> ✅
+moel-hai
+
+echo '''''$USER'''''						---> ✅
+$USER
+
+ls > $hhh									---> ✅
+bash: $hhh: ambiguous redirect
+
+echo ' " " '$USER							---> ✅
+ " " moel-hai
+
+echo " ' ' ' "$USER							---> ✅
+ ' ' ' moel-hai
+
+echo "ss'""'$USER''"						---> ✅
+ss''moel-hai''
+
+
+echo ss'""'$USER''							---> ✅
+ss""moel-hai
+
+
+export a="ls -la" and $a					---> ✅
+ls -la's output
+
+
+
+
+so we have here some expended export args rather to split theme into tokens or not :
+
+export b=$a (where a="ls -la")
+– Split? ❌ No split
+
+export "b"=$a (or ""b or b"" or 'b' etc...) where a="ls -la"
+– Split? ✅ Yes split
+
+export "b"=$a
+– Split? ❌ No split
+
+$a in a normal command (e.g. just typing $a)
+– Split? ✅ Yes split
+
+ls > $a when a="out1 out2"
+– Split? ✅ Yes split
+
+export 2a=$a where a="ls -la"
+– Split? ✅ Yes split
+
+
+
+
+
+make re && make clean && clear && ./minishell

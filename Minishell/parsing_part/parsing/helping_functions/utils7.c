@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/25 22:54:15 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:53:35 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,21 @@ void	get_rid_of_quotes(t_token *t, t_data *d)
 	}
 }
 
-void	export_tokens(t_token *t)
+void	after_export_tokens(t_token *t)
 {
 	int	flag;
 
 	flag  = 0;
-	if (!ft_strcmp(t->value, "export"))
-		t = t->next;
 	while (t)
 	{
-		if (t && t->type == PIPE)
-		{
-			t = t->next;
-			if (!ft_strcmp(t->value, "export"))
+		if (t && !ft_strcmp(t->value, "export"))
 			{
-				flag = 0;
+				flag = 1;
 				t = t->next;
 			}
-			else
-				flag = 1;
-		}
-		if (t && is_word(t) && !flag)
+		if (t && t->type == PIPE)
+			flag = 0;
+		if (t && is_word(t) && flag)
 			t->type = EXPORT_ARG;
 		if (t)
 			t = t->next;
@@ -80,8 +74,9 @@ int	is_splittable(t_token *t)
 {
 	int		i;
 	int		flag;
-	char	c;
 
+	if (D_quoted(t->value) || is_value_quoted(t->value))	
+		return (0);
 	i = 0;
 	flag = 0;
 	while (t->value[i] && t->value[i] != '='
@@ -89,23 +84,7 @@ int	is_splittable(t_token *t)
 		i++;
 	if (!is_valid_identifier(t->value, i))
 		return (1);
-	i = 0;
-	while (t->value[i])
-	{
-		if ((t->value[i] == '\'' || t->value[i] == '\'') && !flag)
-		{
-			c = t->value[i];
-			flag = 1;
-		}
-		if (t->value[i] == c && flag)
-		{
-			flag = 0;
-			if (t->value[++i])
-				return (0);
-			else if (t->value[i] == '$')
-				return (1);
-		}
-		i++;
-	}
-	return (1);
+	if (is_key_quoted(t->value))
+		return (1);
+	return (0);
 }
