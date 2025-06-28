@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:34:46 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/26 23:30:03 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:57:14 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	make_tokens(char **t, t_token **p, t_data *d)
 	while (t[i])
 	{
 		quote = 0;
-		if (t[i][0] == '\'' || t[i][0] == '\"' || quotes_len(t[i]) > 0)
+		if (t[i][0] == '\'' || t[i][0] == '\"' || quotes_len(t[i]) > 1)
 		{
 			if (t[i][0] == '\'')
 				quote = 1;
@@ -48,7 +48,7 @@ void	spaces_len(char *s, int *i, int *len, int quote)
 		{
 			if (*i > 0 && s[*i - 1] != ' ')
 				(*len)++;
-			if (s[*i + 1] && s[*i + 1] != ' ' && !is_symbol(s[*i + 1]))
+			if (s[*i + 1] && s[*i + 1] != ' ')
 				(*len)++;
 		}
 		(*len)++;

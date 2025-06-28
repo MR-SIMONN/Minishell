@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/26 22:41:14 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 09:58:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ void signal_herdoc(int sig)
 }
 int apply_herdoc(t_str *heredocs, t_data *d)
 {
-	// struct termios  tty;
     t_str *current;
     int fd = 0;
     int status ;
@@ -188,9 +187,6 @@ int apply_herdoc(t_str *heredocs, t_data *d)
 			signal(SIGINT,SIG_IGN);
             waitpid(pid,&status,0);
             signal(SIGINT,handle_sigint);
-			// tcgetattr(STDIN_FILENO, &tty);
-            // tty.c_lflag |= ECHO;
-            // tcsetattr(STDIN_FILENO, TCSANOW, &tty);
             if(WIFEXITED(status) == 1 && WEXITSTATUS(status) == 130)
                 return (exit_status(1, 1), 130);
         }

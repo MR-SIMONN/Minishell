@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/27 01:53:22 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:09:44 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	expend_it(t_token *t, char *key, int index, t_data *d)
 	if (t->type != REDIR_VAR)
 	{
 		if (t->type == EXPORT_ARG)
-			t->type = EXPENDED_EXP_ARG;
+			t->type = EX_EXP_ARG;
 		else
 			t->type = EXPENDED;
 	}
@@ -77,13 +77,16 @@ int	check_var(t_token *t, int i, t_data *d)
 	else
 	{
 		t->value = delete_invalid_var(t->value, d);
-		if (t->type == REDIR_VAR)
+		if (t->type == REDIR_VAR && !t->value[0])
 			return (ambiguous_error(s), 1);
+		return (0);
 	}
-	if (t->type == REDIR_VAR && space_exists(t->value))
+	if (t->type == REDIR_VAR && words_count(t->value) > 1
+		&& !d_quoted(t->value))
 		return (ambiguous_error(s), 1);
-	if (((t->type == EXPENDED || t->type == EXPENDED_EXP_ARG))
-		&& space_exists(t->value) && is_splittable(t))
+	if (space_exists(t->value)
+		&& ((t->type == EXPENDED)
+			|| (t->type == EX_EXP_ARG && is_splittable(t))))
 		split_to_toknes(t, d);
 	return (0);
 }
@@ -96,8 +99,8 @@ int	expending(t_token *t, t_data *d, int s_quote, int d_quote)
 	while (t)
 	{
 		(1) && (i = 0, s_quote = 0, ambiguous_probleme = 0);
-		if (t->type == VAR || t->type == D_VAR|| t->type == S_VAR
-		|| t->type == REDIR_VAR || t->type == EXPORT_ARG)
+		if (t->type == VAR || t->type == D_VAR || t->type == S_VAR
+			|| t->type == REDIR_VAR || t->type == EXPORT_ARG)
 		{
 			while (t->value[i] && var_count(t->value) > 0)
 			{

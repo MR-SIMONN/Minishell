@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/26 23:26:32 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:11:28 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	check_qoutes(char *s, int *f)
 	}
 }
 
-int	unclosed_quote(char *s, t_data *d)
+int	unclosed_quote(char *s)
 {
 	int	f;
 
 	if (!s)
-		free_everything(d, 1);
+		return (0);
 	f = 0;
 	check_qoutes(s, &f);
 	if (f)
@@ -73,11 +73,11 @@ int	invalid_redirection(char *s)
 	return (0);
 }
 
-int	is_invalid_syntax(char *s, t_data *d)
+int	is_invalid_syntax(char *s)
 {
 	if (!s)
-		free_everything(d, 1);
-	if (unclosed_quote(s, d))
+		return (0);
+	if (unclosed_quote(s))
 		return (1);
 	if (invalid_redirection(s))
 		return (1);

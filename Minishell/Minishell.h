@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/27 01:50:11 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:09:37 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_heap
 
 typedef enum e_token_type
 {
-	EXPENDED_EXP_ARG,	// an expended token after a export token
+	EX_EXP_ARG,	// an expended token after a export token
     EXPORT_ARG,     	// a token after a export token
     EXPENDED,       	// a variable have been expanded successfully
     VAR,            	// a string contains a variable
@@ -146,7 +146,7 @@ typedef struct s_expend_infos
 //parsing functions
 int     parsing(t_data *d);
 int     empty_cmd(char *s);
-int     is_invalid_syntax(char *s, t_data *d);
+int     is_invalid_syntax(char *s);
 int     parentheses(char *s);
 void	after_redir_tokens(t_token *t);
 void    ft_lst_tokens(t_data *d);
@@ -176,7 +176,7 @@ void	handle_sigint(int sig);
 void	split_to_toknes(t_token *curr, t_data *d);
 void	after_export_tokens(t_token *t);
 int		is_splittable(t_token *t);
-int		D_quoted(char *s);
+int		d_quoted(char *s);
 int		is_value_quoted(char *s);
 int		is_key_quoted(char *s);
 
@@ -204,7 +204,8 @@ int     is_word(t_token *t);
 char    *delete_quotes(char *s, char c, int flag, t_data *d);
 int     exit_status(int should_update, int new_status);
 void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote);
-int     space_exists(char *s);
+int	    space_exists(char *s);
+int	    words_count(char *str);
 int	    is_space(char c);
 void	skip_spaces(char *s, int *i);
 

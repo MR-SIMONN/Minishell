@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 21:27:47 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/26 23:30:15 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:05:01 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	add_spaces(char *s, int *i, char *str, int *j)
 {
-	int	f;
-
-	f = 0;
 	if (s[*i] && (is_one_symbol(s, *i) || is_two_symbols(s, *i)))
 	{
 		if (*i > 0 && s[*i - 1] != ' ')
@@ -28,16 +25,14 @@ void	add_spaces(char *s, int *i, char *str, int *j)
 		}
 		else
 			str[(*j)++] = s[(*i)++];
-		f = 1;
+		if (s[*i])
+		{
+			if (s[*i] != ' ')
+				str[(*j)++] = ' ';
+		}
 	}
 	else
 		str[(*j)++] = s[(*i)++];
-	if (f && s[*i])
-	{
-		if (s[*i] != ' ' && s[*i] != '>' && s[*i] != '<')
-			str[(*j)++] = ' ';
-		f = 0;
-	}
 }
 
 void	handle_quotes(char *s, int *i, char *d, int *j)

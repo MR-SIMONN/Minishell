@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/27 01:53:35 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:09:56 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void	after_export_tokens(t_token *t)
 {
 	int	flag;
 
-	flag  = 0;
+	flag = 0;
 	while (t)
 	{
 		if (t && !ft_strcmp(t->value, "export"))
-			{
-				flag = 1;
-				t = t->next;
-			}
+		{
+			flag = 1;
+			t = t->next;
+		}
 		if (t && t->type == PIPE)
 			flag = 0;
 		if (t && is_word(t) && flag)
@@ -70,12 +70,13 @@ void	after_export_tokens(t_token *t)
 			t = t->next;
 	}
 }
+
 int	is_splittable(t_token *t)
 {
 	int		i;
 	int		flag;
 
-	if (D_quoted(t->value) || is_value_quoted(t->value))	
+	if (d_quoted(t->value) || is_value_quoted(t->value))
 		return (0);
 	i = 0;
 	flag = 0;

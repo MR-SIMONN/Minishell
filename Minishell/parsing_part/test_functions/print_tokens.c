@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 16:48:06 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/27 00:46:31 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:40:44 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char *get_token_type_name(t_token_type type)
 {
-    if (type == EXPENDED_EXP_ARG)
-        return ("EXPENDED_EXP_ARG");
+    if (type == EX_EXP_ARG)
+        return ("EX_EXP_ARG");
     if (type == EXPORT_ARG)
         return ("EXPORT_ARG");
     if (type == EXPENDED)

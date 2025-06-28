@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:59:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/27 00:41:30 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:11:32 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	parsing(t_data *d)
 {
+	if (!d)
+		return (1);
 	if (empty_cmd(d->line))
 		return (1);
-	if (is_invalid_syntax(d->line, d))
+	if (is_invalid_syntax(d->line))
 	{
 		exit_status(1, 258);
 		return (syntax_error("syntax error"));

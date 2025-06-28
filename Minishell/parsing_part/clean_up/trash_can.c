@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:52:10 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:23:03 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:49:26 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	clear_trash(t_heap **lst)
 	}
 }
 
-//this function is to free all the heap allocated memmory throughout the program
 void	free_everything(t_data *data, int i)
 {
 	clear_trash(&data->heap);

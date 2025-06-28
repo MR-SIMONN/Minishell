@@ -6,13 +6,13 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 22:51:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/27 01:54:23 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:10:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Minishell.h"
 
-int	D_quoted(char *s)
+int	d_quoted(char *s)
 {
 	if (s[0] == '\"' && s[ft_strlen(s) - 1] == '\"')
 		return (1);
@@ -33,7 +33,7 @@ int	is_value_quoted(char *s)
 		else if (s[i] == '\"' && quote)
 			quote = 0;
 		else if (s[i] == '=' && s[i + 1] && s[i + 1] == '\"'
-				&& !quote)
+			&& !quote)
 			return (1);
 		i++;
 	}
@@ -62,4 +62,30 @@ int	is_key_quoted(char *s)
 		i++;
 	}
 	return (0);
+}
+
+int	words_count(char *str)
+{
+	int		i;
+	int		words;
+	int		flag;
+
+	i = 0;
+	words = 0;
+	flag = 0;
+	while (str[i])
+	{
+		if (!is_space(str[i]))
+		{
+			if (flag == 0)
+			{
+				words++;
+				flag = 1;
+			}
+		}
+		else
+			flag = 0;
+		i++;
+	}
+	return (words);
 }

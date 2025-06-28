@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:31:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:23:18 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:10:46 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	store_addr(char *s, t_data *data)
 {
 	t_heap	*p;
 
+	if (!s || !data)
+		return ;
 	p = malloc(sizeof(t_heap));
 	if (!p)
 	{
@@ -40,6 +42,8 @@ void	*ft_malloc(size_t size, t_data *d)
 	void	*allocated;
 	t_heap	*p;
 
+	if (!d)
+		return (NULL);
 	p = malloc(sizeof(t_heap));
 	if (!p)
 	{

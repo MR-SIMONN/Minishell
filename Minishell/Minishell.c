@@ -6,13 +6,13 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/27 01:55:01 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:18:31 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-int g_sig ;
+int	g_sig ;
 
 void	handle_sigint(int sig)
 {
