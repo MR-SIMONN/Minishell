@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 22:12:53 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:56:18 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void    minishell(int ac, char **av, char **env, t_data *d)
             // print_envs(d->env);
             gv_sig = 1;
 			exit_status(1, 0);
-            execution (&d->env, d->cmds, d);
+            execution (d);
             gv_sig = 0;
         }
     }

@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/27 15:09:59 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:45:02 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ typedef struct s_fds
 	int output_fd;
 } t_fds;
 
+typedef struct s_pipe
+{
+	int				fds[2];
+} t_pipe;
+
 typedef struct s_env
 {
 	char            *key;   //USER=
@@ -100,6 +105,8 @@ typedef struct s_exp
 	struct s_exp    *next;
 } t_exp;
 
+
+
 typedef struct s_token
 {
 	char            *value;
@@ -107,18 +114,17 @@ typedef struct s_token
 	struct s_token  *next;
 } t_token;
 
-
 typedef struct s_cmd 
 {
-	char            *cmd;
-	char            **args;
-	t_str           *files;
-	int             heredoc;
-	t_str           *heredoc_del;
-	char       *heredocfilename;
-	int             pipe;
-	struct s_cmd    *next;
-}   t_cmd;
+	char			*cmd;
+	char			**args;
+	t_str			*files;
+	int				heredoc;
+	t_str			*heredoc_del;
+	char			*heredocfilename;
+	int				pipe;
+	struct s_cmd	*next;
+} t_cmd;
 
 typedef struct s_data
 {
@@ -128,6 +134,7 @@ typedef struct s_data
 	t_cmd   *cmds;
 	t_env   *env;
 	t_exp	*exp;
+	t_pipe	*pipes;
 	// more data needed tho
 }   t_data;
 
@@ -242,18 +249,18 @@ char    *get_token_type_name(t_token_type type);
 
 //Execution part ; functions :
 // int     execution(t_data *data,t_data *cmds, t_data *d);
-int    execution(t_env **env,t_cmd *cmds, t_data *d);
+int   	execution(t_data *d);
 int     is_builtin(char *cmd);
-int     execute_builtin(char *cmd,t_env **env, char **args, t_data *d);
+int     execute_builtin(char *cmd, char **args, t_data *d);
 
 // bulltin funs
-int		cd_v(char **args, t_env **env,t_data *d);
+int		cd_v(char **args, t_data *d);
 int		echo_v(char **args);
 void	env_v(t_env *list, char **args);
-void	exit_v(char **args);
+void	exit_v(char **args, t_data *d);
 int		pwd_v(void);
-int		export_v(t_env **env_lst, char **args, t_data *d);
-int		unset_v(t_env **env_lst, t_data *d ,char **args);
+int		export_v(t_data *d, char **args);
+int		unset_v(t_data *d ,char **args);
 // utils funcs :
 int		is_digit(const char *str);
 long	ft_atol(const char *str, int *range_check);
@@ -273,37 +280,59 @@ int		is_exported(t_exp *exp_lst, t_env *env_lst, char *key);
 int	is_valid_identifier(char *str, int len);
 
 //part 2
-char	**get_path(t_env *env, t_data *d);
+char	**get_path(t_data *d);
 char	*get_fullpath(char *path, char *command, t_data *d);
 char	**ft_splits(char *str, char delimiter, t_data *d);
 void	duping(int saved_stdin, int saved_stdout);
 void	permission_denied_error(char *path);
 void	command_not_found_error(char *cmd);
 void	this_is_a_directory(char *path);
+void	not_found(char *cmd);
+void	num_arg_req(char *arg);
 char	*right_path(char **path, t_cmd *cmds, t_data *d, int *status);
 int		setup_redirections(int input_fd, int output_fd);
-int		apply_herdoc(t_cmd *cmd, t_data *d, int index);
+int		apply_heredoc(t_cmd *cmd, t_data *d, int index);
 int		apply_input_redirection(t_str *infiles);
 int		apply_output_redirection(t_str *outfiles);
 int		apply_heredoc_redirection(t_cmd *cmd);
-int		process_heredocs_before_fork(t_cmd *cmds, t_data *d);
+int		process_heredocs_before_fork(t_data *d);
 void	unlink_all_heredocfiles(t_cmd *cmds);
-int		execute_single_cmd(t_cmd *cmd, t_env **env, t_data *d,
-				int input_fd, int output_fd);
-int		execute_external_cmd (t_env **env, t_cmd *cmd, t_data *d);
-t_fds	setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count);
-void	close_all_pipes(int pipes[][2], int cmd_count);
-void	close_pipes_in_child(int pipes[][2], int cmd_count, int cmd_index);
-int		create_pipes(int pipes[][2], int cmd_count);
+int		execute_single_cmd(t_cmd *cmd, t_data *d,
+				t_fds fds);
+int		execute_external_cmd (t_cmd *cmd, t_data *d);
+t_fds	setup_pipe_fds(t_pipe *pipes, int cmd_index, int cmd_count);
+void	close_all_pipes(t_pipe *pipes, int cmd_count);
+void	close_pipes_in_child(t_pipe *pipes, int cmd_count, int cmd_index);
+int		create_pipes(t_data *d, int cmd_count);
 int		has_pipeline(t_cmd *cmds);
-int		execute_single_builtin(t_cmd *cmds, t_env **env, t_data *d);
-int		execute_single_external(t_cmd *cmds, t_env **env, t_data *d);
-int		execute_pipeline(t_env **env, t_cmd *cmds, t_data *d);
-char	**get_env(t_env *env, t_data *d);
+int		execute_single_builtin(t_cmd *cmds, t_data *d);
+int		execute_single_external(t_cmd *cmds, t_data *d);
+int		execute_pipeline(t_data *d);
+char	**get_env(t_data *d);
 int		count_commands(t_cmd *cmds);
-int		execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
-				int cmd_count);
+int		execute_pipeline_commands(t_data *d, int cmd_count);
 int		apply_redirections (t_str *files);
 int		handling_heredocs(t_cmd *cmd, int input_fd, int output_fd);
+int		is_exec(char *path, t_cmd *cmds, int silent, int *status);
+int		is_directory(char *path);
+int		last_char(char *path);
+int		handle_directory_path(char *path, t_cmd *cmds, int silent, int *status);
+int		ft_input_fd(int input_fd);
+int		ft_output_fd(int input_fd);
+int		apply_input_redirection(t_str *files);
+int		apply_output_redirection(t_str *files);
+int		ft_has_no_pipe(t_data *d);
+void	ft_file(t_cmd *cmd, int index, t_data *d, int *fd);
+char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status);
+int		ft_check_heredoc_multp(t_str *current);
+int		ft_dupone_heredocase(int output_fd);
+void	ft_expand_heredoc_handler(t_str *current, int fd, t_data *d);
+int		is_valid_identifier(char *str, int len);
+void	export_displayer(t_env *env_lst, t_exp *exp_lst);
+void	handle_export_only(char *arg, t_data *d);
+void	add_or_update_env(t_data *d, char *key, char *value);
+void	append_to_existing_env(t_env *existing, char *key, char *append_value, t_data *d);
+void	create_new_env_node(t_data *d, char *key, char *value);
+void	update_env_value(t_env *node, char *new_value, char *new_both);
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

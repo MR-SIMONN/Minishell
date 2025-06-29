@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/27 14:33:26 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/28 22:17:04 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	env_v(t_env *list, char **args)
 {
-	t_env *tmp;
-	
-	if(args[1])
+	t_env	*tmp;
+
+	if (args[1])
 	{
 		ft_putstr_fd("env: ", 1);
 		ft_putstr_fd(args[1], 1);
@@ -25,7 +25,7 @@ void	env_v(t_env *list, char **args)
 		return ;
 	}
 	tmp = list;
-	while(tmp)
+	while (tmp)
 	{
 		ft_putstr_fd(tmp->both, 1);
 		ft_putstr_fd("\n", 1);

@@ -56,9 +56,15 @@ execution/builtins/echo.c \
 execution/builtins/env.c \
 execution/builtins/exit.c \
 execution/builtins/export.c \
+execution/builtins/export.c \
 execution/builtins/pwd.c \
 execution/builtins/unset.c \
 execution/builtin_funs.c \
+execution/utils/apply_redirections_utils_1.c \
+execution/utils/apply_redirections_utils_2.c \
+execution/utils/apply_redirections_utils_3.c \
+execution/utils/export_utils1.c \
+execution/utils/export_utils2.c \
 execution/utils/ft_atol.c \
 execution/utils/ft_isdigit_pro.c \
 execution/utils/ft_putstr_fd.c \
@@ -68,8 +74,10 @@ execution/utils/ft_splits.c \
 execution/utils/exec_helpers.c \
 execution/utils/linked.c \
 execution/utils/exp_env_utils.c \
-execution/dup_redirc.c \
-execution/path_funs.c \
+execution/execprt.c \
+execution/path_funs_1.c \
+execution/path_funs_2.c \
+execution/path_funs_3.c \
 execution/pipes_funs.c \
 execution/exec_funs.c	\
 

@@ -6,70 +6,54 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:54:46 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/24 13:14:17 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:57:47 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int setup_redirections(int input_fd, int output_fd)
+int	setup_redirections(int input_fd, int output_fd)
 {
 	if (input_fd != STDIN_FILENO)
 	{
-		if (input_fd < 0)
-        {
-            ft_putstr_fd("minishell: invalid input file descriptor\n", 2);
-            return (1);
-        }
-		if (dup2(input_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 input");
+		if (ft_input_fd(input_fd) != 0)
 			return (1);
-		}
-		close(input_fd);
 	}
 	if (output_fd != STDOUT_FILENO)
 	{
-		if (output_fd < 0)
-        {
-            ft_putstr_fd("minishell: invalid output file descriptor\n", 2);
-            return (1);
-        }
-		if (dup2(output_fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 output");
+		if (ft_output_fd(output_fd) != 0)
 			return (1);
-		}
-		close(output_fd);
 	}
 	return (0);
 }
 
-int process_heredocs_before_fork(t_cmd *cmds, t_data *d)
+int	process_heredocs_before_fork(t_data *d)
 {
-    t_cmd *current = cmds;
-    int index = 0;
+	t_cmd	*current;
+	int		index;
 
-    while (current)
-    {
-        if (current->heredoc && current->heredoc_del != NULL)
-        {
-            if (apply_herdoc(current, d, index) != 0)
-                return (1);
-        }
+	current = d->cmds;
+	index = 0;
+	while (current)
+	{
+		if (current->heredoc && current->heredoc_del != NULL)
+		{
+			if (apply_heredoc(current, d, index) != 0)
+				return (1);
+		}
 		index++;
-        current = current->next;
-    }
-    return (0);
+		current = current->next;
+	}
+	return (0);
 }
 
 void	unlink_all_heredocfiles(t_cmd *cmds)
 {
-	while(cmds)
+	while (cmds)
 	{
-		if(cmds->heredoc && cmds->heredoc_del != NULL)
+		if (cmds->heredoc && cmds->heredoc_del != NULL)
 			unlink(cmds->heredocfilename);
-		cmds=cmds->next;
+		cmds = cmds->next;
 	}
 }
 
@@ -96,39 +80,26 @@ int	apply_heredoc_redirection(t_cmd *cmd)
 	return (0);
 }
 
-int handling_heredocs(t_cmd *cmd, int input_fd, int output_fd)
+int	handling_heredocs(t_cmd *cmd, int input_fd, int output_fd)
 {
-    int has_multiple_heredocs;
+	int		has_multiple_heredocs;
+	t_str	*current;
 
-    has_multiple_heredocs= 0;
-    if (cmd->heredoc_del)
-    {
-        t_str *current = cmd->heredoc_del;
-        int count = 0;
-        while (current)
-        {
-            count++;
-            current = current->next;
-        }
-        has_multiple_heredocs = (count > 1);
-    }
-    
-    if (has_multiple_heredocs || (cmd->heredoc == 0))
-    {
-        if (setup_redirections(input_fd, output_fd) != 0)
-            return (1);
-    }
-    else
-    {
-        if (output_fd != STDOUT_FILENO)
-        {
-            if (dup2(output_fd, STDOUT_FILENO) == -1)
-            {
-                perror("dup2 output");
-                return (1);
-            }
-            close(output_fd);
-        }
-    }
-    return (0);
+	has_multiple_heredocs = 0;
+	if (cmd->heredoc_del)
+	{
+		current = cmd->heredoc_del;
+		has_multiple_heredocs = ft_check_heredoc_multp(current);
+	}
+	if (has_multiple_heredocs || (cmd->heredoc == 0))
+	{
+		if (setup_redirections(input_fd, output_fd) != 0)
+			return (1);
+	}
+	else
+	{
+		if (ft_dupone_heredocase(output_fd) != 0)
+			return (1);
+	}
+	return (0);
 }

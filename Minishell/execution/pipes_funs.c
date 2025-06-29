@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 13:26:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/24 10:27:34 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/06/28 22:59:33 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/06/29 15:52:25 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ int	has_pipeline(t_cmd *cmds)
 	return (0);
 }
 
-int	create_pipes(int pipes[][2], int cmd_count)
+int	create_pipes(t_data *d, int cmd_count)
 {
 	int	i;
 
 	i = 0;
+	d->pipes = ft_malloc(sizeof(t_pipe) * (cmd_count - 1), d);
 	while (i < cmd_count - 1)
 	{
-		if (pipe(pipes[i]) == -1)
+		if (pipe(d->pipes[i].fds) == -1)
 		{
 			perror("pipe");
 			return (1);
@@ -43,7 +44,7 @@ int	create_pipes(int pipes[][2], int cmd_count)
 	return (0);
 }
 
-void	close_pipes_in_child(int pipes[][2], int cmd_count, int cmd_index)
+void	close_pipes_in_child(t_pipe *pipes, int cmd_count, int cmd_index)
 {
 	int	j;
 
@@ -51,35 +52,35 @@ void	close_pipes_in_child(int pipes[][2], int cmd_count, int cmd_index)
 	while (j < cmd_count - 1)
 	{
 		if (j != cmd_index - 1)
-			close(pipes[j][0]);
+			close(pipes[j].fds[0]);
 		if (j != cmd_index)
-			close(pipes[j][1]);
+			close(pipes[j].fds[1]);
 		j++;
 	}
 }
 
-void	close_all_pipes(int pipes[][2], int cmd_count)
+void	close_all_pipes(t_pipe *pipes, int cmd_count)
 {
 	int	i;
 
 	i = 0;
 	while (i < cmd_count - 1)
 	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
+		close(pipes[i].fds[0]);
+		close(pipes[i].fds[1]);
 		i++;
 	}
 }
 
-t_fds	setup_pipe_fds(int pipes[][2], int cmd_index, int cmd_count)
+t_fds	setup_pipe_fds(t_pipe *pipes, int cmd_index, int cmd_count)
 {
 	t_fds	fds;
 
 	fds.input_fd = STDIN_FILENO;
 	fds.output_fd = STDOUT_FILENO;
 	if (cmd_index > 0)
-		fds.input_fd = pipes[cmd_index - 1][0];
+		fds.input_fd = pipes[cmd_index - 1].fds[0];
 	if (cmd_index < cmd_count - 1)
-		fds.output_fd = pipes[cmd_index][1];
+		fds.output_fd = pipes[cmd_index].fds[1];
 	return (fds);
 }

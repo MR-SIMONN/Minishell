@@ -6,45 +6,24 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/27 15:47:20 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:22:54 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	count_commands(t_cmd *cmds)
-{
-	int		count;
-	t_cmd	*current;
-
-	count = 0;
-	current = cmds;
-	while (current)
-	{
-		count++;
-		if (current->pipe == 0)
-			break ;
-		current = current->next;
-	}
-	return (count);
-}
-
-static pid_t	fork_and_execute(t_cmd *current, t_env **env, t_data *d,
-					int pipes[][2], int i, int cmd_count)
+static pid_t	fork_and_execute(t_cmd *current, t_data *d, int i,
+			int cmd_count)
 {
 	pid_t	pid;
 	t_fds	fds;
-	int		input_fd;
-	int		output_fd;
-	
+
 	pid = fork();
 	if (pid == 0)
 	{
-		fds = setup_pipe_fds(pipes, i, cmd_count);
-		input_fd = fds.input_fd;
-		output_fd = fds.output_fd;
-		close_pipes_in_child(pipes, cmd_count, i);
-		exit(execute_single_cmd(current, env, d, input_fd, output_fd));
+		fds = setup_pipe_fds(d->pipes, i, cmd_count);
+		close_pipes_in_child(d->pipes, cmd_count, i);
+		exit(execute_single_cmd(current, d, fds));
 	}
 	else if (pid < 0)
 	{
@@ -74,35 +53,34 @@ int	wait_for_children(pid_t *pids, int cmd_count)
 
 void	wait_childrens(pid_t *pids, int i)
 {
-	int j;
-	
+	int	j;
+
 	j = 0;
-	while(j < i)
+	while (j < i)
 	{
 		waitpid(pids[j], NULL, 0);
 		j++;
 	}
 }
 
-int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
-				int cmd_count)
+int	execute_pipeline_commands(t_data *d, int cmd_count)
 {
-	int		pipes[cmd_count - 1][2];
-	pid_t	pids[cmd_count];
+	pid_t	*pids;
 	t_cmd	*current;
 	int		i;
 
-	if (create_pipes(pipes, cmd_count) != 0)
-		return (1);
-	current = cmds;
 	i = 0;
+	pids = ft_malloc (sizeof(pid_t) * cmd_count, d);
+	if (create_pipes(d, cmd_count) != 0)
+		return (1);
+	current = d->cmds;
 	while (i < cmd_count && current)
 	{
-		pids[i] = fork_and_execute(current, env, d, pipes, i, cmd_count);
+		pids[i] = fork_and_execute(current, d, i, cmd_count);
 		if (pids[i] == -1)
 		{
 			wait_childrens(pids, i);
-			close_all_pipes(pipes, cmd_count);
+			close_all_pipes(d->pipes, cmd_count);
 			return (1);
 		}
 		if (current->pipe == 0)
@@ -110,15 +88,17 @@ int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 		current = current->next;
 		i++;
 	}
-	close_all_pipes(pipes, cmd_count);
+	close_all_pipes(d->pipes, cmd_count);
 	return (wait_for_children(pids, cmd_count));
 }
 
-int	execution(t_env **env, t_cmd *cmds, t_data *d)
+int	execution(t_data *d)
 {
-	struct termios  tty;
+	struct termios	tty;
+	int				status;
+
 	tcgetattr(STDIN_FILENO, &tty);
-	int i = execute_pipeline(env, cmds, d);
+	status = execute_pipeline(d);
 	tcsetattr(STDIN_FILENO, TCSANOW, &tty);
-	return (i);
+	return (status);
 }
