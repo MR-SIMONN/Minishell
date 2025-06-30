@@ -6,21 +6,42 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 23:22:26 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/29 16:04:31 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:00:48 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	ft_file(t_cmd *cmd, int index, t_data *d, int *fd)
+int	ft_input_fd(int input_fd)
 {
-	char	*filename;
-	char	*num;
+	if (input_fd < 0)
+	{
+		ft_putstr_fd("minishell: invalid input file descriptor\n", 2);
+		return (1);
+	}
+	if (dup2(input_fd, STDIN_FILENO) == -1)
+	{
+		perror("dup2 input");
+		return (1);
+	}
+	close(input_fd);
+	return (0);
+}
 
-	num = ft_itoa(index, d);
-	filename = ft_strjoin(".heredoc_", num, d);
-	cmd->heredocfilename = ft_strdup(filename, d);
-	*fd = open(cmd->heredocfilename, O_CREAT | O_RDWR, 0644);
+int	ft_output_fd(int output_fd)
+{
+	if (output_fd < 0)
+	{
+		ft_putstr_fd("minishell: invalid output file descriptor\n", 2);
+		return (1);
+	}
+	if (dup2(output_fd, STDOUT_FILENO) == -1)
+	{
+		perror("dup2 output");
+		return (1);
+	}
+	close(output_fd);
+	return (0);
 }
 
 int	ft_check_heredoc_multp(t_str *current)

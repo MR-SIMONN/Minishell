@@ -3,38 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   trash_can.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:52:10 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:23:03 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:01:18 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	clear_trash(t_heap **lst)
+void	clear_trash(t_heap *lst)
 {
 	t_heap	*temp;
 
 	if (lst == NULL)
 		return ;
-	while (*lst)
+	while (lst)
 	{
-		temp = (*lst)->next;
-		free((*lst)->address);
-		(*lst)->address = NULL;
-		free(*lst);
-		*lst = temp;
+		temp = lst->next;
+		free(lst->address);
+		lst->address = NULL;
+		free(lst);
+		lst = temp;
 	}
 }
 
-//this function is to free all the heap allocated memmory throughout the program
 void	free_everything(t_data *data, int i)
 {
-	clear_trash(&data->heap);
+	clear_trash(data->heap);
 	if (i >= 0)
-	{
-		printf ("exit");
 		exit(i);
-	}
 }

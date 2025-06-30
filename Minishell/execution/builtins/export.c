@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:46 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/29 15:40:04 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:34:00 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	export_handler(char **args, t_data *d, int *status)
 		if (!is_valid_identifier(arg, j) || arg[0] == '=')
 		{
 			printf("export: `%s`: not a valid identifier\n", arg);
-			(*status) = 1;
+			*status = 1;
 			i++;
 			continue ;
 		}

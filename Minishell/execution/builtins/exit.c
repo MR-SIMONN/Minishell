@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:43 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/28 23:35:06 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:54:06 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@ void	exit_v(char **args, t_data *d)
 	int		is_out_range;
 
 	1 && (is_out_range = 0, status = 0);
-	if (isatty(0) || isatty(1))
+	if (isatty(0) && isatty(1))
 		ft_putstr_fd("exit\n", 1);
 	if (!args[1])
-		exit(0);
+		free_everything(d, 0);
 	if (!is_digit(args[1]))
 	{
 		num_arg_req(args[1]);
-		exit(255);
+		free_everything(d, 255);
 	}
 	status = ft_atol(args[1], &is_out_range);
 	if (is_out_range)
 	{
 		num_arg_req(args[1]);
-		exit(255);
+		free_everything(d, 255);
 	}
 	if (args[2])
 	{

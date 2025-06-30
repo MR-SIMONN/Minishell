@@ -6,63 +6,55 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/29 15:45:02 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:56:39 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//wach ma3ndk mayddar tabe3ni hhhhhh wasafi sir lmakefile ghatl9a comment mohim lfoo9
-
-# ifndef MINISHELL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <fcntl.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <unistd.h>
-#include <termios.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <sys/wait.h>
-#include <stdbool.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <dirent.h>
+# include <termios.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <dirent.h>
 
 # define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 typedef struct s_heap
 {
-	void    *address;
-	struct s_heap   *next;
-}   t_heap;
-
-// token.h or in Minishell.h
+	void			*address;
+	struct s_heap	*next;
+}	t_heap;
 
 typedef enum e_token_type
 {
-	EXPENDED_EXP_ARG,	// an expended token after a export token
-	EXPORT_ARG,     	// a token after a export tokenAdd commentMore actions
-	EXPENDED,       	// a variable have been expanded successfully
-	VAR,            	// a string contains a variable
-	S_VAR,          	// a single quoted string contanis a variable
-	D_VAR,          	// a dubble quoted string contanis a variable
-	S_QUOTED,       	// a single quoted string
-	D_QUOTED,       	// a dubble quoted string
-	REDIR_WORD,     	// a string after a red
-	D_REDIR_WORD,   	// a dubble quoted string after a red
-	S_REDIR_WORD,   	// a single quoted string after a red
-	REDIR_VAR,      	// a var infront of a red except heredoc
-	WORD,           	// a normal string
-	PIPE,           	// |
-	REDIRECT_OUT,   	// >
-	REDIRECT_IN,    	// <
-	APPEND,         	// >>
-	HEREDOC         // <<
-} t_token_type;
+	EX_EXP_ARG,
+	EXPORT_ARG,
+	EXPENDED,
+	VAR,
+	S_VAR,
+	D_VAR,
+	S_QUOTED,
+	D_QUOTED,
+	REDIR_WORD,
+	D_REDIR_WORD,
+	S_REDIR_WORD,
+	REDIR_VAR,
+	WORD,
+	PIPE,
+	REDIRECT_OUT,
+	REDIRECT_IN,
+	APPEND,
+	HEREDOC
+}	t_token_type;
 
 typedef enum e_redir_type
 {
@@ -70,51 +62,49 @@ typedef enum e_redir_type
 	IN_FILE,
 	APPEND_FILE,
 	HERDOC_DEL
-} t_redir_type;
+}	t_redir_type;
 
 typedef struct s_str
 {
-	char            *s;
-	int             expendable;
-	t_redir_type    type;
-	struct s_str    *next;
-} t_str;
+	char			*s;
+	int				expendable;
+	t_redir_type	type;
+	struct s_str	*next;
+}	t_str;
 
 typedef struct s_fds
 {
-	int input_fd;
-	int output_fd;
-} t_fds;
+	int	input_fd;
+	int	output_fd;
+}	t_fds;
 
 typedef struct s_pipe
 {
-	int				fds[2];
-} t_pipe;
+	int	fds[2];
+}	t_pipe;
 
 typedef struct s_env
 {
-	char            *key;   //USER=
-	char            *value; //=moel-hai || ielouarr hhhhh
-	char            *both;  //USER=moel-hai || ielouarr hhhhh
-	struct s_env    *next;
-} t_env;
+	char			*key;
+	char			*value;
+	char			*both;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_exp
 {
-	char            *value; //declare -x {{      a      }} <- this value
-	struct s_exp    *next;
-} t_exp;
-
-
+	char			*value;
+	struct s_exp	*next;
+}	t_exp;
 
 typedef struct s_token
 {
-	char            *value;
-	t_token_type    type;
-	struct s_token  *next;
-} t_token;
+	char			*value;
+	t_token_type	type;
+	struct s_token	*next;
+}	t_token;
 
-typedef struct s_cmd 
+typedef struct s_cmd
 {
 	char			*cmd;
 	char			**args;
@@ -124,144 +114,122 @@ typedef struct s_cmd
 	char			*heredocfilename;
 	int				pipe;
 	struct s_cmd	*next;
-} t_cmd;
+}	t_cmd;
 
 typedef struct s_data
 {
-	char    *line;
-	t_heap  *heap;
-	t_token *token;
-	t_cmd   *cmds;
-	t_env   *env;
+	char	*line;
+	t_heap	*heap;
+	t_token	*token;
+	t_cmd	*cmds;
+	t_env	*env;
 	t_exp	*exp;
 	t_pipe	*pipes;
-	// more data needed tho
-}   t_data;
+}	t_data;
 
 typedef struct s_expend_infos
 {
-	char    *s;
-	char    *env_value;
-	int     len;
-	t_data  *d;
-	int     after_key;
-	char    *key;
-} t_expend_infos;
+	char	*s;
+	char	*env_value;
+	int		len;
+	t_data	*d;
+	int		after_key;
+	char	*key;
+}	t_expend_infos;
 
-//parsing functions
-int     parsing(t_data *d);
-int     empty_cmd(char *s);
-int     is_invalid_syntax(char *s, t_data *d);
-int     parentheses(char *s);
+int		parsing(t_data *d);
+int		empty_cmd(char *s);
+int		is_invalid_syntax(char *s);
+int		parentheses(char *s);
 void	after_redir_tokens(t_token *t);
-void    ft_lst_tokens(t_data *d);
-void    store_envs(t_env **envs, char **env, t_data *d);
-int     expending(t_token *t, t_data *d, int s_quote, int d_quote);
-char    *expand_heredoc(char *s, t_data *d);
-int     expended_token_len(t_data *d, char *s, char *key, int i);
-char    *new_expended_token(t_expend_infos  infos);
-void    fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
-int     args_len(t_token *t);
-void    copy_args(char **args, t_token *t, t_data *d);
-int     check_one(char *s, int i);
-int     check_two(char *s, int i);
-int     is_symbol(char c);
-void    handle_symbols(char *s, int *len, int i);
-int     is_two_symbols(char *s, int i);
-int     is_one_symbol(char *s, int i);
-void    set_strcut_values(t_data *d, int i);
-int     handle_syntax_error(t_token *t, t_data *d);
-int     syntax_error (char *s);
+void	ft_lst_tokens(t_data *d);
+void	store_envs(t_env **envs, char **env, t_data *d);
+int		expending(t_token *t, t_data *d, int s_quote, int d_quote);
+char	*expand_heredoc(char *s, t_data *d);
+int		expended_token_len(t_data *d, char *s, char *key, int i);
+char	*new_expended_token(t_expend_infos infos);
+void	fill_d_cmd(t_cmd **c, t_token *t, t_data *d);
+int		args_len(t_token *t);
+void	copy_args(char **args, t_token *t, t_data *d);
+int		check_one(char *s, int i);
+int		check_two(char *s, int i);
+int		is_symbol(char c);
+void	handle_symbols(char *s, int *len, int i);
+int		is_two_symbols(char *s, int i);
+int		is_one_symbol(char *s, int i);
+void	set_strcut_values(t_data *d, int i);
+int		handle_syntax_error(t_token *t, t_data *d);
+int		syntax_error(char *s);
 void	make_backup_env(t_env **envs, t_data *d);
-void    get_rid_of_quotes(t_token *t, t_data *d);
-char    *delete_invalid_var(char *str, t_data *d);
-void    ambiguous_error(char *str);
-void    signal_stuff(void);
+void	get_rid_of_quotes(t_token *t, t_data *d);
+char	*delete_invalid_var(char *str, t_data *d);
+void	ambiguous_error(char *str);
+void	signal_stuff(void);
 void	handle_sigint(int sig);
 void	split_to_toknes(t_token *curr, t_data *d);
 void	after_export_tokens(t_token *t);
 int		is_splittable(t_token *t);
-int		D_quoted(char *s);
+int		d_quoted(char *s);
 int		is_value_quoted(char *s);
 int		is_key_quoted(char *s);
-
-//utils functions
-t_str	*new_strnode(char *string, t_token *t,  t_data *d);
-void	ft_cmdadd_back(t_cmd **c, t_cmd   *new);
+t_str	*new_strnode(char *string, t_token *t, t_data *d);
+void	ft_cmdadd_back(t_cmd **c, t_cmd *new);
 t_str	*last_str(t_str *p);
-void    ft_error(char *message);
-void    skip_it(char *s, int *i, char c);
+void	ft_error(char *message);
+void	skip_it(char *s, int *i, char c);
 void	env_add_back(t_env **envs, t_env *new);
-int     is_quoted(t_token_type type);
-void    quotes_stuff(char *s, int i, char *c, int *quotes);
-int     valid_char(char c);
-char    *copy_var_name(char *s, int i, t_data *d);
-int     valid_var(char *s, t_env *env);
-char    *var_value(t_env *env, char *key, t_data *d);
+int		is_quoted(t_token_type type);
+void	quotes_stuff(char *s, int i, char *c, int *quotes);
+int		valid_char(char c);
+char	*copy_var_name(char *s, int i, t_data *d);
+int		valid_var(char *s, t_env *env);
+char	*var_value(t_env *env, char *key, t_data *d);
 void	ignore_tokens(t_token **head);
-int	    var_count(char *s);
-int	    decrease_len(char *s);
-int	    is_var(char c);
-t_env   *new_env(char *s, t_data *d);
-int     valid_key(char c);
-int     quotes_len (char *s);
-int     is_word(t_token *t);
-char    *delete_quotes(char *s, char c, int flag, t_data *d);
-int     exit_status(int should_update, int new_status);
+int		var_count(char *s);
+int		decrease_len(char *s);
+int		is_var(char c);
+t_env	*new_env(char *s, t_data *d);
+int		valid_key(char c);
+int		quotes_len(char *s);
+int		is_word(t_token *t);
+char	*delete_quotes(char *s, char c, int flag, t_data *d);
+int		exit_status(int should_update, int new_status);
 void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote);
-int     space_exists(char *s);
-int	    is_space(char c);
+int		space_exists(char *s);
+int		words_count(char *str);
+int		is_space(char c);
 void	skip_spaces(char *s, int *i);
-
-//garbage collector functions
 void	free_everything(t_data *data, int i);
-void	clear_trash(t_heap **lst);
+void	clear_trash(t_heap *lst);
 void	store_addr(char *s, t_data *data);
 void	*ft_malloc(size_t size, t_data *data);
-
-//libft functions
 char	*ft_strjoin(char *s1, char *s2, t_data *d);
-int     ft_strcmp(char *s1, char *s2);
-int    ft_strncmp(const char *s1, char *s2, size_t ncmp);
+int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(const char *s1, char *s2, size_t ncmp);
 char	*ft_strdup(char *s1, t_data *d);
-size_t  ft_strlen (char *str);
+size_t	ft_strlen(char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len, t_data *data);
 char	**ft_split(char *s, t_data *d);
 void	ft_lstadd_back(t_token **lst, t_token *new);
-t_token *ft_lstnew(char *content, t_data *d, int quote);
+t_token	*ft_lstnew(char *content, t_data *d, int quote);
 t_token	*ft_lstlast(t_token *lst);
 char	*ft_strsdup(char *s1, int l, t_data *d);
-int     ft_isalpha(int c);
-int     ft_isdigit(int c);
-int     ft_isalnum(int c);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_isalnum(int c);
 char	*ft_itoa(int n, t_data *d);
-char    *ft_strchr(const char *s, int c);
-char    *ft_strnstr(const char *haystack, char *needle, size_t len);
-char    *ft_strjoin(char *s1, char *s2, t_data *d);
-
-//testing functions
-void    print_tokens(t_token *head);
-void    print_cmds(t_cmd *cmd);
-void    print_envs(t_env *env);
-void    print_strs(char **s);
-char    *get_token_type_name(t_token_type type);
-
-
-//Execution part ; functions :
-// int     execution(t_data *data,t_data *cmds, t_data *d);
-int   	execution(t_data *d);
-int     is_builtin(char *cmd);
-int     execute_builtin(char *cmd, char **args, t_data *d);
-
-// bulltin funs
+char	*ft_strchr(const char *s, int c);
+char	*ft_strnstr(const char *haystack, char *needle, size_t len);
+int		execution(t_data *d);
+int		is_builtin(char *cmd);
+int		execute_builtin(char *cmd, char **args, t_data *d);
 int		cd_v(char **args, t_data *d);
 int		echo_v(char **args);
 void	env_v(t_env *list, char **args);
 void	exit_v(char **args, t_data *d);
 int		pwd_v(void);
 int		export_v(t_data *d, char **args);
-int		unset_v(t_data *d ,char **args);
-// utils funcs :
+int		unset_v(t_data *d, char **args);
 int		is_digit(const char *str);
 long	ft_atol(const char *str, int *range_check);
 void	ft_putstr_fd(char *s, int fd);
@@ -277,9 +245,7 @@ void	remove_from_export_lst(t_exp **exp_lst, char *key);
 t_exp	*find_exp_node(t_exp *exp_lst, char *key);
 t_env	*find_env_node(t_env *env_lst, char *key);
 int		is_exported(t_exp *exp_lst, t_env *env_lst, char *key);
-int	is_valid_identifier(char *str, int len);
-
-//part 2
+int		is_valid_identifier(char *str, int len);
 char	**get_path(t_data *d);
 char	*get_fullpath(char *path, char *command, t_data *d);
 char	**ft_splits(char *str, char delimiter, t_data *d);
@@ -297,9 +263,8 @@ int		apply_output_redirection(t_str *outfiles);
 int		apply_heredoc_redirection(t_cmd *cmd);
 int		process_heredocs_before_fork(t_data *d);
 void	unlink_all_heredocfiles(t_cmd *cmds);
-int		execute_single_cmd(t_cmd *cmd, t_data *d,
-				t_fds fds);
-int		execute_external_cmd (t_cmd *cmd, t_data *d);
+int		execute_single_cmd(t_cmd *cmd, t_data *d, t_fds fds);
+int		execute_external_cmd(t_cmd *cmd, t_data *d);
 t_fds	setup_pipe_fds(t_pipe *pipes, int cmd_index, int cmd_count);
 void	close_all_pipes(t_pipe *pipes, int cmd_count);
 void	close_pipes_in_child(t_pipe *pipes, int cmd_count, int cmd_index);
@@ -311,7 +276,7 @@ int		execute_pipeline(t_data *d);
 char	**get_env(t_data *d);
 int		count_commands(t_cmd *cmds);
 int		execute_pipeline_commands(t_data *d, int cmd_count);
-int		apply_redirections (t_str *files);
+int		apply_redirections(t_str *files);
 int		handling_heredocs(t_cmd *cmd, int input_fd, int output_fd);
 int		is_exec(char *path, t_cmd *cmds, int silent, int *status);
 int		is_directory(char *path);
@@ -331,8 +296,8 @@ int		is_valid_identifier(char *str, int len);
 void	export_displayer(t_env *env_lst, t_exp *exp_lst);
 void	handle_export_only(char *arg, t_data *d);
 void	add_or_update_env(t_data *d, char *key, char *value);
-void	append_to_existing_env(t_env *existing, char *key, char *append_value, t_data *d);
+void	append_to_existing_env(t_env *existing, char *key, char *append_value,
+			t_data *d);
 void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
-# endif
-// tle3 lfo9 gaaa3 ghatl9a wahed akhor
+#endif

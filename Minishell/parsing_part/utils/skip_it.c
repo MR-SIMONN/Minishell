@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 01:35:54 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/24 02:28:34 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:10:47 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	skip_it(char *s, int *i, char c)
 	while (s[*i] && s[*i] == c)
 		(*i)++;
 }
+
 void	skip_spaces(char *s, int *i)
 {
 	while (s[*i] && is_space(s[*i]))

@@ -6,43 +6,11 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:41:28 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/29 16:04:28 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:00:41 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
-
-int	ft_input_fd(int input_fd)
-{
-	if (input_fd < 0)
-	{
-		ft_putstr_fd("minishell: invalid input file descriptor\n", 2);
-		return (1);
-	}
-	if (dup2(input_fd, STDIN_FILENO) == -1)
-	{
-		perror("dup2 input");
-		return (1);
-	}
-	close(input_fd);
-	return (0);
-}
-
-int	ft_output_fd(int output_fd)
-{
-	if (output_fd < 0)
-	{
-		ft_putstr_fd("minishell: invalid output file descriptor\n", 2);
-		return (1);
-	}
-	if (dup2(output_fd, STDOUT_FILENO) == -1)
-	{
-		perror("dup2 output");
-		return (1);
-	}
-	close(output_fd);
-	return (0);
-}
 
 int	apply_output_redirection(t_str *files)
 {

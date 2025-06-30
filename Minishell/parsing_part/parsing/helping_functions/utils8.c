@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 22:21:21 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/24 02:30:28 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:04:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ambiguous_error(char *str)
 {
 	if (!str)
 		return ;
+	exit_status(1, 1);
 	printf ("minihell: $%s: ambiguous redirect\n", str);
 }
 

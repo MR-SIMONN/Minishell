@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/28 23:59:02 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:32:18 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	signal_herdoc(int sig)
 
 int	handle_heredoc_child(t_str *current, int fd, t_data *d)
 {
-	signal(SIGINT, handle_sigint);
 	if (fd < 0)
 	{
 		perror("open .heredoc file");
@@ -79,21 +78,20 @@ int	apply_heredoc(t_cmd *cmd, t_data *d, int index)
 
 	current = cmd->heredoc_del;
 	fd = -1;
-	ft_file(cmd, index, d, &fd);
 	while (current)
 	{
 		signal(SIGINT, SIG_IGN);
+		ft_file(cmd, index, d, &fd);
 		pid = fork();
 		if (pid == 0)
-			handle_heredoc_child(current, fd, d);
-		else
 		{
-			if (handle_heredoc_parent(pid, &status) == 130)
-			{
-				close(fd);
-				return (1);
-			}
+			signal(SIGINT, signal_herdoc);
+			handle_heredoc_child(current, fd, d);
 		}
+		else
+			if (handle_heredoc_parent(pid, &status) == 130)
+				return (close(fd), 1);
+		close(fd);
 		current = current->next;
 	}
 	return (close(fd), 0);

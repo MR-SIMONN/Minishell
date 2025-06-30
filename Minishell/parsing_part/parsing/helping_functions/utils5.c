@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/24 01:22:59 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:57:36 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	emty_token(char *s, t_token_type type)
 	int	i;
 
 	i = 0;
-	skip_it(s, &i, ' ');
 	if (!s[i] && type == VAR)
 		return (1);
 	return (0);
@@ -28,6 +27,8 @@ void	ignore_tokens(t_token **head)
 	t_token	*curr;
 	t_token	*prev;
 
+	if (!head || !*head)
+		return ;
 	curr = *head;
 	prev = NULL;
 	while (curr && curr->value)

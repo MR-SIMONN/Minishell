@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:54:02 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/28 22:15:04 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:31:26 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	remove_from_export_lst(t_exp **exp_lst, char *key)
 				*exp_lst = curr_tmp->next;
 			else
 				pre_tmp->next = curr_tmp->next;
-			free(curr_tmp->value);
-			free(curr_tmp);
 			return ;
 		}
 		pre_tmp = curr_tmp;
@@ -90,8 +88,6 @@ void	remove_from_env_lst(t_env **env_lst, char *key)
 				*env_lst = curr_tmp->next;
 			else
 				pre_tmp->next = curr_tmp->next;
-			free(curr_tmp->value);
-			free(curr_tmp);
 			return ;
 		}
 		pre_tmp = curr_tmp;

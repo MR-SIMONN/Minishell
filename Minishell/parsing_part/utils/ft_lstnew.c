@@ -19,7 +19,7 @@ int	is_variable(char *s, int quote)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '$' && s[i + 1])
+		if (s[i] == '$' && is_var(s[i + 1]))
 		{
 			if (quote == 0)
 				return (0);

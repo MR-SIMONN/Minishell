@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:54:46 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/29 10:57:47 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:31:41 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	process_heredocs_before_fork(t_data *d)
 		{
 			if (apply_heredoc(current, d, index) != 0)
 				return (1);
+			index++;
 		}
-		index++;
 		current = current->next;
 	}
 	return (0);

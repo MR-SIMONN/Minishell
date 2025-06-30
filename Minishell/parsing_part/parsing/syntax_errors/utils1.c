@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 21:14:07 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/26 23:34:32 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:10:37 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,15 @@ int	is_symbol(char c)
 
 int	check_one(char *s, int i)
 {
-	if (s[i] == '>' && s[i])
+	if (!s)
+		return (0);
+	if (s[i] == '>' || s[i] == '<')
 	{
 		i++;
-		if (is_symbol(s[i]) && s[i])
+		if (is_symbol(s[i]))
 			return (1);
 	}
-	if (s[i] && s[i] == '<')
-	{
-		i++;
-		if (is_symbol(s[i]) && s[i] != '>' && s[i])
-			return (1);
-	}
-	if (s[i] && s[i + 1] && s[i] == '|')
+	if (s[i] == '|' && s[i + 1])
 	{
 		if (s[i + 1] == '|')
 			return (1);
@@ -47,18 +43,13 @@ int	check_one(char *s, int i)
 
 int	check_two(char *s, int i)
 {
-	if (s[i] == '>' && s[i])
+	if (!s)
+		return (0);
+	if (s[i] == '>' || s[i] == '<')
 	{
 		i += 2;
-		if (is_symbol(s[i]) && s[i])
-			return (1);
-	}
-	else if (s[i] == '<' && s[i])
-	{
-		i += 2;
-		if (s[i] && is_symbol(s[i]))
+		if (is_symbol(s[i]))
 			return (1);
 	}
 	return (0);
 }
-
