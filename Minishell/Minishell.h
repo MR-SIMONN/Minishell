@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/28 15:09:37 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:59:39 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,6 @@ t_str	*new_strnode(char *string, t_token *t, t_data *d);
 void	ft_cmdadd_back(t_cmd **c, t_cmd   *new);
 t_str	*last_str(t_str *p);
 void    ft_error(char *message);
-void    skip_it(char *s, int *i, char c);
 void	env_add_back(t_env **envs, t_env *new);
 int     is_quoted(t_token_type type);
 void    quotes_stuff(char *s, int i, char *c, int *quotes);
@@ -304,5 +303,23 @@ int     count_commands(t_cmd *cmds);
 int	execute_pipeline_commands(t_env **env, t_cmd *cmds, t_data *d,
 				int cmd_count);
 int	apply_redirections (t_str *files);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int		is_redir(t_token *t);
+
+
 # endif
 // tle3 lfo9 gaaa3 ghatl9a wahed akhor

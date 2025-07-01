@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/28 15:18:31 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/01 21:53:43 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,6 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 		all_good = read_cmds(d);
 		if (all_good)
 		{
-			// print_tokens(d->token);
-			// print_cmds(d->cmds);
-			// print_envs(d->env);
 			g_sig = 1;
 			exit_status(1, 0);
 			execution (&d->env, d->cmds, d);
@@ -82,15 +79,9 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 	}
 }
 
-// void ff()
-// {
-//     system("leaks minishell");
-// }
-
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
-	// atexit(ff);
 	minishell(ac, av, env, &data);
 }
