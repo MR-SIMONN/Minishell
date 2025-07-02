@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   apply_redirections.c                               :+:      :+:    :+:   */
+/*   apply_redirections_of_heredoc.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/30 23:32:18 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:36:25 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-int	apply_redirections(t_str *files)
-{
-	while (files)
-	{
-		if ((files->type == APPEND_FILE || files->type == OUT_FILE)
-			&& apply_output_redirection(files) != 0)
-			return (1);
-		if (files->type == IN_FILE && apply_input_redirection(files) != 0)
-			return (1);
-		files = files->next;
-	}
-	return (0);
-}
 
 void	signal_herdoc(int sig)
 {
@@ -65,6 +51,26 @@ int	handle_heredoc_parent(int pid, int *status)
 	{
 		exit_status(1, 1);
 		return (130);
+	}
+	return (0);
+}
+
+int	process_heredocs_before_fork(t_data *d)
+{
+	t_cmd	*current;
+	int		index;
+
+	current = d->cmds;
+	index = 0;
+	while (current)
+	{
+		if (current->heredoc && current->heredoc_del != NULL)
+		{
+			if (apply_heredoc(current, d, index) != 0)
+				return (1);
+			index++;
+		}
+		current = current->next;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/29 15:11:03 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:26:09 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	update_env_var(t_data *d, char *key, char *value)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
-			free(tmp->value);
 			tmp->value = ft_strdup(value, d);
 			return ;
 		}
@@ -83,7 +82,7 @@ int	cd_v(char **args, t_data *d)
 		target_path = args[1];
 	if (chdir(target_path) != 0)
 	{
-		perror("cd");
+		not_found(target_path);
 		return (1);
 	}
 	update_env_cd(d);

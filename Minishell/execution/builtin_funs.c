@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:15:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/29 15:11:54 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:17:17 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_builtin(char *cmd, char **args, t_data *d)
 	else if (ft_strcmp(cmd, "cd") == 0)
 		cd_v(args, d);
 	else if (ft_strcmp(cmd, "pwd") == 0)
-		pwd_v();
+		pwd_v(d);
 	else if (ft_strcmp(cmd, "unset") == 0)
 		unset_v(d, args);
 	else if (ft_strcmp(cmd, "export") == 0)

@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/02 03:49:05 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:31:28 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ int	execute_single_cmd(t_cmd *cmd, t_data *d, t_fds fds)
 {
 	if (handling_heredocs(cmd, fds.input_fd, fds.output_fd) != 0)
 		return (1);
-	if (apply_heredoc_redirection(cmd) != 0)
-		return (1);
-	if (cmd->files && apply_redirections(cmd->files) != 0)
+	if (cmd->files && apply_redirections(cmd->files, cmd) != 0)
 		return (1);
 	if (is_builtin(cmd->cmd) == 0)
 		return (execute_builtin(cmd->cmd, cmd->args, d));
@@ -71,7 +69,7 @@ int	execute_single_builtin(t_cmd *cmds, t_data *d)
 		duping(saved_stdin, saved_stdout);
 		return (1);
 	}
-	if (cmds->files && apply_redirections(cmds->files) != 0)
+	if (cmds->files && apply_redirections(cmds->files, cmds) != 0)
 	{
 		duping(saved_stdin, saved_stdout);
 		return (1);

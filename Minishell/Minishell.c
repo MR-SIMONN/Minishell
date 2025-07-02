@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/02 03:42:02 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:18:33 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	read_cmds(t_data *d)
 	if (!d->line)
 	{
 		printf("exit\n");
-		return (free_everything(d, 1), 0);
+		free_everything(d, exit_status(0, 0));
 	}
 	if (d->line[0])
 		add_history(d->line);
@@ -59,7 +59,6 @@ int	read_cmds(t_data *d)
 void	minishell(int ac, char **av, char **env, t_data *d)
 {
 	int	all_good;
-
 	all_good = 0;
 	g_sig = 0;
 	(void)ac;

@@ -6,15 +6,16 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/02 00:43:01 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:21:58 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d, int in_fd, int *pipe_fd)
+static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d,
+		int in_fd, int *pipe_fd)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
@@ -29,6 +30,7 @@ static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d, int in_fd, int *pipe_
 	}
 	return (pid);
 }
+
 int	wait_for_children(pid_t *pids, int cmd_count)
 {
 	int	i;
@@ -69,8 +71,7 @@ int	execute_pipeline_commands(t_data *d, int cmd_count)
 
 	current = d->cmds;
 	pids = ft_malloc(sizeof(pid_t) * cmd_count, d);
-	in_fd = STDIN_FILENO;
-	i = 0;
+	1 && (i = 0, in_fd = STDIN_FILENO);
 	while (current && i < cmd_count)
 	{
 		prepare_pipe(pipe_fd, current->pipe);
@@ -79,10 +80,7 @@ int	execute_pipeline_commands(t_data *d, int cmd_count)
 		pids[i] = fork_child_and_execute(current, d, in_fd, pipe_fd);
 		if (pids[i] == -1)
 			return (wait_childrens(pids, i), 1);
-		if (in_fd != STDIN_FILENO)
-			close(in_fd);
-		if (pipe_fd[1] != -1)
-			close(pipe_fd[1]);
+		close_fds_after_use(in_fd, pipe_fd[1]);
 		in_fd = pipe_fd[0];
 		current = current->next;
 		i++;
@@ -91,8 +89,6 @@ int	execute_pipeline_commands(t_data *d, int cmd_count)
 		close(in_fd);
 	return (wait_for_children(pids, cmd_count));
 }
-
-
 
 int	execution(t_data *d)
 {

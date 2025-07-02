@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/02 03:19:59 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:52:33 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <sys/wait.h>
+#include <sys/stat.h>
+#include <errno.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -227,7 +229,7 @@ int		cd_v(char **args, t_data *d);
 int		echo_v(char **args);
 void	env_v(t_env *list, char **args);
 void	exit_v(char **args, t_data *d);
-int		pwd_v(void);
+int		pwd_v(t_data *d);
 int		export_v(t_data *d, char **args);
 int		unset_v(t_data *d, char **args);
 int		is_digit(const char *str);
@@ -272,7 +274,7 @@ int		execute_pipeline(t_data *d);
 char	**get_env(t_data *d);
 int		count_commands(t_cmd *cmds);
 int		execute_pipeline_commands(t_data *d, int cmd_count);
-int		apply_redirections(t_str *files);
+int		apply_redirections(t_str *files, t_cmd *cmd);
 int		handling_heredocs(t_cmd *cmd, int input_fd, int output_fd);
 int		is_exec(char *path, t_cmd *cmds, int silent, int *status);
 int		is_directory(char *path);
@@ -298,4 +300,5 @@ void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
 void	setup_child_fds(int in_fd, int *pipe_fd);
+void	close_fds_after_use(int in_fd, int pipe_fd);
 #endif
