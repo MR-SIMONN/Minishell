@@ -6,33 +6,29 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/30 19:45:42 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 00:43:01 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static pid_t	fork_and_execute(t_cmd *current, t_data *d, int i,
-			int cmd_count)
+static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d, int in_fd, int *pipe_fd)
 {
-	pid_t	pid;
-	t_fds	fds;
+	pid_t pid;
 
 	pid = fork();
-	if (pid == 0)
-	{
-		fds = setup_pipe_fds(d->pipes, i, cmd_count);
-		close_pipes_in_child(d->pipes, cmd_count, i);
-		exit(execute_single_cmd(current, d, fds));
-	}
-	else if (pid < 0)
+	if (pid == -1)
 	{
 		perror("fork");
 		return (-1);
 	}
+	if (pid == 0)
+	{
+		setup_child_fds(in_fd, pipe_fd);
+		exit(execute_single_cmd(cmd, d, (t_fds){STDIN_FILENO, STDOUT_FILENO}));
+	}
 	return (pid);
 }
-
 int	wait_for_children(pid_t *pids, int cmd_count)
 {
 	int	i;
@@ -65,32 +61,38 @@ void	wait_childrens(pid_t *pids, int i)
 
 int	execute_pipeline_commands(t_data *d, int cmd_count)
 {
-	pid_t	*pids;
 	t_cmd	*current;
+	pid_t	*pids;
+	int		pipe_fd[2];
+	int		in_fd;
 	int		i;
 
-	i = 0;
-	pids = ft_malloc (sizeof(pid_t) * cmd_count, d);
-	if (create_pipes(d, cmd_count) != 0)
-		return (1);
 	current = d->cmds;
-	while (i < cmd_count && current)
+	pids = ft_malloc(sizeof(pid_t) * cmd_count, d);
+	in_fd = STDIN_FILENO;
+	i = 0;
+	while (current && i < cmd_count)
 	{
-		pids[i] = fork_and_execute(current, d, i, cmd_count);
+		prepare_pipe(pipe_fd, current->pipe);
+		if (pipe_fd[0] == -1 && pipe_fd[1] == -1 && current->pipe == 1)
+			return (wait_childrens(pids, i), 1);
+		pids[i] = fork_child_and_execute(current, d, in_fd, pipe_fd);
 		if (pids[i] == -1)
-		{
-			wait_childrens(pids, i);
-			close_all_pipes(d->pipes, cmd_count);
-			return (1);
-		}
-		if (current->pipe == 0)
-			break ;
+			return (wait_childrens(pids, i), 1);
+		if (in_fd != STDIN_FILENO)
+			close(in_fd);
+		if (pipe_fd[1] != -1)
+			close(pipe_fd[1]);
+		in_fd = pipe_fd[0];
 		current = current->next;
 		i++;
 	}
-	close_all_pipes(d->pipes, cmd_count);
+	if (in_fd != STDIN_FILENO)
+		close(in_fd);
 	return (wait_for_children(pids, cmd_count));
 }
+
+
 
 int	execution(t_data *d)
 {

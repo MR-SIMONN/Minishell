@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/30 22:18:57 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 03:49:05 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,13 @@ int	execute_single_external(t_cmd *cmds, t_data *d)
 		exit(execute_single_cmd(cmds, d, fds));
 	else if (pid > 0)
 	{
+		signal(SIGINT,SIG_IGN);
 		waitpid(pid, &status, 0);
+		signal(SIGINT,handle_sigint);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+    		exit_status(1, 130);
+		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+    		exit_status(1, 131);
 		return (WEXITSTATUS(status));
 	}
 	perror("fork");
@@ -114,7 +120,8 @@ int	execute_pipeline(t_data *d)
 		return (ft_has_no_pipe(d));
 	cmd_count = count_commands(d->cmds);
 	execute = execute_pipeline_commands(d, cmd_count);
-	exit_status(1, execute);
+	if (execute != 0)
+		exit_status(1, execute);
 	unlink_all_heredocfiles(d->cmds);
 	return (execute);
 }

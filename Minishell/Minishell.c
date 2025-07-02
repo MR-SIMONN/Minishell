@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/30 23:44:08 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 03:42:02 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 		all_good = read_cmds(d);
 		if (all_good)
 		{
-			exit_status(0, 1);
 			g_sig = 1;
 			exit_status(1, 0);
 			execution(d);

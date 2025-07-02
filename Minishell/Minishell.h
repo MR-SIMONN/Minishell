@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/30 23:56:39 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 03:19:59 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,10 +265,6 @@ int		process_heredocs_before_fork(t_data *d);
 void	unlink_all_heredocfiles(t_cmd *cmds);
 int		execute_single_cmd(t_cmd *cmd, t_data *d, t_fds fds);
 int		execute_external_cmd(t_cmd *cmd, t_data *d);
-t_fds	setup_pipe_fds(t_pipe *pipes, int cmd_index, int cmd_count);
-void	close_all_pipes(t_pipe *pipes, int cmd_count);
-void	close_pipes_in_child(t_pipe *pipes, int cmd_count, int cmd_index);
-int		create_pipes(t_data *d, int cmd_count);
 int		has_pipeline(t_cmd *cmds);
 int		execute_single_builtin(t_cmd *cmds, t_data *d);
 int		execute_single_external(t_cmd *cmds, t_data *d);
@@ -300,4 +296,6 @@ void	append_to_existing_env(t_env *existing, char *key, char *append_value,
 			t_data *d);
 void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
+void	prepare_pipe(int *pipe_fd, int need_pipe);
+void	setup_child_fds(int in_fd, int *pipe_fd);
 #endif

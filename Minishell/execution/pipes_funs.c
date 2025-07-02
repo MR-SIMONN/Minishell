@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:59:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/30 21:00:57 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/02 00:53:12 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,62 +25,27 @@ int	has_pipeline(t_cmd *cmds)
 	}
 	return (0);
 }
-
-int	create_pipes(t_data *d, int cmd_count)
+void	prepare_pipe(int *pipe_fd, int need_pipe)
 {
-	int	i;
-
-	i = 0;
-	d->pipes = ft_malloc(sizeof(t_pipe) * (cmd_count - 1), d);
-	while (i < cmd_count - 1)
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
+	if (need_pipe && pipe(pipe_fd) == -1)
 	{
-		if (pipe(d->pipes[i].fds) == -1)
-		{
-			perror("pipe");
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-void	close_pipes_in_child(t_pipe *pipes, int cmd_count, int cmd_index)
-{
-	int	j;
-
-	j = 0;
-	while (j < cmd_count - 1)
-	{
-		if (j != cmd_index - 1)
-			close(pipes[j].fds[0]);
-		if (j != cmd_index)
-			close(pipes[j].fds[1]);
-		j++;
+		perror("pipe");
+		pipe_fd[0] = -1;
+		pipe_fd[1] = -1;
 	}
 }
-
-void	close_all_pipes(t_pipe *pipes, int cmd_count)
+void	setup_child_fds(int in_fd, int *pipe_fd)
 {
-	int	i;
-
-	i = 0;
-	while (i < cmd_count - 1)
-	{
-		close(pipes[i].fds[0]);
-		close(pipes[i].fds[1]);
-		i++;
-	}
-}
-
-t_fds	setup_pipe_fds(t_pipe *pipes, int cmd_index, int cmd_count)
-{
-	t_fds	fds;
-
-	fds.input_fd = STDIN_FILENO;
-	fds.output_fd = STDOUT_FILENO;
-	if (cmd_index > 0)
-		fds.input_fd = pipes[cmd_index - 1].fds[0];
-	if (cmd_index < cmd_count - 1)
-		fds.output_fd = pipes[cmd_index].fds[1];
-	return (fds);
+	if (in_fd != STDIN_FILENO && dup2(in_fd, STDIN_FILENO) == -1)
+		exit(1);
+	if (pipe_fd[1] != -1 && dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+		exit(1);
+	if (in_fd != STDIN_FILENO)
+		close(in_fd);
+	if (pipe_fd[0] != -1)
+		close(pipe_fd[0]);
+	if (pipe_fd[1] != -1)
+		close(pipe_fd[1]);
 }
