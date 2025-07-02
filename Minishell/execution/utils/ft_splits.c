@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splits.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:55:43 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/15 21:04:07 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/06/28 22:25:02 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ static size_t	count_words(const char *str, char delimiter)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] != delimiter && (i == 0 || str[i - 1] == delimiter))
+		if (str[i] != delimiter
+			&& (i == 0 || str[i - 1] == delimiter))
 			count++;
 		i++;
 	}
 	return (count);
 }
 
-static char	*allocate_words(const char *str, char delimiter, size_t *i, t_data *d)
+static char	*allocate_words(const char *str, char del, size_t *i, t_data *d)
 {
 	size_t	start;
 	size_t	len;
@@ -36,7 +37,7 @@ static char	*allocate_words(const char *str, char delimiter, size_t *i, t_data *
 
 	start = *i;
 	len = 0;
-	while (str[*i] && str[*i] != delimiter)
+	while (str[*i] && str[*i] != del)
 	{
 		(*i)++;
 		len++;
@@ -63,12 +64,13 @@ char	**ft_splits(char *str, char delimiter, t_data *d)
 
 	if (!str)
 		return (NULL);
-	result = ft_malloc(((count_words(str, delimiter) + 1) * sizeof(char *)), d);
+	result = ft_malloc((count_words(str, delimiter) + 1) * sizeof(char *), d);
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
-		if (str[i] != delimiter && (i == 0 || str[i - 1] == delimiter))
+		if (str[i] != delimiter
+			&& (i == 0 || str[i - 1] == delimiter))
 		{
 			result[j] = allocate_words(str, delimiter, &i, d);
 			j++;

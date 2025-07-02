@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/01 21:53:43 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/02 03:42:02 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-int	g_sig ;
+int	g_sig;
 
 void	handle_sigint(int sig)
 {
 	if (g_sig == 1)
 	{
-		printf ("\n");
+		printf("\n");
 		return ;
 	}
 	(void)sig;
 	exit_status(1, 1);
-	printf ("\n");
+	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -39,7 +39,10 @@ int	read_cmds(t_data *d)
 {
 	d->line = readline("-> minishell$ ");
 	if (!d->line)
-		return (free_everything(d, 0), 0);
+	{
+		printf("exit\n");
+		return (free_everything(d, 1), 0);
+	}
 	if (d->line[0])
 		add_history(d->line);
 	store_addr(d->line, d);
@@ -73,7 +76,7 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 		{
 			g_sig = 1;
 			exit_status(1, 0);
-			execution (&d->env, d->cmds, d);
+			execution(d);
 			g_sig = 0;
 		}
 	}
@@ -83,5 +86,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
+	if (!isatty(0) || !isatty(1))
+		return (1);
 	minishell(ac, av, env, &data);
 }

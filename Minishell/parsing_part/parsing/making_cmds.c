@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/01 01:59:54 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/23 00:37:34 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	handle_redir(t_token *t, t_cmd *cmd, t_data *d)
 {
 	char	*n_t;
 
-	if (!t || !t->next)
+	if (!t || !t->next || !t->next->value)
 		return ;
 	n_t = t->next->value;
 	if (t->type == HEREDOC)
@@ -86,7 +86,7 @@ void	fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
 			if (cmd->args && cmd->args[0])
 				cmd->cmd = ft_strdup(cmd->args[0], d);
 		}
-		if (is_redir(t))
+		if (t->type != WORD && t->type != PIPE && !is_quoted (t->type))
 			handle_redir(t, cmd, d);
 		if (t->type == PIPE)
 		{

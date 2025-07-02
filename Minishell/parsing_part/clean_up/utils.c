@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:31:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/01 00:14:52 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:10:46 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	store_addr(char *s, t_data *data)
 	p = malloc(sizeof(t_heap));
 	if (!p)
 	{
-		printf ("unexpected error with malloc\n");
 		free(s);
 		free_everything(data, 1);
 	}

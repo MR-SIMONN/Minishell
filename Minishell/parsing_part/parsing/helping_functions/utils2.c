@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:10:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/01 01:33:11 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:11:50 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,15 @@ void	after_redir_tokens(t_token *t)
 	{
 		if (is_redir(t))
 		{
-			if (t->type == HEREDOC)
+			if (t->type != HEREDOC)
+			{
+				if (t->next->type == WORD || is_quoted(t->next->type))
+					t->next->type = REDIR_WORD;
+				else if (t->next->type == VAR || t->next->type == S_VAR
+					|| t->next->type == D_VAR)
+					t->next->type = REDIR_VAR;
+			}
+			else if (t->type == HEREDOC)
 			{
 				if (t->next->type == D_VAR || t->next->type == D_QUOTED)
 					t->next->type = D_REDIR_WORD;
@@ -68,14 +76,6 @@ void	after_redir_tokens(t_token *t)
 					t->next->type = S_REDIR_WORD;
 				else if (t->next->type == VAR || t->next->type == WORD)
 					t->next->type = REDIR_WORD;
-			}
-			else
-			{
-				if (t->next->type == WORD || is_quoted(t->next->type))
-					t->next->type = REDIR_WORD;
-				else if (t->next->type == VAR || t->next->type == S_VAR
-					|| t->next->type == D_VAR)
-					t->next->type = REDIR_VAR;
 			}
 		}
 		t = t->next;

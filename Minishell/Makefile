@@ -1,5 +1,3 @@
-# barca		4	|	3		real madrid  waaaa333333 hhhhhhhhhhhhhhhhhhhhhhhhhhh
-
 SRCS = \
 Minishell.c \
 parsing_part/clean_up/trash_can.c \
@@ -23,12 +21,7 @@ parsing_part/parsing/syntax_errors/utils2.c \
 parsing_part/parsing/syntax_errors/syntax_error.c \
 parsing_part/parsing/expending/expending.c \
 parsing_part/parsing/expending/heredoc.c \
-parsing_part/test_functions/print_tokens.c \
-parsing_part/test_functions/print_cmds.c \
-parsing_part/test_functions/print_envs.c \
-parsing_part/test_functions/print_strs.c \
 parsing_part/utils/data_init.c \
-parsing_part/utils/ft_error.c \
 parsing_part/utils/ft_lstadd_back.c \
 parsing_part/utils/ft_lstlast.c \
 parsing_part/utils/ft_lstnew.c \
@@ -50,14 +43,21 @@ parsing_part/utils/ft_strjoin.c \
 parsing_part/utils/ft_strncmp.c \
 execution/execution_command.c \
 execution/apply_redirections.c \
+execution/apply_redirections_2.c \
 execution/builtins/cd.c \
 execution/builtins/echo.c \
 execution/builtins/env.c \
 execution/builtins/exit.c \
 execution/builtins/export.c \
+execution/builtins/export.c \
 execution/builtins/pwd.c \
 execution/builtins/unset.c \
 execution/builtin_funs.c \
+execution/utils/apply_redirections_utils_1.c \
+execution/utils/apply_redirections_utils_2.c \
+execution/utils/heredoc_utils.c \
+execution/utils/export_utils1.c \
+execution/utils/export_utils2.c \
 execution/utils/ft_atol.c \
 execution/utils/ft_isdigit_pro.c \
 execution/utils/ft_putstr_fd.c \
@@ -67,16 +67,18 @@ execution/utils/ft_splits.c \
 execution/utils/exec_helpers.c \
 execution/utils/linked.c \
 execution/utils/exp_env_utils.c \
-execution/dup_redirc.c \
-execution/path_funs.c \
+execution/execprt.c \
+execution/path_funs_1.c \
+execution/path_funs_2.c \
+execution/path_funs_3.c \
 execution/pipes_funs.c \
-execution/exec_funs.c
+execution/exec_funs.c	\
 
 NAME = minishell
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 
 DEPS = Minishell.h
 
