@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/28 09:58:33 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/02 02:25:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ int	wait_for_children(pid_t *pids, int cmd_count)
 	i = 0;
 	while (i < cmd_count)
 	{
+		signal(SIGINT,SIG_IGN);
 		waitpid(pids[i], &status, 0);
+		signal(SIGINT,handle_sigint);
 		if (i == cmd_count - 1)
 			final_status = WEXITSTATUS(status);
 		i++;
@@ -80,7 +82,9 @@ void	wait_childrens(pid_t *pids, int i)
 	j = 0;
 	while(j < i)
 	{
+		signal(SIGINT,SIG_IGN);
 		waitpid(pids[j], NULL, 0);
+		signal(SIGINT,handle_sigint);
 		j++;
 	}
 }

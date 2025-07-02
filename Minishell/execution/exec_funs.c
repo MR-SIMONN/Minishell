@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/25 16:18:08 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/02 02:47:11 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,13 @@ int	execute_single_external(t_cmd *cmds, t_env **env, t_data *d)
 		exit(execute_single_cmd(cmds, env, d, STDIN_FILENO, STDOUT_FILENO));
 	else if (pid > 0)
 	{
+		signal(SIGINT,SIG_IGN);
 		waitpid(pid, &status, 0);
+		signal(SIGINT,handle_sigint);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			exit_status(1, 130);
+		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+			exit_status(1, 131);
 		return (WEXITSTATUS(status));
 	}
 	else
