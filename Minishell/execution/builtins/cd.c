@@ -6,103 +6,96 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/25 17:10:49 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:58:20 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-char *check_if_env_set(t_env *env_lst, char *env_key)
+char	*check_if_env_set(t_env *env_lst, char *env_key)
 {
-    t_env *tmp = env_lst;
-    
-    while (tmp)
-    {
-        if (ft_strcmp(tmp->key, env_key) == 0)
-            return (tmp->value);
-        tmp = tmp->next;
-    }
-    return (NULL);
+	t_env	*tmp;
+
+	tmp = env_lst;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, env_key) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
-void update_env_var(t_env **env_lst, char *key, char *value, t_data *d)
+void	update_env_var(t_data *d, char *key, char *value)
 {
-    t_env *tmp = *env_lst;
+	t_env	*tmp;
+	t_env	*new_node;
 
-    while (tmp)
-    {
-        if (ft_strcmp(tmp->key, key) == 0)
-        {
-            free(tmp->value);
-            tmp->value = ft_strdup(value, d);
-            return;
-        }
-        tmp = tmp->next;
-    }
-
-    // If not found, add new
-    t_env *new_node = ft_malloc(sizeof(t_env), d);
-    if (!new_node)
-        return;
-    new_node->key = ft_strdup(key, d);
-    new_node->value = ft_strdup(value, d);
-    new_node->next = *env_lst;
-    *env_lst = new_node;
+	tmp = d->env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+		{
+			tmp->value = ft_strdup(value, d);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	new_node = ft_malloc(sizeof(t_env), d);
+	new_node->key = ft_strdup(key, d);
+	new_node->value = ft_strdup(value, d);
+	new_node->next = d->env;
+	d->env = new_node;
 }
 
-// Updates OLDPWD and PWD after cd
-void update_env_cd(t_env **env, t_data *d)
+void	update_env_cd(t_data *d)
 {
-    char *old_pwd = check_if_env_set(*env, "PWD");
-    char new_pwd[1024];
+	char	*old_pwd;
+	char	new_pwd[1024];
+	char	*logical_pwd;
 
-    if (getcwd(new_pwd, sizeof(new_pwd)) == NULL)
-    {
-        perror("getcwd");
-        return;
-    }
-
-    if (old_pwd)
-        update_env_var(env, "OLDPWD", old_pwd, d);
-    update_env_var(env, "PWD", new_pwd, d);
+	old_pwd = check_if_env_set(d->env, "PWD");
+	if (getcwd(new_pwd, sizeof(new_pwd)) != NULL)
+	{
+		update_env_var(d, "PWD", new_pwd);
+		if (old_pwd)
+			update_env_var(d, "OLDPWD", old_pwd);
+	}
+	else
+	{
+		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
+		ft_putstr_fd(" cannot access parent directories: ", 2);
+		ft_putstr_fd("No such file or directory\n", 2);
+		if (old_pwd)
+		{
+			update_env_var(d, "OLDPWD", old_pwd);
+			logical_pwd = ft_strjoin(old_pwd, "/..", d);
+			update_env_var(d, "PWD", logical_pwd);
+		}
+	}
 }
 
-
-int cd_v(char **args, t_env **env, t_data *d)
+int	cd_v(char **args, t_data *d)
 {
-    const char *target_path;
-    
-    target_path = NULL;
-    if (!args[1])
-    {
-        target_path = check_if_env_set(*env, "HOME");
-        if (!target_path)
-        {
-            printf("minishell: cd: HOME not set\n");
-            return (1);
-        }
-    }
-    else if (ft_strcmp(args[1], "-") == 0)
-    {
-        target_path = check_if_env_set(*env, "OLDPWD");
-        if (!target_path)
-        {
-            printf("minishell: cd: OLDPWD not set\n");
-            return (1);
-        }
-        printf("%s\n", target_path);
-    }
-    else
-    {
-        target_path = args[1];
-    }
+	char	*target_path;
 
-    if (chdir(target_path) != 0)
-    {
-        perror("cd");
-        return (1);
-    }
-
-    update_env_cd(env, d);
-    return (0);
+	target_path = NULL;
+	if (!args[1])
+	{
+		target_path = check_if_env_set(d->env, "HOME");
+		if (!target_path)
+		{
+			printf("minishell: cd: HOME not set\n");
+			return (1);
+		}
+	}
+	else
+		target_path = args[1];
+	if (chdir(target_path) != 0)
+	{
+		not_found(target_path);
+		return (1);
+	}
+	update_env_cd(d);
+	return (0);
 }

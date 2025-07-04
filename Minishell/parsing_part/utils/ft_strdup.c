@@ -14,9 +14,9 @@
 
 char	*ft_strdup(char *s1, t_data *d)
 {
-	int     i;
-	int     len;
-	char    *str;
+	int		i;
+	int		len;
+	char	*str;
 
 	i = 0;
 	len = ft_strlen(s1);

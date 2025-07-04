@@ -6,14 +6,14 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 01:35:54 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:44:15 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:10:03 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void    skip_it(char *s, int *i, char c)
+void	skip_spaces(char *s, int *i)
 {
-    while (s[*i] && s[*i] == c)
-        (*i)++;
+	while (s[*i] && is_space(s[*i]))
+		(*i)++;
 }

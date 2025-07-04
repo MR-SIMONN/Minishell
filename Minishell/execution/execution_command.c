@@ -5,20 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 20:43:49 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/05/23 22:40:17 by ielouarr         ###   ########.fr       */
+/*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
+/*   Updated: 2025/07/04 16:53:55 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	execution(t_env **env, t_cmd *cmds, t_data *d)
+static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d,
+		int in_fd, int *pipe_fd)
 {
-	if(is_builtin(cmds->cmd) == 0 && cmds->pipe == 0)
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
 	{
-		// apply_redirection();
-		if(execute_builtin(cmds->cmd, env, cmds->args, d) != 0)
-			return (1);
+		perror("fork");
+		return (-1);
 	}
-	return (0);
+	if (pid == 0)
+	{
+		setup_child_fds(in_fd, pipe_fd);
+		free_everything(d, execute_single_cmd(cmd, d,
+				(t_fds){STDIN_FILENO, STDOUT_FILENO}));
+	}
+	return (pid);
+}
+
+int	execute_pipeline_commands(t_data *d, int cmd_count)
+{
+	t_cmd	*current;
+	pid_t	*pids;
+	int		pipe_fd[2];
+	int		in_fd;
+	int		i;
+
+	pids = ft_malloc(sizeof(pid_t) * cmd_count, d);
+	1 && (current = d->cmds, i = 0, in_fd = STDIN_FILENO,
+		pids = ft_malloc(sizeof(pid_t) * cmd_count, d));
+	while (current && i < cmd_count)
+	{
+		prepare_pipe(pipe_fd, current->pipe);
+		if (pipe_fd[0] == -1 && pipe_fd[1] == -1 && current->pipe == 1)
+			return (wait_childrens(pids, i), 1);
+		pids[i] = fork_child_and_execute(current, d, in_fd, pipe_fd);
+		if (pids[i] == -1)
+			return (wait_childrens(pids, i), 1);
+		close_fds_after_use(in_fd, pipe_fd[1]);
+		in_fd = pipe_fd[0];
+		1 && (current = current->next, i++);
+	}
+	if (in_fd != STDIN_FILENO)
+		close(in_fd);
+	return (wait_for_children(pids, cmd_count));
+}
+
+int	execution(t_data *d)
+{
+	struct termios	tty;
+	int				status;
+
+	tcgetattr(STDIN_FILENO, &tty);
+	status = execute_pipeline(d);
+	tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+	return (status);
 }

@@ -6,38 +6,33 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 21:27:47 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/21 16:44:09 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:05:01 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void    add_spaces(char *s, int *i, char *str, int *j)
+void	add_spaces(char *s, int *i, char *str, int *j)
 {
-    int f;
-
-    f = 0;
-    if (s[*i] && (is_one_symbol(s, *i) || is_two_symbols(s, *i)))
-    {
-        if (*i > 0 && s[*i - 1] != ' ' && no_pipeout(s, *i))
-            str[(*j)++] = ' ';
-        if (is_two_symbols(s, *i))
-        {
-            str[(*j)++] = s[(*i)++];
-            str[(*j)++] = s[(*i)++];
-        }
-        else
-            str[(*j)++] = s[(*i)++];
-        f = 1;
-    }
-    else
-        str[(*j)++] = s[(*i)++];
-    if (f && s[*i])
-    {
-        if (s[*i] != ' ' && s[*i] != '>' && s[*i] != '<' && no_pipeout(s, *i))
-            str[(*j)++] = ' ';
-        f = 0;
-    }
+	if (s[*i] && (is_one_symbol(s, *i) || is_two_symbols(s, *i)))
+	{
+		if (*i > 0 && s[*i - 1] != ' ')
+			str[(*j)++] = ' ';
+		if (is_two_symbols(s, *i))
+		{
+			str[(*j)++] = s[(*i)++];
+			str[(*j)++] = s[(*i)++];
+		}
+		else
+			str[(*j)++] = s[(*i)++];
+		if (s[*i])
+		{
+			if (s[*i] != ' ')
+				str[(*j)++] = ' ';
+		}
+	}
+	else
+		str[(*j)++] = s[(*i)++];
 }
 
 void	handle_quotes(char *s, int *i, char *d, int *j)
@@ -48,7 +43,7 @@ void	handle_quotes(char *s, int *i, char *d, int *j)
 	if (s[*i] == '\'' || s[*i] == '\"')
 	{
 		quote_type = s[(*i)];
-        d[(*j)++] = s[(*i)++];
+		d[(*j)++] = s[(*i)++];
 		while (s[*i] && s[*i] != quote_type)
 			d[(*j)++] = s[(*i)++];
 		if (s[*i] == quote_type)
@@ -56,22 +51,22 @@ void	handle_quotes(char *s, int *i, char *d, int *j)
 	}
 }
 
-char *ft_strsdup(char *s1, int l, t_data *d)
+char	*ft_strsdup(char *s1, int l, t_data *d)
 {
-    int     i;
-    int     j;
-    char    *s;
+	int		i;
+	int		j;
+	char	*s;
 
-    i = 0;
-    j = 0;
-    s = ft_malloc (l + 1, d);
-    while (s1[i])
-    {
+	i = 0;
+	j = 0;
+	s = ft_malloc (l + 1, d);
+	while (s1[i])
+	{
 		handle_quotes(s1, &i, s, &j);
-        if (!s1[i])
-            break;
-        add_spaces(s1, &i, s, &j);
-    }
-    s[j] = '\0';
+		if (!s1[i])
+			break ;
+		add_spaces(s1, &i, s, &j);
+	}
+	s[j] = '\0';
 	return (s);
 }

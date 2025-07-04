@@ -6,27 +6,30 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:59:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/05/31 18:29:44 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:13:24 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../Minishell.h"
+#include "../../Minishell.h"
 
-int parsing(t_data *d)
+int	parsing(t_data *d)
 {
-    if (empty_cmd(d->line))
-        return (1);
-    if (is_invalid_syntax(d->line, d))
-    {
-        d->exit_value = 258;
-        return (syntax_error("syntax error"));
-    }
-    ft_lst_tokens (d);
-    if (handle_syntax_error(d->token, d))
-    {
-        d->exit_value = 258;
-        return (syntax_error("syntax error"));
-    }
-    change_tokens_types(d->token);
-    return (0);
+	if (!d)
+		return (1);
+	if (empty_cmd(d->line))
+		return (1);
+	if (is_invalid_syntax(d->line))
+	{
+		exit_status(1, 258);
+		return (syntax_error("syntax error"));
+	}
+	ft_lst_tokens (d);
+	if (handle_syntax_error(d->token, d))
+	{
+		exit_status(1, 258);
+		return (syntax_error("syntax error"));
+	}
+	after_redir_tokens(d->token);
+	after_export_tokens(d->token);
+	return (0);
 }

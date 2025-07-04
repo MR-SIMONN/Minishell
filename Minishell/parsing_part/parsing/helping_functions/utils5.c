@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/02 22:52:21 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:57:36 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	emty_token(char *s, t_token_type type)
 	int	i;
 
 	i = 0;
-	skip_it(s, &i, ' ');
 	if (!s[i] && type == VAR)
 		return (1);
 	return (0);
@@ -28,11 +27,13 @@ void	ignore_tokens(t_token **head)
 	t_token	*curr;
 	t_token	*prev;
 
-    curr = *head;
-    prev = NULL;
-	while (curr)
+	if (!head || !*head)
+		return ;
+	curr = *head;
+	prev = NULL;
+	while (curr && curr->value)
 	{
-		if (curr->value && emty_token(curr->value, curr->type))
+		if (emty_token(curr->value, curr->type))
 		{
 			if (!prev)
 				*head = curr->next;
@@ -47,6 +48,7 @@ void	ignore_tokens(t_token **head)
 		}
 	}
 }
+
 int	var_count(char *s)
 {
 	int	i;
@@ -57,13 +59,13 @@ int	var_count(char *s)
 	while (s[i])
 	{
 		if (s[i] == '$' && is_var(s[i + 1]))
-				len++;
+			len++;
 		i++;
 	}
 	return (len);
 }
 
-int	decrease_len(t_token *t)
+int	decrease_len(char *s)
 {
 	int	i;
 	int	len;
@@ -72,12 +74,12 @@ int	decrease_len(t_token *t)
 	i = 0;
 	len = 0;
 	flag = 0;
-	while (t->value[i])
+	while (s[i])
 	{
-		if (t->value[i] == '$' && !flag)
+		if (s[i] == '$' && !flag)
 		{
 			i++;
-			while (t->value[i] && valid_char(t->value[i]))
+			while (s[i] && valid_char(s[i]))
 				i++;
 			flag = 1;
 		}
