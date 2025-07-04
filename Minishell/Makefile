@@ -99,10 +99,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: clean
-
-del:
-	@rm -f $(NAME)
-
-do: del all clean
-	@clear
-	@./Minishell

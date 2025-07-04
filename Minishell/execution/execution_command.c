@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/02 14:21:58 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 05:12:22 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d,
 	if (pid == 0)
 	{
 		setup_child_fds(in_fd, pipe_fd);
-		exit(execute_single_cmd(cmd, d, (t_fds){STDIN_FILENO, STDOUT_FILENO}));
+		free_everything(d, execute_single_cmd(cmd, d, (t_fds){STDIN_FILENO, STDOUT_FILENO}));
 	}
 	return (pid);
 }
@@ -37,7 +37,14 @@ int	wait_for_children(pid_t *pids, int cmd_count)
 	int	status;
 	int	final_status;
 
-	final_status = 0;
+// signal(SIGINT,SIG_IGN);
+// 		waitpid(pid, &status, 0);
+// 		signal(SIGINT,handle_sigint);
+// 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+//     		exit_status(1, 130);
+// 		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+//     		exit_status(1, 131);
+// 	final_status = 0;
 	i = 0;
 	while (i < cmd_count)
 	{

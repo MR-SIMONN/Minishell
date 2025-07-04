@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/02 19:31:28 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 05:19:06 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	execute_external_cmd(t_cmd *cmd, t_data *d)
 
 int	execute_single_cmd(t_cmd *cmd, t_data *d, t_fds fds)
 {
-	if (handling_heredocs(cmd, fds.input_fd, fds.output_fd) != 0)
+	if (setup_redirections(fds.input_fd, fds.output_fd) != 0)
 		return (1);
 	if (cmd->files && apply_redirections(cmd->files, cmd) != 0)
 		return (1);
@@ -62,11 +62,6 @@ int	execute_single_builtin(t_cmd *cmds, t_data *d)
 	if (saved_stdin == -1 || saved_stdout == -1)
 	{
 		perror("dup");
-		return (1);
-	}
-	if (apply_heredoc_redirection(cmds) != 0)
-	{
-		duping(saved_stdin, saved_stdout);
 		return (1);
 	}
 	if (cmds->files && apply_redirections(cmds->files, cmds) != 0)
@@ -89,7 +84,7 @@ int	execute_single_external(t_cmd *cmds, t_data *d)
 	fds.output_fd = STDOUT_FILENO;
 	pid = fork();
 	if (pid == 0)
-		exit(execute_single_cmd(cmds, d, fds));
+		free_everything(d, execute_single_cmd(cmds, d, fds));
 	else if (pid > 0)
 	{
 		signal(SIGINT,SIG_IGN);

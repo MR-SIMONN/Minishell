@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/02 18:52:33 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 05:40:51 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,11 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <sys/wait.h>
-#include <sys/stat.h>
-#include <errno.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
 
-# define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 typedef struct s_heap
 {
@@ -162,7 +159,6 @@ int		is_one_symbol(char *s, int i);
 void	set_strcut_values(t_data *d, int i);
 int		handle_syntax_error(t_token *t, t_data *d);
 int		syntax_error(char *s);
-void	make_backup_env(t_env **envs, t_data *d);
 void	get_rid_of_quotes(t_token *t, t_data *d);
 char	*delete_invalid_var(char *str, t_data *d);
 void	ambiguous_error(char *str);

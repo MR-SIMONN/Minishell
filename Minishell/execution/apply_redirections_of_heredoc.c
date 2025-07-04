@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/02 12:36:25 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 05:01:20 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	handle_heredoc_child(t_str *current, int fd, t_data *d)
 		free(d->line);
 		d->line = NULL;
 	}
-	exit(0);
+	return (0);
 }
 
 int	handle_heredoc_parent(int pid, int *status)
@@ -92,7 +92,7 @@ int	apply_heredoc(t_cmd *cmd, t_data *d, int index)
 		if (pid == 0)
 		{
 			signal(SIGINT, signal_herdoc);
-			handle_heredoc_child(current, fd, d);
+			free_everything(d, handle_heredoc_child(current, fd, d));
 		}
 		else
 			if (handle_heredoc_parent(pid, &status) == 130)
