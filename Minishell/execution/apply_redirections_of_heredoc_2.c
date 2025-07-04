@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:54:46 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/03 22:43:00 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:08:48 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,3 @@ int	apply_heredoc_redirection(t_cmd *cmd)
 	}
 	return (0);
 }
-

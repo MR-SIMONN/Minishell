@@ -72,13 +72,14 @@ execution/path_funs_1.c \
 execution/path_funs_2.c \
 execution/path_funs_3.c \
 execution/pipes_funs.c \
+execution/pipes_funs2.c \
 execution/exec_funs.c	\
 
 NAME = minishell
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror
 
 DEPS = Minishell.h
 

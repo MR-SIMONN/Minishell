@@ -6,24 +6,11 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/02 19:41:56 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:06:22 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-char	*handle_no_path(t_cmd *cmds, t_data *d, int *status)
-{
-	if (access(cmds->cmd, F_OK) == 0)
-	{
-		if (is_exec(cmds->cmd, cmds, 0, status) == 0)
-			return (ft_strdup(cmds->cmd, d));
-		return (NULL);
-	}
-	not_found(cmds->cmd);
-	*status = 127;
-	return (NULL);
-}
 
 char	*search_in_paths(char **paths, t_cmd *cmds, t_data *d, int *status)
 {
@@ -61,8 +48,8 @@ int	handle_directory_path(char *path, t_cmd *cmds, int silent, int *status)
 char	*remove_trailing_slash(char *path, t_data *d)
 {
 	int		len;
-	char 	*without_slash;
-	
+	char	*without_slash;
+
 	if (!path)
 		return (NULL);
 	len = ft_strlen(path);
@@ -71,13 +58,15 @@ char	*remove_trailing_slash(char *path, t_data *d)
 	without_slash = ft_substr(path, 0, len, d);
 	return (without_slash);
 }
+
 char	*handle_slash_path(t_cmd *cmds, int *status, t_data *d)
 {
 	char	*slash_remove;
+
 	if (!is_directory(cmds->cmd))
 	{
-		slash_remove= remove_trailing_slash(cmds->cmd, d);
-		if (access(slash_remove, F_OK) != 0) 
+		slash_remove = remove_trailing_slash(cmds->cmd, d);
+		if (access(slash_remove, F_OK) != 0)
 		{
 			not_found(cmds->cmd);
 			*status = 127;
@@ -98,7 +87,6 @@ char	*handle_slash_path(t_cmd *cmds, int *status, t_data *d)
 	return (NULL);
 }
 
-
 char	*right_path(char **paths, t_cmd *cmds, t_data *d, int *status)
 {
 	if (!cmds->cmd)
@@ -107,7 +95,7 @@ char	*right_path(char **paths, t_cmd *cmds, t_data *d, int *status)
 		return (NULL);
 	}
 	if (cmds->cmd && cmds->cmd[0] != '\0'
-			&& cmds->cmd[last_char(cmds->cmd)] == '/')
+		&& cmds->cmd[last_char(cmds->cmd)] == '/')
 		return (handle_slash_path(cmds, status, d));
 	if (cmds->cmd[0] == '/' || cmds->cmd[0] == '.')
 		return (handle_absolute_path(cmds, d, status));

@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:41:28 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/02 14:29:20 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:48:48 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	apply_redirections(t_str *files, t_cmd *cmd)
 {
 	while (files)
 	{
-		if(files->type == HERDOC_DEL && apply_heredoc_redirection(cmd) != 0)
-			return(1);
+		if (files->type == HERDOC_DEL && apply_heredoc_redirection(cmd) != 0)
+			return (1);
 		if ((files->type == APPEND_FILE || files->type == OUT_FILE)
 			&& apply_output_redirection(files) != 0)
 			return (1);
@@ -71,5 +71,3 @@ int	apply_input_redirection(t_str *files)
 	close(fd);
 	return (0);
 }
-
-

@@ -6,11 +6,24 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:34:06 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/04 00:06:14 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:02:10 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+char	*handle_no_path(t_cmd *cmds, t_data *d, int *status)
+{
+	if (access(cmds->cmd, F_OK) == 0)
+	{
+		if (is_exec(cmds->cmd, cmds, 0, status) == 0)
+			return (ft_strdup(cmds->cmd, d));
+		return (NULL);
+	}
+	not_found(cmds->cmd);
+	*status = 127;
+	return (NULL);
+}
 
 char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status)
 {

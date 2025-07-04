@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 05:40:51 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:54:20 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
-
 
 typedef struct s_heap
 {
@@ -174,7 +173,6 @@ t_str	*new_strnode(char *string, t_token *t, t_data *d);
 void	ft_cmdadd_back(t_cmd **c, t_cmd *new);
 t_str	*last_str(t_str *p);
 void	ft_error(char *message);
-void	skip_it(char *s, int *i, char c);
 void	env_add_back(t_env **envs, t_env *new);
 int		is_quoted(t_token_type type);
 void	quotes_stuff(char *s, int i, char *c, int *quotes);
@@ -283,8 +281,7 @@ int		apply_output_redirection(t_str *files);
 int		ft_has_no_pipe(t_data *d);
 void	ft_file(t_cmd *cmd, int index, t_data *d, int *fd);
 char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status);
-int		ft_check_heredoc_multp(t_str *current);
-int		ft_dupone_heredocase(int output_fd);
+char	*handle_no_path(t_cmd *cmds, t_data *d, int *status);
 void	ft_expand_heredoc_handler(t_str *current, int fd, t_data *d);
 int		is_valid_identifier(char *str, int len);
 void	export_displayer(t_env *env_lst, t_exp *exp_lst);
@@ -296,5 +293,7 @@ void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
 void	setup_child_fds(int in_fd, int *pipe_fd);
+int		wait_for_children(pid_t *pids, int cmd_count);
+void	wait_childrens(pid_t *pids, int i);
 void	close_fds_after_use(int in_fd, int pipe_fd);
 #endif

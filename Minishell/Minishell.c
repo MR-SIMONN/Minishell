@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 05:52:31 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:50:15 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	read_cmds(t_data *d)
 void	minishell(int ac, char **av, char **env, t_data *d)
 {
 	int	all_good;
+
 	all_good = 0;
 	g_sig = 0;
 	(void)ac;

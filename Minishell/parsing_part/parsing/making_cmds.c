@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/02 14:10:32 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:00:19 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,14 @@ void	handle_redir(t_token *t, t_cmd *cmd, t_data *d)
 	if (t->type == REDIRECT_IN || t->type == REDIRECT_OUT
 		|| t->type == APPEND || t->type == HEREDOC)
 	{
-		if(t->type == HEREDOC)
+		if (t->type == HEREDOC)
 		{
-			stradd_back(&cmd->heredoc_del, new_strnode(ft_strdup(n_t, d), t, d));
+			stradd_back(&cmd->heredoc_del,
+				new_strnode(ft_strdup(n_t, d), t, d));
 			cmd->heredoc = 1;
 		}
-		stradd_back(&cmd->files, new_strnode(ft_strdup(n_t, d), t, d));
+		stradd_back(&cmd->files,
+			new_strnode(ft_strdup(n_t, d), t, d));
 	}
 }
 
@@ -88,7 +90,7 @@ void	fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
 			if (cmd->args && cmd->args[0])
 				cmd->cmd = ft_strdup(cmd->args[0], d);
 		}
-		if (t->type != WORD && t->type != PIPE && !is_quoted (t->type))
+		if (t->type != WORD && t->type != PIPE && !is_quoted(t->type))
 			handle_redir(t, cmd, d);
 		if (t->type == PIPE)
 		{

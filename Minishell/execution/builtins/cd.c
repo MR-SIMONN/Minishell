@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/02 16:26:09 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:58:20 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,27 @@ void	update_env_cd(t_data *d)
 {
 	char	*old_pwd;
 	char	new_pwd[1024];
+	char	*logical_pwd;
 
 	old_pwd = check_if_env_set(d->env, "PWD");
-	if (getcwd(new_pwd, sizeof(new_pwd)) == NULL)
+	if (getcwd(new_pwd, sizeof(new_pwd)) != NULL)
 	{
-		perror("getcwd");
-		return ;
+		update_env_var(d, "PWD", new_pwd);
+		if (old_pwd)
+			update_env_var(d, "OLDPWD", old_pwd);
 	}
-	if (old_pwd)
-		update_env_var(d, "OLDPWD", old_pwd);
-	update_env_var(d, "PWD", new_pwd);
+	else
+	{
+		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
+		ft_putstr_fd(" cannot access parent directories: ", 2);
+		ft_putstr_fd("No such file or directory\n", 2);
+		if (old_pwd)
+		{
+			update_env_var(d, "OLDPWD", old_pwd);
+			logical_pwd = ft_strjoin(old_pwd, "/..", d);
+			update_env_var(d, "PWD", logical_pwd);
+		}
+	}
 }
 
 int	cd_v(char **args, t_data *d)
