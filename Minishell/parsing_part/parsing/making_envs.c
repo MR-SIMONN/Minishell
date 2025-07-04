@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 05:12:07 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/23 00:38:56 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:25:11 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	store_envs(t_env **envs, char **env, t_data *d)
 {
 	int	i;
 
-	if (!env || !env[0])
+	if (!*env)
 	{
-		make_backup_env(envs, d);
-		return ;
+		printf ("minishell: error: empty environment (invoked with env -i)\n");
+		exit (1);
 	}
 	i = 0;
 	while (env[i])

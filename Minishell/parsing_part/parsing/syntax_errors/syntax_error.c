@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 00:20:24 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/28 14:51:42 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:19:47 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	handle_syntax_error(t_token *t, t_data *d)
 	if (!t || !d)
 		return (0);
 	s_e = 0;
-	if (!t)
-		return (0);
 	s_e = handle_pipes(t);
 	if (s_e)
 		return (1);
