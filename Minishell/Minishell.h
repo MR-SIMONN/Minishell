@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 16:10:16 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:54:20 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
-
-# define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 typedef struct s_heap
 {
@@ -160,7 +158,6 @@ int		is_one_symbol(char *s, int i);
 void	set_strcut_values(t_data *d, int i);
 int		handle_syntax_error(t_token *t, t_data *d);
 int		syntax_error(char *s);
-void	make_backup_env(t_env **envs, t_data *d);
 void	get_rid_of_quotes(t_token *t, t_data *d);
 char	*delete_invalid_var(char *str, t_data *d);
 void	ambiguous_error(char *str);
@@ -226,7 +223,7 @@ int		cd_v(char **args, t_data *d);
 int		echo_v(char **args);
 void	env_v(t_env *list, char **args);
 void	exit_v(char **args, t_data *d);
-int		pwd_v(void);
+int		pwd_v(t_data *d);
 int		export_v(t_data *d, char **args);
 int		unset_v(t_data *d, char **args);
 int		is_digit(const char *str);
@@ -271,7 +268,7 @@ int		execute_pipeline(t_data *d);
 char	**get_env(t_data *d);
 int		count_commands(t_cmd *cmds);
 int		execute_pipeline_commands(t_data *d, int cmd_count);
-int		apply_redirections(t_str *files);
+int		apply_redirections(t_str *files, t_cmd *cmd);
 int		handling_heredocs(t_cmd *cmd, int input_fd, int output_fd);
 int		is_exec(char *path, t_cmd *cmds, int silent, int *status);
 int		is_directory(char *path);
@@ -284,8 +281,7 @@ int		apply_output_redirection(t_str *files);
 int		ft_has_no_pipe(t_data *d);
 void	ft_file(t_cmd *cmd, int index, t_data *d, int *fd);
 char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status);
-int		ft_check_heredoc_multp(t_str *current);
-int		ft_dupone_heredocase(int output_fd);
+char	*handle_no_path(t_cmd *cmds, t_data *d, int *status);
 void	ft_expand_heredoc_handler(t_str *current, int fd, t_data *d);
 int		is_valid_identifier(char *str, int len);
 void	export_displayer(t_env *env_lst, t_exp *exp_lst);
@@ -297,4 +293,7 @@ void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
 void	setup_child_fds(int in_fd, int *pipe_fd);
+int		wait_for_children(pid_t *pids, int cmd_count);
+void	wait_childrens(pid_t *pids, int i);
+void	close_fds_after_use(int in_fd, int pipe_fd);
 #endif

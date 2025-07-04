@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   apply_redirections_utils_1.c                       :+:      :+:    :+:   */
+/*   apply_redirections_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:41:28 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/30 18:00:41 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:48:48 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Minishell.h"
+#include "../Minishell.h"
+
+int	apply_redirections(t_str *files, t_cmd *cmd)
+{
+	while (files)
+	{
+		if (files->type == HERDOC_DEL && apply_heredoc_redirection(cmd) != 0)
+			return (1);
+		if ((files->type == APPEND_FILE || files->type == OUT_FILE)
+			&& apply_output_redirection(files) != 0)
+			return (1);
+		if (files->type == IN_FILE && apply_input_redirection(files) != 0)
+			return (1);
+		files = files->next;
+	}
+	return (0);
+}
 
 int	apply_output_redirection(t_str *files)
 {
