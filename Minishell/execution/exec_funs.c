@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_funs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/04 16:48:02 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:23:50 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,15 @@ int	execute_single_external(t_cmd *cmds, t_data *d)
 		waitpid(pid, &status, 0);
 		signal(SIGINT, handle_sigint);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
 			exit_status(1, 130);
+			printf ("\n");
+		}
 		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+		{
 			exit_status(1, 131);
+			printf ("Quit: 3\n");
+		}
 		return (WEXITSTATUS(status));
 	}
 	perror("fork");
