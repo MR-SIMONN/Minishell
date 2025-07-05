@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 16:54:20 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:20:35 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,6 @@ int		is_key_quoted(char *s);
 t_str	*new_strnode(char *string, t_token *t, t_data *d);
 void	ft_cmdadd_back(t_cmd **c, t_cmd *new);
 t_str	*last_str(t_str *p);
-void	ft_error(char *message);
 void	env_add_back(t_env **envs, t_env *new);
 int		is_quoted(t_token_type type);
 void	quotes_stuff(char *s, int i, char *c, int *quotes);
@@ -292,7 +291,7 @@ void	append_to_existing_env(t_env *existing, char *key, char *append_value,
 void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
-void	setup_child_fds(int in_fd, int *pipe_fd);
+int		setup_child_fds(int in_fd, int *pipe_fd);
 int		wait_for_children(pid_t *pids, int cmd_count);
 void	wait_childrens(pid_t *pids, int i);
 void	close_fds_after_use(int in_fd, int pipe_fd);

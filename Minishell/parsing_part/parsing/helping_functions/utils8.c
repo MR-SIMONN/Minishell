@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 22:21:21 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/02 03:46:19 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:31:47 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	ambiguous_error(char *str)
 	if (!str)
 		return ;
 	exit_status(1, 1);
-	printf ("minihell: $%s: ambiguous redirect\n", str);
+	ft_putstr_fd("minihell: $", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
 }
 
 void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote)

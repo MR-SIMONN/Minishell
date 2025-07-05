@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/04 16:48:02 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:40:51 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,12 @@ int	execute_single_external(t_cmd *cmds, t_data *d)
 		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
 		signal(SIGINT, handle_sigint);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			exit_status(1, 130);
-		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-			exit_status(1, 131);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT
+			&& exit_status(1, 130))
+			ft_putstr_fd("\n", 1);
+		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT
+			&& exit_status(1, 131))
+			ft_putstr_fd("Quit: 3\n", 1);
 		return (WEXITSTATUS(status));
 	}
 	perror("fork");

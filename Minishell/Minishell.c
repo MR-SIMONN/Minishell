@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 16:50:15 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:19:02 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	handle_sigint(int sig)
 {
 	if (g_sig == 1)
 	{
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 		return ;
 	}
 	(void)sig;
 	exit_status(1, 1);
-	printf("\n");
+	ft_putstr_fd("\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -40,7 +40,7 @@ int	read_cmds(t_data *d)
 	d->line = readline("-> minishell$ ");
 	if (!d->line)
 	{
-		printf("exit\n");
+		ft_putstr_fd("exit\n", 1);
 		free_everything(d, exit_status(0, 0));
 	}
 	if (d->line[0])
