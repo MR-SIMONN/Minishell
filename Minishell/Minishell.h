@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 13:20:35 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:34:37 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ typedef struct s_expend_infos
 
 int		parsing(t_data *d);
 int		empty_cmd(char *s);
+int		emty_token(char *s, t_token_type type);
 int		is_invalid_syntax(char *s);
 int		parentheses(char *s);
 void	after_redir_tokens(t_token *t);

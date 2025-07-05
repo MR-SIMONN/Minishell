@@ -1,13 +1,6 @@
 -> minishell$ parsing_part/../minishell 
 minishell: parsing_part/../minishell: command not found
 -------------------------------------------
--> minishell$ export SPACE="           " TAB="          "
--> minishell$ $SPACE
-[1]    75782 segmentation fault  ./minishell
-
--------------------------------------------
-split with only space tab and new_line
--------------------------------------------
 -> minishell$ Makefile/qwe
 minishell: Makefile/qwe: No such file or directory
 -> minishell$ echo $?

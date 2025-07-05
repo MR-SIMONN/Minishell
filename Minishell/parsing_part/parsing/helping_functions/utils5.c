@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 20:05:04 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:32:19 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	emty_token(char *s, t_token_type type)
 	int	i;
 
 	i = 0;
-	if (!s[i] && type == VAR)
-		return (printf ("empty_token\n"), 1);
 	if (type == EXPENDED && empty_cmd(s))
-		return (printf ("haadik empty_token\n"), 1);
+		return (1);
+	if (!s[i] && type == VAR)
+		return (1);
 	return (0);
 }
 
