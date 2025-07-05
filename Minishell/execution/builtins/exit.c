@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:43 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/30 21:54:06 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:56:15 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exit_v(char **args, t_data *d)
 	int		is_out_range;
 
 	1 && (is_out_range = 0, status = 0);
-	if (isatty(0) && isatty(1))
+	if (isatty(0))
 		ft_putstr_fd("exit\n", 1);
 	if (!args[1])
 		free_everything(d, 0);
@@ -36,6 +36,7 @@ void	exit_v(char **args, t_data *d)
 	if (args[2])
 	{
 		ft_putstr_fd("exit : too many arguments\n", 2);
+		exit_status(1, 1);
 		return ;
 	}
 	free_everything(d, (unsigned char)status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/05 14:00:06 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:42:19 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d,
 	}
 	if (pid == 0)
 	{
-		setup_child_fds(in_fd, pipe_fd);
+		if (setup_child_fds(in_fd, pipe_fd) != 0)
+			free_everything(d, 1);
 		free_everything(d, execute_single_cmd(cmd, d,
 				(t_fds){STDIN_FILENO, STDOUT_FILENO}));
 	}
@@ -40,7 +41,6 @@ int	execute_pipeline_commands(t_data *d, int cmd_count)
 	int		in_fd;
 	int		i;
 
-	pids = ft_malloc(sizeof(pid_t) * cmd_count, d);
 	1 && (current = d->cmds, i = 0, in_fd = STDIN_FILENO,
 		pids = ft_malloc(sizeof(pid_t) * cmd_count, d));
 	while (current && i < cmd_count)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:46:57 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/29 15:54:07 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 19:07:28 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,18 @@ void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 {
 	while (env_lst)
 	{
-		printf("declare -x %s=\"%s\"\n", env_lst->key, env_lst->value);
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(env_lst->key, 1);
+		ft_putstr_fd("=\"", 1);
+		ft_putstr_fd(env_lst->value, 1);
+		ft_putstr_fd("\"\n", 1);
 		env_lst = env_lst->next;
 	}
 	while (exp_lst)
 	{
-		printf("declare -x %s\n", exp_lst->value);
+		ft_putstr_fd("declare -x", 1);
+		ft_putstr_fd(exp_lst->value, 1);
+		ft_putstr_fd("\n", 1);
 		exp_lst = exp_lst->next;
 	}
 }

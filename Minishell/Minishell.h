@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 13:15:27 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:20:35 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,7 @@ void	append_to_existing_env(t_env *existing, char *key, char *append_value,
 void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
-void	setup_child_fds(int in_fd, int *pipe_fd);
+int		setup_child_fds(int in_fd, int *pipe_fd);
 int		wait_for_children(pid_t *pids, int cmd_count);
 void	wait_childrens(pid_t *pids, int i);
 void	close_fds_after_use(int in_fd, int pipe_fd);

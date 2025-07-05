@@ -1,0 +1,88 @@
+-> minishell$ parsing_part/../minishell 
+minishell: parsing_part/../minishell: command not found
+-------------------------------------------
+-> minishell$ export SPACE="           " TAB="          "
+-> minishell$ $SPACE
+[1]    75782 segmentation fault  ./minishell
+
+-------------------------------------------
+split with only space tab and new_line
+-------------------------------------------
+-> minishell$ Makefile/qwe
+minishell: Makefile/qwe: No such file or directory
+-> minishell$ echo $?
+127
+-------------------------------------------
+-> minishell$ export PATH+=:.
+-> minishell$ parsing_part
+execve: Permission denied
+-> minishell$ echo $?
+126
+-------------------------------------------
+-> minishell$ export PATH+=:.
+-> minishell$ Makefile 
+minishell: Makefile: command not found
+-> minishell$ echo $?
+127
+-------------------------------------------
+-> minishell$ export PATH=""
+-> minishell$ minishell 
+minishell: minishell: command not found
+-> minishell$ Makefile 
+minishell: Makefile: command not found
+-------------------------------------------
+-> minishell$ exit 1 2 4
+exit
+exit : too many arguments
+-> minishell$ $?
+minishell: 0: command not found
+-------------------------------------------
+-> minishell$ exit > u
+➜  Minishell 
+-------------------------------------------
+-> minishell$ exit -9223372036854775808
+exit
+minishell: exit: -9223372036854775808: numeric argument required
+-> minishell$ $?
+minishell: 255: command not found
+-------------------------------------------
+-> minishell$ ""
+execve: Permission denied
+-> minishell$ $?
+minishell: 126: command not found
+-------------------------------------------
+-> minishell$ unset P=90
+-> minishell$ 
+-------------------------------------------
+-> minishell$ export HOME=
+-> minishell$ cd
+minishell: : No such file or directory
+-------------------------------------------
+-> minishell$ cd trdf
+minishell: trdf: No such file or directory
+-> minishell$ echo $?
+0
+-> minishell$ 
+#########################################
+bash-3.2$ cd rtdf
+bash: cd: rtdf: No such file or directory
+bash-3.2$ $?
+bash: 1: command not found
+bash-3.2$ 
+-------------------------------------------
+-> minishell$ echo $5tgv
+
+-> minishell$ 
+-------------------------------------------
+-> minishell$ export q="'"
+-> minishell$ echo $q$USER
+'$USER
+#########################################
+bash-3.2$ echo $q$USER
+'moel-hai
+-------------------------------------------
+-> minishell$ cd .
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+-> minishell$ pwd
+/private/tmp/1/2/3/..
+-------------------------------------------

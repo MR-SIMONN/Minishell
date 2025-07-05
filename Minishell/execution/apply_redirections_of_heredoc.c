@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirections_of_heredoc.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/05 14:33:23 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:19:08 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	signal_herdoc(int sig)
 {
 	(void)sig;
 	exit_status(1, 1);
-	write(STDOUT_FILENO, "\n", 1);
+	ft_putstr_fd("\n", 1);
 	exit(130);
 }
 

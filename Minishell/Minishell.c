@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 15:30:32 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:23:59 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	handle_sigint(int sig)
 {
 	if (g_sig == 1)
 	{
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 		return ;
 	}
 	(void)sig;
 	exit_status(1, 1);
-	printf("\n");
+	ft_putstr_fd("\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -40,7 +40,7 @@ int	read_cmds(t_data *d)
 	d->line = readline("-> minishell$ ");
 	if (!d->line)
 	{
-		printf("exit\n");
+		ft_putstr_fd("exit\n", 1);
 		free_everything(d, exit_status(0, 0));
 	}
 	if (d->line[0])
@@ -76,7 +76,7 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 		{
 			g_sig = 1;
 			exit_status(1, 0);
-			execution(d);
+			// execution(d);
 			g_sig = 0;
 		}
 	}

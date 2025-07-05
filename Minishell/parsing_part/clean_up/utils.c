@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:31:25 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/28 11:10:46 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:27:48 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ void	*ft_malloc(size_t size, t_data *d)
 	p = malloc(sizeof(t_heap));
 	if (!p)
 	{
-		printf ("unexpected error with malloc\n");
+		ft_putstr_fd("unexpected error with malloc\n", 2);
 		free_everything(d, 1);
 	}
 	allocated = malloc(size);
 	if (!allocated)
 	{
-		printf ("unexpected error with malloc\n");
+		ft_putstr_fd("unexpected error with malloc\n", 2);
 		free(p);
 		free_everything(d, 1);
 	}
