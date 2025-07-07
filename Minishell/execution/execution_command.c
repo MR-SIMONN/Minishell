@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/05 17:42:19 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/07 20:56:05 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	execute_pipeline_commands(t_data *d, int cmd_count)
 			return (wait_childrens(pids, i), 1);
 		pids[i] = fork_child_and_execute(current, d, in_fd, pipe_fd);
 		if (pids[i] == -1)
-			return (wait_childrens(pids, i), 1);
+			return (close(in_fd), close(pipe_fd[0]),
+				close(pipe_fd[1]), wait_childrens(pids, i), 1);
 		close_fds_after_use(in_fd, pipe_fd[1]);
 		in_fd = pipe_fd[0];
 		1 && (current = current->next, i++);

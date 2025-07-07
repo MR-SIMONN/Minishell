@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:41:28 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/04 16:48:48 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:35:29 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	apply_redirections(t_str *files, t_cmd *cmd)
 		if (files->type == HERDOC_DEL && apply_heredoc_redirection(cmd) != 0)
 			return (1);
 		if ((files->type == APPEND_FILE || files->type == OUT_FILE)
-			&& apply_output_redirection(files) != 0)
+			&& apply_output_redirection(files, cmd) != 0)
 			return (1);
 		if (files->type == IN_FILE && apply_input_redirection(files) != 0)
 			return (1);
@@ -28,7 +28,7 @@ int	apply_redirections(t_str *files, t_cmd *cmd)
 	return (0);
 }
 
-int	apply_output_redirection(t_str *files)
+int	apply_output_redirection(t_str *files, t_cmd *cmd)
 {
 	int	fd;
 
@@ -42,7 +42,7 @@ int	apply_output_redirection(t_str *files)
 		perror(files->s);
 		return (1);
 	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
+	if (ft_strcmp(cmd->cmd, "exit") != 0 && dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);

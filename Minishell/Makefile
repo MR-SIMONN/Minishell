@@ -61,6 +61,7 @@ execution/utils/ft_lstnew_export.c \
 execution/utils/ft_strjoin.c \
 execution/utils/ft_splits.c \
 execution/utils/exec_helpers.c \
+execution/utils/exec_helpers2.c \
 execution/utils/linked.c \
 execution/utils/exp_env_utils.c \
 execution/execprt.c \
