@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:52:51 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/28 22:14:29 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/07 09:23:45 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 static long	handle_overflow(int sign, unsigned long long n,
 				int count, int *range_check)
 {
-	if (n > (unsigned long long)LLONG_MAX || count > 19)
+	if ((n > (unsigned long long)LLONG_MAX || count > 19) && sign == 1)
+		*range_check = 1;
+	if ((n > (unsigned long long)LLONG_MIN || count > 19) && sign == -1)
 		*range_check = 1;
 	return ((long)(n * sign));
 }

@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 16:23:10 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:33:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	check_var(t_token *t, int i, t_data *d)
 		&& !d_quoted(t->value))
 		return (ambiguous_error(s), 1);
 	if (space_exists(t->value)
-		&& ((t->type == EXPENDED)
+		&& ((t->type == EXPENDED && !emty_token(t->value, t->type))
 			|| (t->type == EX_EXP_ARG && is_splittable(t))))
 		split_to_toknes(t, d);
 	return (0);

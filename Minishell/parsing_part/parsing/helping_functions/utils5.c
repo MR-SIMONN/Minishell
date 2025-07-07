@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:49:56 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/28 10:57:36 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:32:19 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	emty_token(char *s, t_token_type type)
 	int	i;
 
 	i = 0;
+	if (type == EXPENDED && empty_cmd(s))
+		return (1);
 	if (!s[i] && type == VAR)
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:46:57 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/05 17:26:58 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:12:32 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 {
 	while (env_lst)
 	{
-		ft_putstr_fd("declare -x", 1);
+		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(env_lst->key, 1);
 		ft_putstr_fd("=\"", 1);
 		ft_putstr_fd(env_lst->value, 1);

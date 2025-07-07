@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/05 17:19:46 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/06 23:54:37 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,16 @@ void	update_env_cd(t_data *d)
 {
 	char	*old_pwd;
 	char	new_pwd[1024];
-	char	*logical_pwd;
 
 	old_pwd = check_if_env_set(d->env, "PWD");
-	if (getcwd(new_pwd, sizeof(new_pwd)) != NULL)
+	if (getcwd(new_pwd, sizeof(new_pwd)) == NULL)
 	{
-		update_env_var(d, "PWD", new_pwd);
-		if (old_pwd)
-			update_env_var(d, "OLDPWD", old_pwd);
+		perror("getcwd");
+		return ;
 	}
-	else
-	{
-		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
-		ft_putstr_fd(" cannot access parent directories: ", 2);
-		ft_putstr_fd("No such file or directory\n", 2);
-		if (old_pwd)
-		{
-			update_env_var(d, "OLDPWD", old_pwd);
-			logical_pwd = ft_strjoin(old_pwd, "/..", d);
-			update_env_var(d, "PWD", logical_pwd);
-		}
-	}
+	if (old_pwd)
+		update_env_var(d, "OLDPWD", old_pwd);
+	update_env_var(d, "PWD", new_pwd);
 }
 
 int	cd_v(char **args, t_data *d)
@@ -85,7 +74,7 @@ int	cd_v(char **args, t_data *d)
 		target_path = check_if_env_set(d->env, "HOME");
 		if (!target_path)
 		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			printf("minishell: cd: HOME not set\n");
 			return (1);
 		}
 	}
@@ -93,7 +82,7 @@ int	cd_v(char **args, t_data *d)
 		target_path = args[1];
 	if (chdir(target_path) != 0)
 	{
-		not_found(target_path);
+		perror("cd");
 		return (1);
 	}
 	update_env_cd(d);

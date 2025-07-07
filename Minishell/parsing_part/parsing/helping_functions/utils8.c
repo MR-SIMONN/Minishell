@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils8.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 22:21:21 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 17:31:47 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 19:37:24 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote)
 
 int	is_space(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\v' || c == '\f' || c == '\r');
+	return (c == ' ' || c == '\t' || c == '\n');
 }
 
 int	space_exists(char *s)
