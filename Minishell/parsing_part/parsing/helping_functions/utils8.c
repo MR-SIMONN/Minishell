@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils8.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 22:21:21 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/02 03:46:19 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/05 19:37:24 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	ambiguous_error(char *str)
 	if (!str)
 		return ;
 	exit_status(1, 1);
-	printf ("minihell: $%s: ambiguous redirect\n", str);
+	ft_putstr_fd("minihell: $", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
 }
 
 void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote)
@@ -44,8 +46,7 @@ void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote)
 
 int	is_space(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\v' || c == '\f' || c == '\r');
+	return (c == ' ' || c == '\t' || c == '\n');
 }
 
 int	space_exists(char *s)

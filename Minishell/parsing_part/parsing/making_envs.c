@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   making_envs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 05:12:07 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 15:25:11 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/07 03:07:32 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	store_envs(t_env **envs, char **env, t_data *d)
 
 	if (!*env)
 	{
-		printf ("minishell: error: empty environment (invoked with env -i)\n");
+		ft_putstr_fd("minishell: error: empty environment ", 2);
+		ft_putstr_fd("(invoked with env -i)\n", 2);
 		exit (1);
 	}
 	i = 0;

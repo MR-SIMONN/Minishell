@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/04 15:58:20 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:01:46 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,23 @@ void	update_env_var(t_data *d, char *key, char *value)
 	d->env = new_node;
 }
 
-void	update_env_cd(t_data *d)
+void	update_env_cd(t_data *d, char *cd_arg)
 {
 	char	*old_pwd;
 	char	new_pwd[1024];
-	char	*logical_pwd;
 
 	old_pwd = check_if_env_set(d->env, "PWD");
-	if (getcwd(new_pwd, sizeof(new_pwd)) != NULL)
+	if (getcwd(new_pwd, sizeof(new_pwd)) == NULL)
 	{
-		update_env_var(d, "PWD", new_pwd);
-		if (old_pwd)
-			update_env_var(d, "OLDPWD", old_pwd);
+		ft_putstr_fd("cd: error retrieving current directory:", 2);
+		ft_putstr_fd(" getcwd: cannot access parent directories\n", 2);
+		update_env_var(d, "PWD", ft_strjoin(check_if_env_set(d->env, "PWD"),
+				ft_strjoin("/", cd_arg, d), d));
+		return ;
 	}
-	else
-	{
-		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
-		ft_putstr_fd(" cannot access parent directories: ", 2);
-		ft_putstr_fd("No such file or directory\n", 2);
-		if (old_pwd)
-		{
-			update_env_var(d, "OLDPWD", old_pwd);
-			logical_pwd = ft_strjoin(old_pwd, "/..", d);
-			update_env_var(d, "PWD", logical_pwd);
-		}
-	}
+	if (old_pwd)
+		update_env_var(d, "OLDPWD", old_pwd);
+	update_env_var(d, "PWD", new_pwd);
 }
 
 int	cd_v(char **args, t_data *d)
@@ -93,9 +85,9 @@ int	cd_v(char **args, t_data *d)
 		target_path = args[1];
 	if (chdir(target_path) != 0)
 	{
-		not_found(target_path);
+		perror("cd");
 		return (1);
 	}
-	update_env_cd(d);
+	update_env_cd(d, args[1]);
 	return (0);
 }

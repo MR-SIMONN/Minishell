@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 16:54:20 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/07 09:33:44 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <stdbool.h>
 # include <readline/readline.h>
@@ -137,6 +138,7 @@ typedef struct s_expend_infos
 
 int		parsing(t_data *d);
 int		empty_cmd(char *s);
+int		emty_token(char *s, t_token_type type);
 int		is_invalid_syntax(char *s);
 int		parentheses(char *s);
 void	after_redir_tokens(t_token *t);
@@ -172,7 +174,6 @@ int		is_key_quoted(char *s);
 t_str	*new_strnode(char *string, t_token *t, t_data *d);
 void	ft_cmdadd_back(t_cmd **c, t_cmd *new);
 t_str	*last_str(t_str *p);
-void	ft_error(char *message);
 void	env_add_back(t_env **envs, t_env *new);
 int		is_quoted(t_token_type type);
 void	quotes_stuff(char *s, int i, char *c, int *quotes);
@@ -249,13 +250,13 @@ void	duping(int saved_stdin, int saved_stdout);
 void	permission_denied_error(char *path);
 void	command_not_found_error(char *cmd);
 void	this_is_a_directory(char *path);
+void	not_a_directory(char *cmd);
 void	not_found(char *cmd);
 void	num_arg_req(char *arg);
 char	*right_path(char **path, t_cmd *cmds, t_data *d, int *status);
 int		setup_redirections(int input_fd, int output_fd);
 int		apply_heredoc(t_cmd *cmd, t_data *d, int index);
 int		apply_input_redirection(t_str *infiles);
-int		apply_output_redirection(t_str *outfiles);
 int		apply_heredoc_redirection(t_cmd *cmd);
 int		process_heredocs_before_fork(t_data *d);
 void	unlink_all_heredocfiles(t_cmd *cmds);
@@ -277,7 +278,7 @@ int		handle_directory_path(char *path, t_cmd *cmds, int silent, int *status);
 int		ft_input_fd(int input_fd);
 int		ft_output_fd(int input_fd);
 int		apply_input_redirection(t_str *files);
-int		apply_output_redirection(t_str *files);
+int		apply_output_redirection(t_str *files, t_cmd *cmd);
 int		ft_has_no_pipe(t_data *d);
 void	ft_file(t_cmd *cmd, int index, t_data *d, int *fd);
 char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status);
@@ -292,8 +293,11 @@ void	append_to_existing_env(t_env *existing, char *key, char *append_value,
 void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
-void	setup_child_fds(int in_fd, int *pipe_fd);
+int		setup_child_fds(int in_fd, int *pipe_fd);
 int		wait_for_children(pid_t *pids, int cmd_count);
 void	wait_childrens(pid_t *pids, int i);
 void	close_fds_after_use(int in_fd, int pipe_fd);
+int		path_has_non_directory(char *path, t_data *d);
+char	*remove_trailing_slash(char *path, t_data *d);
+int		slash_char(char *path);
 #endif
