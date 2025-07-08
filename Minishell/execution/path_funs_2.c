@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:24:29 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/29 10:42:15 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:25:35 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,6 @@ char	*get_fullpath(char *path, char *command, t_data *d)
 	slash = ft_strjoin(path, "/", d);
 	full_path = ft_strjoin(slash, command, d);
 	return (full_path);
-}
-
-int	is_directory(char *path)
-{
-	DIR	*dir;
-
-	dir = opendir(path);
-	if (dir)
-	{
-		closedir(dir);
-		return (1);
-	}
-	return (0);
 }
 
 int	last_char(char *path)

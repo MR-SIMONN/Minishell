@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/07 09:34:48 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:33:29 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,60 @@ char	*search_in_paths(char **paths, t_cmd *cmds, t_data *d, int *status)
 	return (NULL);
 }
 
-int	handle_directory_path(char *path, t_cmd *cmds, int silent, int *status)
+int	path_has_non_directory(char *path, t_data *d)
 {
-	if (is_directory(path))
+	struct stat	st;
+	char		*copy;
+	int			i;
+
+	copy = ft_strdup(path, d);
+	i = 0;
+	while (copy[i])
 	{
-		if (!silent)
-			this_is_a_directory(cmds->cmd);
-		*status = 126;
-		return (126);
+		if (copy[i] == '/')
+		{
+			copy[i] = '\0';
+			if (copy[0] != '\0')
+			{
+				if (stat(copy, &st) != 0)
+					return (0);
+				if (!S_ISDIR(st.st_mode))
+					return (1);
+			}
+			copy[i] = '/';
+		}
+		i++;
 	}
-	if (!silent)
-		not_found(path);
-	*status = 127;
-	return (127);
+	return (0);
+}
+
+char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status)
+{
+	struct stat	st;
+
+	if (stat(cmds->cmd, &st) != 0)
+	{
+		if (path_has_non_directory(cmds->cmd, d))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmds->cmd, 2);
+			ft_putstr_fd(": Not a directory\n", 2);
+			return ((*status = 126), NULL);
+		}
+		not_found(cmds->cmd);
+		return ((*status = 127), NULL);
+	}
+	if (S_ISDIR(st.st_mode))
+	{
+		this_is_a_directory(cmds->cmd);
+		return ((*status = 126), NULL);
+	}
+	if (access(cmds->cmd, X_OK) != 0)
+	{
+		permission_denied_error(cmds->cmd);
+		return ((*status = 126), NULL);
+	}
+	return (ft_strdup(cmds->cmd, d));
 }
 
 char	*handle_slash_path(t_cmd *cmds, int *status, t_data *d)

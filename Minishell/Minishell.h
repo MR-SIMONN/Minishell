@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/07 09:33:44 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:53:24 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,16 +272,13 @@ int		execute_pipeline_commands(t_data *d, int cmd_count);
 int		apply_redirections(t_str *files, t_cmd *cmd);
 int		handling_heredocs(t_cmd *cmd, int input_fd, int output_fd);
 int		is_exec(char *path, t_cmd *cmds, int silent, int *status);
-int		is_directory(char *path);
 int		last_char(char *path);
-int		handle_directory_path(char *path, t_cmd *cmds, int silent, int *status);
 int		ft_input_fd(int input_fd);
 int		ft_output_fd(int input_fd);
 int		apply_input_redirection(t_str *files);
 int		apply_output_redirection(t_str *files, t_cmd *cmd);
 int		ft_has_no_pipe(t_data *d);
 void	ft_file(t_cmd *cmd, int index, t_data *d, int *fd);
-char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status);
 char	*handle_no_path(t_cmd *cmds, t_data *d, int *status);
 void	ft_expand_heredoc_handler(t_str *current, int fd, t_data *d);
 int		is_valid_identifier(char *str, int len);
@@ -297,7 +294,7 @@ int		setup_child_fds(int in_fd, int *pipe_fd);
 int		wait_for_children(pid_t *pids, int cmd_count);
 void	wait_childrens(pid_t *pids, int i);
 void	close_fds_after_use(int in_fd, int pipe_fd);
-int		path_has_non_directory(char *path, t_data *d);
 char	*remove_trailing_slash(char *path, t_data *d);
 int		slash_char(char *path);
+int		sig_check(int update_it, int new_value);
 #endif

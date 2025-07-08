@@ -6,22 +6,20 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 17:19:02 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:56:36 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-int	g_sig;
-
 void	handle_sigint(int sig)
 {
-	if (g_sig == 1)
+	(void)sig;
+	if (sig_check(0, 0))
 	{
-		ft_putstr_fd("\n", 1);
+		write (1, "\n", 1);
 		return ;
 	}
-	(void)sig;
 	exit_status(1, 1);
 	ft_putstr_fd("\n", 1);
 	rl_replace_line("", 0);
@@ -61,7 +59,6 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 	int	all_good;
 
 	all_good = 0;
-	g_sig = 0;
 	(void)ac;
 	(void)av;
 	set_strcut_values(d, 0);
@@ -74,10 +71,10 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 		all_good = read_cmds(d);
 		if (all_good)
 		{
-			g_sig = 1;
+			sig_check(1, 1);
 			exit_status(1, 0);
 			execution(d);
-			g_sig = 0;
+			sig_check(1, 0);
 		}
 	}
 }
