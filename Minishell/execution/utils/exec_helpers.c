@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:57:40 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/30 21:38:40 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:31:59 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void	not_found(char *cmd)
 	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
-void	num_arg_req(char *arg)
+int	num_arg_req(char *arg)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
+	return (1);
 }

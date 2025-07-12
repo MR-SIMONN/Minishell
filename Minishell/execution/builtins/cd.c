@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/07 22:01:46 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/12 13:52:43 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	cd_v(char **args, t_data *d)
 		target_path = check_if_env_set(d->env, "HOME");
 		if (!target_path)
 		{
-			printf("minishell: cd: HOME not set\n");
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			return (1);
 		}
 	}

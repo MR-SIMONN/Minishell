@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils9.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 22:51:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/28 15:10:30 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:00:17 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,13 @@ int	words_count(char *str)
 		i++;
 	}
 	return (words);
+}
+
+int	sig_check(int update_it, int new_value)
+{
+	static int	v;
+
+	if (update_it)
+		v = new_value;
+	return (v);
 }
