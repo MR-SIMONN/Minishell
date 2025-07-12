@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 22:33:09 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/12 23:00:30 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	expend_it(t_token *t, char *key, int index, t_data *d)
 	t->value = new_expended_token(infos);
 	if (t->type != REDIR_VAR)
 	{
-		if (t->type == EXPORT_ARG)
+		if (t->type == EXPORT_ARG || t->type == EX_EXP_ARG)
 			t->type = EX_EXP_ARG;
 		else
 			t->type = EXPENDED;
