@@ -79,3 +79,29 @@ cd: error retrieving current directory: getcwd: cannot access parent directories
 -> minishell$ pwd
 /private/tmp/1/2/3/..
 -------------------------------------------
+-> minishell$ export a="ls la"
+-> minishell$ export a=$a=$a=$a
+declare -x a="ls"
+declare -x la="ls"
+--------------------------------------
+bash: maximum here-document count exceeded
+--------------------------------------
+-> minishell$ export a="ls -la"
+-> minishell$ export b=$a=$a=$a
+-------------------------------------
+➜  2 env -i /mnt/homes/moel-hai/Desktop/simonhub/Minishell/minishell
+-> minishell$ env  
+-> minishell$ unset OLDPWD
+-> minishell$ unset PWD
+-> minishell$ 
+-> minishell$ cd .. 
+cd: error retrieving current directory: getcwd: cannot access parent directories
+-> minishell$ env
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==32530==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x000108097f20 bp 0x7ffee7b7a940 sp 0x7ffee7b7a920 T0)
+------------------------------------
+-> minishell$ echo hhhhhhh > /dev/ttyta
+/dev/ttyta: Resource busy
+-> minishell$ echo $?
+0
