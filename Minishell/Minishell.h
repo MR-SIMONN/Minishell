@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/12 14:29:40 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:35:55 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_cmd
 	int				heredoc;
 	t_str			*heredoc_del;
 	char			*heredocfilename;
+	int				finalfd;
 	int				pipe;
 	struct s_cmd	*next;
 }	t_cmd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/12 13:52:43 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:00:26 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,14 @@ void	update_env_var(t_data *d, char *key, char *value)
 		}
 		tmp = tmp->next;
 	}
+	printf("allocate new pwd env <<< here\n");
 	new_node = ft_malloc(sizeof(t_env), d);
 	new_node->key = ft_strdup(key, d);
 	new_node->value = ft_strdup(value, d);
-	new_node->next = d->env;
-	d->env = new_node;
+	env_add_back(&d->env, new_node);
+	printf("success adding .....\n");
+	char *pwd = check_if_env_set(d->env, "PWD");
+	printf("%s\n", pwd);
 }
 
 void	update_env_cd(t_data *d, char *cd_arg)

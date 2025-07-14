@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 05:12:07 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/12 12:36:24 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:36:17 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ t_env	*new_env(char *s, t_data *d)
 	e->next = NULL;
 	return (e);
 }
+
+
 
 void	store_envs(t_env **envs, char **env, t_data *d)
 {

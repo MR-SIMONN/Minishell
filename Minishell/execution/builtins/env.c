@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/06/28 22:17:04 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:53:59 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@ void	env_v(t_env *list, char **args)
 	tmp = list;
 	while (tmp)
 	{
-		ft_putstr_fd(tmp->both, 1);
-		ft_putstr_fd("\n", 1);
+		if (tmp->both && ft_strchr(tmp->both, '='))
+		{
+			ft_putstr_fd(tmp->both, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		tmp = tmp->next;
 	}
 }
+
