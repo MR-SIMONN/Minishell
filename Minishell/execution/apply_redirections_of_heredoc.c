@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirections_of_heredoc.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 12:03:25 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:14:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_heredoc_child(t_str *current, int fd, t_data *d)
 	}
 	while (1)
 	{
-		d->line = readline(">");
+		d->line = readline("> ");
 		if (!d->line || ft_strcmp(current->s, d->line) == 0)
 		{
 			free(d->line);

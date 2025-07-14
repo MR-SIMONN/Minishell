@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 13:35:55 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:04:42 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
+
+# define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 typedef struct s_heap
 {
@@ -297,4 +299,5 @@ void	close_fds_after_use(int in_fd, int pipe_fd);
 char	*remove_trailing_slash(char *path, t_data *d);
 int		slash_char(char *path);
 int		sig_check(int update_it, int new_value);
+void	make_backup_env(t_env **envs, t_data *d);
 #endif

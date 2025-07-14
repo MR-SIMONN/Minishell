@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_funs_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:24:29 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 14:47:32 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:08:02 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,18 @@ char	**get_env(t_data *d)
 		return (NULL);
 	current = d->env;
 	while (current && ++i)
+	{
 		current = current->next;
+	}
 	envs = ft_malloc((i + 1) * sizeof(char *), d);
 	current = d->env;
 	i = 0;
 	while (current)
 	{
-		envs[i] = ft_strdup(current->both, d);
+		if (current->both)
+			envs[i] = ft_strdup(current->both, d);
+		else
+			envs[i] = ft_strdup("", d);
 		current = current->next;
 		i++;
 	}

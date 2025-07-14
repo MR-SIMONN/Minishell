@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:36 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 14:53:59 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:07:19 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	env_v(t_env *list, char **args)
 		return ;
 	}
 	tmp = list;
+	if (!list)
+		return ;
 	while (tmp)
 	{
 		if (tmp->both && ft_strchr(tmp->both, '='))
