@@ -105,3 +105,134 @@ AddressSanitizer:DEADLYSIGNAL
 /dev/ttyta: Resource busy
 -> minishell$ echo $?
 0
+
+
+
+====================================================================================================
+
+/*-> minishell$ unset ""
+=================================================================
+==50802==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000ab0f at pc 0x000107aa4cfa bp 0x7ffee8175f40 sp 0x7ffee8175f38
+READ of size 1 at 0x60200000ab0f thread T0
+    #0 0x107aa4cf9 in unset_v+0x279 (minishell:x86_64+0x10001bcf9)
+    #1 0x107aa5166 in execute_builtin+0x106 (minishell:x86_64+0x10001c166)
+    #2 0x107aade72 in execute_single_builtin+0x192 (minishell:x86_64+0x100024e72)
+    #3 0x107aa8daf in ft_has_no_pipe+0xcf (minishell:x86_64+0x10001fdaf)
+    #4 0x107aae62b in execute_pipeline+0xdb (minishell:x86_64+0x10002562b)
+    #5 0x107aa1eba in execution+0x10a (minishell:x86_64+0x100018eba)
+    #6 0x107a8c45f in minishell+0x18f (minishell:x86_64+0x10000345f)
+    #7 0x107a8c5c0 in main+0x140 (minishell:x86_64+0x1000035c0)
+    #8 0x7fff719c7cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x60200000ab0f is located 1 bytes to the left of 1-byte region [0x60200000ab10,0x60200000ab11)
+allocated by thread T0 here:
+    #0 0x107b6417d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x107a8cabf in ft_malloc+0x6f (minishell:x86_64+0x100003abf)
+    #2 0x107a9d134 in ft_strdup+0x34 (minishell:x86_64+0x100014134)
+    #3 0x107a903a4 in copy_args+0x114 (minishell:x86_64+0x1000073a4)
+    #4 0x107a8e3c4 in add_args+0x54 (minishell:x86_64+0x1000053c4)
+    #5 0x107a8e904 in fill_d_cmd+0xa4 (minishell:x86_64+0x100005904)
+    #6 0x107a8c2af in read_cmds+0x2ff (minishell:x86_64+0x1000032af)
+    #7 0x107a8c429 in minishell+0x159 (minishell:x86_64+0x100003429)
+    #8 0x107a8c5c0 in main+0x140 (minishell:x86_64+0x1000035c0)
+    #9 0x7fff719c7cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (minishell:x86_64+0x10001bcf9) in unset_v+0x279
+Shadow bytes around the buggy address:
+  0x1c0400001510: fa fa 00 01 fa fa 00 04 fa fa 00 01 fa fa 00 00
+  0x1c0400001520: fa fa 00 00 fa fa 00 01 fa fa 00 00 fa fa 00 00
+-> minishell$ unset ""
+=================================================================
+==53021==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000456f at pc 0x00010a06dcfa bp 0x7ffee5bacf40 sp 0x7ffee5bacf38
+READ of size 1 at 0x60200000456f thread T0
+    #0 0x10a06dcf9 in unset_v+0x279 (minishell:x86_64+0x10001bcf9)
+    #1 0x10a06e166 in execute_builtin+0x106 (minishell:x86_64+0x10001c166)
+    #2 0x10a076e72 in execute_single_builtin+0x192 (minishell:x86_64+0x100024e72)
+    #3 0x10a071daf in ft_has_no_pipe+0xcf (minishell:x86_64+0x10001fdaf)
+    #4 0x10a07762b in execute_pipeline+0xdb (minishell:x86_64+0x10002562b)
+    #5 0x10a06aeba in execution+0x10a (minishell:x86_64+0x100018eba)
+    #6 0x10a05545f in minishell+0x18f (minishell:x86_64+0x10000345f)
+    #7 0x10a0555c0 in main+0x140 (minishell:x86_64+0x1000035c0)
+    #8 0x7fff719c7cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x60200000456f is located 1 bytes to the left of 1-byte region [0x602000004570,0x602000004571)
+allocated by thread T0 here:
+    #0 0x10a12417d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10a055abf in ft_malloc+0x6f (minishell:x86_64+0x100003abf)
+    #2 0x10a066134 in ft_strdup+0x34 (minishell:x86_64+0x100014134)
+    #3 0x10a0593a4 in copy_args+0x114 (minishell:x86_64+0x1000073a4)
+    #4 0x10a0573c4 in add_args+0x54 (minishell:x86_64+0x1000053c4)
+    #5 0x10a057904 in fill_d_cmd+0xa4 (minishell:x86_64+0x100005904)
+    #6 0x10a0552af in read_cmds+0x2ff (minishell:x86_64+0x1000032af)
+    #7 0x10a055429 in minishell+0x159 (minishell:x86_64+0x100003429)
+    #8 0x10a0555c0 in main+0x140 (minishell:x86_64+0x1000035c0)
+    #9 0x7fff719c7cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (minishell:x86_64+0x10001bcf9) in unset_v+0x279
+Shadow bytes around the buggy address:
+  0x1c0400000850: fa fa fd fd fa fa fd fd fa fa 00 00 fa fa 00 01
+-> minishell$ unset " "
+-> minishell$ unset ""
+=================================================================
+==53093==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000496f at pc 0x00010f0e4cfa bp 0x7ffee0b35f40 sp 0x7ffee0b35f38
+READ of size 1 at 0x60200000496f thread T0
+    #0 0x10f0e4cf9 in unset_v+0x279 (minishell:x86_64+0x10001bcf9)
+    #1 0x10f0e5166 in execute_builtin+0x106 (minishell:x86_64+0x10001c166)
+    #2 0x10f0ede72 in execute_single_builtin+0x192 (minishell:x86_64+0x100024e72)
+    #3 0x10f0e8daf in ft_has_no_pipe+0xcf (minishell:x86_64+0x10001fdaf)
+    #4 0x10f0ee62b in execute_pipeline+0xdb (minishell:x86_64+0x10002562b)
+    #5 0x10f0e1eba in execution+0x10a (minishell:x86_64+0x100018eba)
+    #6 0x10f0cc45f in minishell+0x18f (minishell:x86_64+0x10000345f)
+    #7 0x10f0cc5c0 in main+0x140 (minishell:x86_64+0x1000035c0)
+    #8 0x7fff719c7cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x60200000496f is located 1 bytes to the left of 1-byte region [0x602000004970,0x602000004971)
+allocated by thread T0 here:
+    #0 0x10f19d17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10f0ccabf in ft_malloc+0x6f (minishell:x86_64+0x100003abf)
+    #2 0x10f0dd134 in ft_strdup+0x34 (minishell:x86_64+0x100014134)
+    #3 0x10f0d03a4 in copy_args+0x114 (minishell:x86_64+0x1000073a4)
+    #4 0x10f0ce3c4 in add_args+0x54 (minishell:x86_64+0x1000053c4)
+    #5 0x10f0ce904 in fill_d_cmd+0xa4 (minishell:x86_64+0x100005904)
+    #6 0x10f0cc2af in read_cmds+0x2ff (minishell:x86_64+0x1000032af)
+    #7 0x10f0cc429 in minishell+0x159 (minishell:x86_64+0x100003429)
+    #8 0x10f0cc5c0 in main+0x140 (minishell:x86_64+0x1000035c0)
+    #9 0x7fff719c7cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (minishell:x86_64+0x10001bcf9) in unset_v+0x279
+Shadow bytes around the buggy address:
+  0x1c04000008d0: fa fa fd fd fa fa 00 02 fa fa 01 fa fa fa 00 01
+  0x1c04000008e0: fa fa 00 04 fa fa 00 01 fa fa 00 00 fa fa 00 00
+  0x1c04000008f0: fa fa 00 01 fa fa 00 00 fa fa 00 00 fa fa 06 fa
+  0x1c0400000900: fa fa 00 00 fa fa 03 fa fa fa 00 00 fa fa 00 00
+  0x1c0400000910: fa fa 00 00 fa fa 01 fa fa fa 00 00 fa fa 00 00
+=>0x1c0400000920: fa fa 00 00 fa fa 06 fa fa fa 00 00 fa[fa]01 fa
+  0x1c0400000930: fa fa 00 00 fa fa 06 fa fa fa fa fa fa fa fa fa
+  0x1c0400000940: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000950: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000960: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000970: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==53093==ABORTING
+[1]    53093 abort      ./minishell
+➜  Minishell git:(simon's) ✗ 
+*/

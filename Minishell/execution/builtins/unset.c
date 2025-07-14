@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:51 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 14:04:51 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/15 00:09:32 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	unset_v(t_data *d, char **args)
 	{
 		if ((args[i][0] >= '0' && args[i][0] <= '9')
 			|| args[i][ft_strlen(args[i]) - 1] == '!'
-				|| is_valid(args[i]))
+				|| is_valid(args[i]) || args[i][0] == '\0')
 		{
 			ft_putstr_fd("minishell: `", 2);
 			ft_putstr_fd(args[i], 2);
