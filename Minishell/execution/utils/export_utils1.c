@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:46:57 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/06 21:12:32 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:26:52 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,28 @@ void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 {
 	while (env_lst)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(env_lst->key, 1);
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(env_lst->value, 1);
-		ft_putstr_fd("\"\n", 1);
+		if (env_lst->key && env_lst->value)
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(env_lst->key, 1);
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(env_lst->value, 1);
+			ft_putstr_fd("\"\n", 1);
+		}
 		env_lst = env_lst->next;
 	}
 	while (exp_lst)
 	{
-		ft_putstr_fd("declare -x", 1);
-		ft_putstr_fd(exp_lst->value, 1);
-		ft_putstr_fd("\n", 1);
+		if (exp_lst->value)
+		{
+			ft_putstr_fd("declare -x", 1);
+			ft_putstr_fd(exp_lst->value, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		exp_lst = exp_lst->next;
 	}
 }
+
 
 int	is_valid_identifier(char *str, int len)
 {

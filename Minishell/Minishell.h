@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/12 23:07:37 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:35:55 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_cmd
 	int				heredoc;
 	t_str			*heredoc_del;
 	char			*heredocfilename;
+	int				finalfd;
 	int				pipe;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -252,7 +253,7 @@ void	command_not_found_error(char *cmd);
 void	this_is_a_directory(char *path);
 void	not_a_directory(char *cmd);
 void	not_found(char *cmd);
-void	num_arg_req(char *arg);
+int		num_arg_req(char *arg);
 char	*right_path(char **path, t_cmd *cmds, t_data *d, int *status);
 int		setup_redirections(int input_fd, int output_fd);
 int		apply_heredoc(t_cmd *cmd, t_data *d, int index);
@@ -270,7 +271,6 @@ char	**get_env(t_data *d);
 int		count_commands(t_cmd *cmds);
 int		execute_pipeline_commands(t_data *d, int cmd_count);
 int		apply_redirections(t_str *files, t_cmd *cmd);
-int		handling_heredocs(t_cmd *cmd, int input_fd, int output_fd);
 int		is_exec(char *path, t_cmd *cmds, int silent, int *status);
 int		last_char(char *path);
 int		ft_input_fd(int input_fd);

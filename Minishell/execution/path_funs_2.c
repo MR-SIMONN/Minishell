@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_funs_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:24:29 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/12 19:17:09 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:47:32 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,27 @@ char	**get_path(t_data *d)
 char	**get_env(t_data *d)
 {
 	t_env	*current;
-	t_env	*saved_current;
 	char	**envs;
-	int		i;
+	int		i = 0;
 
+	if (!d || !d->env)
+		return (NULL);
 	current = d->env;
-	saved_current = current;
+	while (current && ++i)
+		current = current->next;
+	envs = ft_malloc((i + 1) * sizeof(char *), d);
+	current = d->env;
 	i = 0;
 	while (current)
 	{
-		i++;
+		envs[i] = ft_strdup(current->both, d);
 		current = current->next;
-	}
-	envs = ft_malloc((i + 1) * sizeof(char *), d);
-	i = 0;
-	while (saved_current)
-	{
-		envs[i] = ft_strdup(saved_current->both, d);
-		saved_current = saved_current->next;
 		i++;
 	}
 	envs[i] = NULL;
 	return (envs);
 }
+
 
 char	*get_fullpath(char *path, char *command, t_data *d)
 {

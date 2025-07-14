@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/08 15:33:29 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:49:10 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ char	*search_in_paths(char **paths, t_cmd *cmds, t_data *d, int *status)
 	char	*full_path;
 
 	i = 0;
+	if (cmds->cmd[0] == '\0')
+	{
+		command_not_found_error(cmds->cmd);
+		*status = 127;
+		return (NULL);
+	}
 	while (paths[i])
 	{
 		full_path = get_fullpath(paths[i], cmds->cmd, d);
@@ -125,6 +131,13 @@ char	*right_path(char **paths, t_cmd *cmds, t_data *d, int *status)
 	if (cmds->cmd && cmds->cmd[0] != '\0'
 		&& cmds->cmd[last_char(cmds->cmd)] == '/')
 		return (handle_slash_path(cmds, status, d));
+	if (ft_strcmp(cmds->cmd, ".") == 0 || ft_strcmp(cmds->cmd, "..") == 0)
+	{
+		command_not_found_error(cmds->cmd);
+		if(ft_strcmp(cmds->cmd, "..") == 0)
+			return ((*status = 127), NULL);
+		return((*status = 2), NULL);
+	}
 	if (slash_char(cmds->cmd))
 		return (handle_absolute_path(cmds, d, status));
 	if (!paths)

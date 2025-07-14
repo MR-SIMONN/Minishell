@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/12 20:32:54 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/12 12:37:25 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d,
 	return (pid);
 }
 
+void	close_fails(int in_fd, int pipe_fd[2])
+{
+	close(in_fd);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+}
+
 int	execute_pipeline_commands(t_data *d, int cmd_count)
 {
 	t_cmd	*current;
@@ -47,11 +54,12 @@ int	execute_pipeline_commands(t_data *d, int cmd_count)
 	{
 		prepare_pipe(pipe_fd, current->pipe);
 		if (pipe_fd[0] == -1 && pipe_fd[1] == -1 && current->pipe == 1)
-			return (wait_childrens(pids, i), 1);
+			return (close(in_fd),
+				wait_childrens(pids, i), 1);
 		pids[i] = fork_child_and_execute(current, d, in_fd, pipe_fd);
 		if (pids[i] == -1)
-			return (close(in_fd), close(pipe_fd[0]),
-				close(pipe_fd[1]), wait_childrens(pids, i), 1);
+			return (close_fails(in_fd, pipe_fd),
+				wait_childrens(pids, i), 1);
 		close_fds_after_use(in_fd, pipe_fd[1]);
 		in_fd = pipe_fd[0];
 		1 && (current = current->next, i++);

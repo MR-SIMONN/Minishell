@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:46:33 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/05 17:19:08 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:03:25 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ int	apply_heredoc(t_cmd *cmd, t_data *d, int index)
 	while (current)
 	{
 		signal(SIGINT, SIG_IGN);
-		ft_file(cmd, index, d, &fd);
 		pid = fork();
+		ft_file(cmd, index, d, &fd);
 		if (pid == 0)
 		{
 			signal(SIGINT, signal_herdoc);

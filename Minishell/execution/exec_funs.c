@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/05 20:33:45 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:39:31 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,10 @@ int	execute_external_cmd(t_cmd *cmd, t_data *d)
 	if (!path)
 		return (status);
 	envs = get_env(d);
-	if (!envs)
-	{
-		ft_putstr_fd("minishell: failed to get environment\n", 2);
-		return (1);
-	}
 	if (execve(path, cmd->args, envs) == -1)
 	{
 		perror("execve");
-		return (126);
+		exit(127);
 	}
 	return (status);
 }
