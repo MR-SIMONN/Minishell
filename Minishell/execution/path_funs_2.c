@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 21:24:29 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 17:08:02 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:52:29 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ char	**get_env(t_data *d)
 {
 	t_env	*current;
 	char	**envs;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	if (!d || !d->env)
 		return (NULL);
 	current = d->env;
@@ -53,10 +54,8 @@ char	**get_env(t_data *d)
 		current = current->next;
 		i++;
 	}
-	envs[i] = NULL;
-	return (envs);
+	return (envs[i] = NULL, envs);
 }
-
 
 char	*get_fullpath(char *path, char *command, t_data *d)
 {

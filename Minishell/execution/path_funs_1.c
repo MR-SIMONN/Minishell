@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_funs_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 10:49:10 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:50:34 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,9 @@ char	*right_path(char **paths, t_cmd *cmds, t_data *d, int *status)
 	if (ft_strcmp(cmds->cmd, ".") == 0 || ft_strcmp(cmds->cmd, "..") == 0)
 	{
 		command_not_found_error(cmds->cmd);
-		if(ft_strcmp(cmds->cmd, "..") == 0)
+		if (ft_strcmp(cmds->cmd, "..") == 0)
 			return ((*status = 127), NULL);
-		return((*status = 2), NULL);
+		return ((*status = 2), NULL);
 	}
 	if (slash_char(cmds->cmd))
 		return (handle_absolute_path(cmds, d, status));

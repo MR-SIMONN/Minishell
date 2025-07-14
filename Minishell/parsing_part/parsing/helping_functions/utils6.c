@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:30:54 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 17:19:40 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:48:28 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	make_backup_env(t_env **envs, t_data *d)
 {
 	char	*pwd;
 
-    pwd = getcwd(0, 0);
+	pwd = getcwd(0, 0);
 	if (pwd)
 	{
 		store_addr(pwd, d);
@@ -24,7 +24,8 @@ void	make_backup_env(t_env **envs, t_data *d)
 	}
 	else
 		env_add_back(envs, new_env("PWD=/", d));
-	env_add_back(envs, new_env(ft_strjoin("_=", ft_strjoin(pwd, "/Minishell", d), d), d));
+	env_add_back(envs, new_env(ft_strjoin("_=",
+				ft_strjoin(pwd, "/Minishell", d), d), d));
 	env_add_back(envs, new_env(ft_strjoin("PATH=", THE_PATH, d), d));
 }
 

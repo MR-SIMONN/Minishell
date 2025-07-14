@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:46:57 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/12 21:26:52 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:52:43 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 		exp_lst = exp_lst->next;
 	}
 }
-
 
 int	is_valid_identifier(char *str, int len)
 {
