@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 21:26:45 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:23:52 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_data
 	t_env	*env;
 	t_exp	*exp;
 	t_pipe	*pipes;
+	char	*backup_pwd;
 }	t_data;
 
 typedef struct s_expend_infos

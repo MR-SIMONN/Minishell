@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 09:29:14 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 18:03:46 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:02:18 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	slash_char(char *path)
 	int	i;
 
 	i = 0;
-	if(!path)
-		return(0);
+	if (!path)
+		return (0);
 	while (path[i] && path[i] != '/')
 		i++;
 	if ((unsigned long)i != ft_strlen(path))

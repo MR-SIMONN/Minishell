@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 20:00:12 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:44:34 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 	(void)av;
 	set_strcut_values(d, 0);
 	store_envs(&d->env, env, d);
+	d->backup_pwd = var_value(d->env, "PWD", d);
 	signal_stuff();
 	rl_catch_signals = 0;
 	while (1 + 1 == 2)

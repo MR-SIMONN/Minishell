@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 21:45:06 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:56:26 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*check_if_env_set(t_env *env_lst, char *env_key)
 	}
 	return (NULL);
 }
+
 int	check_if_env(t_env *env_lst, char *env_key)
 {
 	t_env	*tmp;
@@ -41,28 +42,41 @@ int	check_if_env(t_env *env_lst, char *env_key)
 
 void	update_env_var(t_data *d, char *key, char *value)
 {
-	add_or_update_env(d, key, value);
+		add_or_update_env(d, key, value);	
 }
-
 
 void	update_env_cd(t_data *d, char *cd_arg)
 {
 	char	*old_pwd;
 	char	new_pwd[1024];
-
-	old_pwd = check_if_env_set(d->env, "PWD");
+	
+	if(check_if_env(d->env, "PWD"))
+		old_pwd = check_if_env_set(d->env, "PWD");
+	else
+		old_pwd = d->backup_pwd;
 	if (getcwd(new_pwd, sizeof(new_pwd)) == NULL)
 	{
 		ft_putstr_fd("cd: error retrieving current directory:", 2);
 		ft_putstr_fd(" getcwd: cannot access parent directories\n", 2);
-		update_env_var(d, "PWD", ft_strjoin(check_if_env_set(d->env, "PWD"),
+		if(!check_if_env_set(d->env, "PWD"))
+		{
+			update_env_var(d, "PWD", ft_strjoin(d->backup_pwd,
 				ft_strjoin("/", cd_arg, d), d));
+		}
+		else
+		{
+			update_env_var(d, "PWD", ft_strjoin(check_if_env_set(d->env, "PWD"),
+				ft_strjoin("/", cd_arg, d), d));
+		}
 		return ;
 	}
 	if (old_pwd)
 		update_env_var(d, "OLDPWD", old_pwd);
 	if (check_if_env(d->env, "PWD"))
+	{
 		update_env_var(d, "PWD", new_pwd);
+		d->backup_pwd = var_value(d->env, "PWD", d);
+	}
 }
 
 int	cd_v(char **args, t_data *d)
