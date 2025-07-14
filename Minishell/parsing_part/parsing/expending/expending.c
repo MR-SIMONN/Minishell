@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:19:40 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/12 23:00:30 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:33:38 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ int	check_var(t_token *t, int i, t_data *d)
 	{
 		t->value = delete_invalid_var(t->value, d);
 		if (t->type == REDIR_VAR && !t->value[0])
-			return (ambiguous_error(s), 1);
+			return (syntax_error("syntax error"));
 		return (0);
 	}
 	if (t->type == REDIR_VAR && words_count(t->value) > 1
 		&& !d_quoted(t->value))
-		return (ambiguous_error(s), 1);
+		return (syntax_error("syntax error"));
 	if (space_exists(t->value)
 		&& ((t->type == EXPENDED && !emty_token(t->value, t->type))
 			|| (t->type == EX_EXP_ARG && is_splittable(t))))
@@ -94,11 +94,11 @@ int	check_var(t_token *t, int i, t_data *d)
 int	expending(t_token *t, t_data *d, int s_quote, int d_quote)
 {
 	int	i;
-	int	ambiguous_probleme;
+	int	syntax_error;
 
 	while (t)
 	{
-		(1) && (i = 0, s_quote = 0, ambiguous_probleme = 0);
+		(1) && (i = 0, s_quote = 0, syntax_error = 0);
 		if (t->type == VAR || t->type == D_VAR || t->type == S_VAR
 			|| t->type == REDIR_VAR || t->type == EXPORT_ARG)
 		{
@@ -108,10 +108,10 @@ int	expending(t_token *t, t_data *d, int s_quote, int d_quote)
 					quotes_handling(t->value, &i, &s_quote, &d_quote);
 				else if (t->value[i] && t->value[i] == '$'
 					&& is_var(t->value[i + 1]) && !s_quote)
-					ambiguous_probleme = check_var(t, i, d);
+					syntax_error = check_var(t, i, d);
 				else
 					i++;
-				if (ambiguous_probleme)
+				if (syntax_error)
 					return (1);
 			}
 		}

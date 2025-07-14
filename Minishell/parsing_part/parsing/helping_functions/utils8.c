@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 22:21:21 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 19:37:24 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:26:40 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ int	exit_status(int should_update, int new_status)
 	if (should_update)
 		e = new_status;
 	return (e);
-}
-
-void	ambiguous_error(char *str)
-{
-	if (!str)
-		return ;
-	exit_status(1, 1);
-	ft_putstr_fd("minihell: $", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": ambiguous redirect\n", 2);
 }
 
 void	quotes_handling(char *s, int *i, int *s_quote, int *d_quote)
