@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 20:59:16 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:45:06 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,9 @@ int	check_if_env(t_env *env_lst, char *env_key)
 
 void	update_env_var(t_data *d, char *key, char *value)
 {
-	t_env	*tmp;
-	t_env	*new_node;
-
-	tmp = d->env;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->key, key) == 0)
-		{
-			tmp->value = ft_strdup(value, d);
-			printf("key : %s, value : %s\n", tmp->key, tmp->value);
-			return ;
-		}
-		tmp = tmp->next;
-	}
-	new_node = ft_malloc(sizeof(t_env), d);
-    new_node->key = ft_strdup(key, d);
-    new_node->value = ft_strdup(value, d);
-    new_node->next = NULL;
-	env_add_back(&d->env, new_node);
+	add_or_update_env(d, key, value);
 }
+
 
 void	update_env_cd(t_data *d, char *cd_arg)
 {
