@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 17:04:42 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:00:27 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,4 +300,6 @@ char	*remove_trailing_slash(char *path, t_data *d);
 int		slash_char(char *path);
 int		sig_check(int update_it, int new_value);
 void	make_backup_env(t_env **envs, t_data *d);
+int		is_redir(t_token *t);
+
 #endif

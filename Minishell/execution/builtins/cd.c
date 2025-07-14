@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 17:49:25 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:59:16 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,24 @@ char	*check_if_env_set(t_env *env_lst, char *env_key)
 	}
 	return (NULL);
 }
+int	check_if_env(t_env *env_lst, char *env_key)
+{
+	t_env	*tmp;
+
+	tmp = env_lst;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, env_key) == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 void	update_env_var(t_data *d, char *key, char *value)
 {
 	t_env	*tmp;
+	t_env	*new_node;
 
 	tmp = d->env;
 	while (tmp)
@@ -36,10 +50,16 @@ void	update_env_var(t_data *d, char *key, char *value)
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
 			tmp->value = ft_strdup(value, d);
+			printf("key : %s, value : %s\n", tmp->key, tmp->value);
 			return ;
 		}
 		tmp = tmp->next;
 	}
+	new_node = ft_malloc(sizeof(t_env), d);
+    new_node->key = ft_strdup(key, d);
+    new_node->value = ft_strdup(value, d);
+    new_node->next = NULL;
+	env_add_back(&d->env, new_node);
 }
 
 void	update_env_cd(t_data *d, char *cd_arg)
@@ -56,9 +76,9 @@ void	update_env_cd(t_data *d, char *cd_arg)
 				ft_strjoin("/", cd_arg, d), d));
 		return ;
 	}
-	if (old_pwd && check_if_env_set(d->env, "OLDPWD"))
+	if (old_pwd)
 		update_env_var(d, "OLDPWD", old_pwd);
-	if (check_if_env_set(d->env, "PWD"))
+	if (check_if_env(d->env, "PWD"))
 		update_env_var(d, "PWD", new_pwd);
 }
 
