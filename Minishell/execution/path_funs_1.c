@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 17:50:34 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:18:09 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	*search_in_paths(char **paths, t_cmd *cmds, t_data *d, int *status)
 	char	*full_path;
 
 	i = 0;
-	if (cmds->cmd[0] == '\0')
+	printf("string -------------------------------------> \"%s\"\n", cmds->cmd);
+	if (!cmds->cmd || cmds->cmd[0] == '\0')
 	{
 		command_not_found_error(cmds->cmd);
 		*status = 127;
@@ -123,11 +124,11 @@ char	*handle_slash_path(t_cmd *cmds, int *status, t_data *d)
 
 char	*right_path(char **paths, t_cmd *cmds, t_data *d, int *status)
 {
-	if (!cmds->cmd)
-	{
-		*status = 127;
-		return (NULL);
-	}
+	// if (!cmds->cmd)
+	// {
+	// 	*status = 127;
+	// 	return (NULL);
+	// }
 	if (cmds->cmd && cmds->cmd[0] != '\0'
 		&& cmds->cmd[last_char(cmds->cmd)] == '/')
 		return (handle_slash_path(cmds, status, d));
