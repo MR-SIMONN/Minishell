@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 22:44:34 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:33:21 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ int	read_cmds(t_data *d)
 	ignore_tokens(&d->token);
 	get_rid_of_quotes(d->token, d);
 	fill_d_cmd(&d->cmds, d->token, d);
+	if (exceeded_heredocs(d->cmds))
+	{
+		ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2);
+		free_everything(d, 2);
+	}
 	return (1);
 }
 
@@ -85,6 +90,6 @@ int	main(int ac, char **av, char **env)
 	t_data	data;
 
 	if (!isatty(0) || !isatty(1))
-		return (0);
+		return (1);
 	minishell(ac, av, env, &data);
 }

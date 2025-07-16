@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:46:57 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 17:52:43 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/16 12:55:44 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 	{
 		if (exp_lst->value)
 		{
-			ft_putstr_fd("declare -x", 1);
+			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(exp_lst->value, 1);
 			ft_putstr_fd("\n", 1);
 		}

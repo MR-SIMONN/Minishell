@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:24:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 18:14:55 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:50:17 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	execute_single_builtin(t_cmd *cmds, t_data *d)
 	}
 	result = execute_builtin(cmds->cmd, cmds->args, d);
 	duping(saved_stdin, saved_stdout);
-	return (result);
+	return (closeall(), result);
 }
 
 int	execute_single_external(t_cmd *cmds, t_data *d)
@@ -91,10 +91,10 @@ int	execute_single_external(t_cmd *cmds, t_data *d)
 		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT
 			&& exit_status(1, 131))
 			ft_putstr_fd("Quit: 3\n", 1);
-		return (WEXITSTATUS(status));
+		return (closeall(), WEXITSTATUS(status));
 	}
 	perror("fork");
-	return (1);
+	return (closeall(), 1);
 }
 
 int	execute_pipeline(t_data *d)
@@ -112,6 +112,5 @@ int	execute_pipeline(t_data *d)
 	execute = execute_pipeline_commands(d, cmd_count);
 	if (execute != 0)
 		exit_status(1, execute);
-	unlink_all_heredocfiles(d->cmds);
 	return (execute);
 }

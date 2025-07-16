@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 22:23:52 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:49:44 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct s_cmd
 	int				heredoc;
 	t_str			*heredoc_del;
 	char			*heredocfilename;
-	int				finalfd;
+	int				fd_heredoc;
 	int				pipe;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -258,11 +258,12 @@ void	not_found(char *cmd);
 int		num_arg_req(char *arg);
 char	*right_path(char **path, t_cmd *cmds, t_data *d, int *status);
 int		setup_redirections(int input_fd, int output_fd);
-int		apply_heredoc(t_cmd *cmd, t_data *d, int index);
+int		apply_heredoc(t_cmd *cmd, t_data *d);
 int		apply_input_redirection(t_str *infiles);
 int		apply_heredoc_redirection(t_cmd *cmd);
 int		process_heredocs_before_fork(t_data *d);
-void	unlink_all_heredocfiles(t_cmd *cmds);
+int		handle_heredoc_parent(int pid, int *status);
+int		handle_heredoc_child(t_str *current, int fd, t_data *d);
 int		execute_single_cmd(t_cmd *cmd, t_data *d, t_fds fds);
 int		execute_external_cmd(t_cmd *cmd, t_data *d);
 int		has_pipeline(t_cmd *cmds);
@@ -280,7 +281,7 @@ int		ft_output_fd(int input_fd);
 int		apply_input_redirection(t_str *files);
 int		apply_output_redirection(t_str *files, t_cmd *cmd);
 int		ft_has_no_pipe(t_data *d);
-void	ft_file(t_cmd *cmd, int index, t_data *d, int *fd);
+void	ft_file(t_cmd *cmd, t_data *d, int *fd);
 char	*handle_no_path(t_cmd *cmds, t_data *d, int *status);
 void	ft_expand_heredoc_handler(t_str *current, int fd, t_data *d);
 int		is_valid_identifier(char *str, int len);
@@ -294,12 +295,14 @@ void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
 int		setup_child_fds(int in_fd, int *pipe_fd);
 int		wait_for_children(pid_t *pids, int cmd_count);
-void	wait_childrens(pid_t *pids, int i);
+void	wait_children(pid_t *pids, int i);
 void	close_fds_after_use(int in_fd, int pipe_fd);
 char	*remove_trailing_slash(char *path, t_data *d);
 int		slash_char(char *path);
 int		sig_check(int update_it, int new_value);
 void	make_backup_env(t_env **envs, t_data *d);
 int		is_redir(t_token *t);
+void	closeall(void);
+int		exceeded_heredocs(t_cmd *cmd);
 
 #endif

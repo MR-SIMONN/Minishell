@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:19:01 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 11:32:42 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:38:34 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,10 @@ int	ft_has_no_pipe(t_data *d)
 	if (is_builtin(d->cmds->cmd) == 0)
 	{
 		execute = execute_single_builtin(d->cmds, d);
-		unlink_all_heredocfiles(d->cmds);
 		return (execute);
 	}
 	execute = execute_single_external(d->cmds, d);
 	if (execute != 0)
 		exit_status(1, execute);
-	unlink_all_heredocfiles(d->cmds);
 	return (execute);
 }

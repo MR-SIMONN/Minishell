@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:39 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 22:56:26 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:35:22 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,43 +40,28 @@ int	check_if_env(t_env *env_lst, char *env_key)
 	return (0);
 }
 
-void	update_env_var(t_data *d, char *key, char *value)
-{
-		add_or_update_env(d, key, value);	
-}
-
 void	update_env_cd(t_data *d, char *cd_arg)
 {
 	char	*old_pwd;
-	char	new_pwd[1024];
-	
-	if(check_if_env(d->env, "PWD"))
+	char	*new_pwd;
+
+	if (check_if_env(d->env, "PWD"))
 		old_pwd = check_if_env_set(d->env, "PWD");
-	else
-		old_pwd = d->backup_pwd;
-	if (getcwd(new_pwd, sizeof(new_pwd)) == NULL)
+	new_pwd = getcwd(NULL, 0);
+	store_addr(new_pwd, d);
+	if (!new_pwd)
 	{
 		ft_putstr_fd("cd: error retrieving current directory:", 2);
 		ft_putstr_fd(" getcwd: cannot access parent directories\n", 2);
-		if(!check_if_env_set(d->env, "PWD"))
-		{
-			update_env_var(d, "PWD", ft_strjoin(d->backup_pwd,
-				ft_strjoin("/", cd_arg, d), d));
-		}
-		else
-		{
-			update_env_var(d, "PWD", ft_strjoin(check_if_env_set(d->env, "PWD"),
-				ft_strjoin("/", cd_arg, d), d));
-		}
+		d->backup_pwd = ft_strjoin(d->backup_pwd,
+				ft_strjoin("/", cd_arg, d), d);
+		add_or_update_env(d, "PWD", ft_strdup(d->backup_pwd, d));
 		return ;
 	}
 	if (old_pwd)
-		update_env_var(d, "OLDPWD", old_pwd);
-	if (check_if_env(d->env, "PWD"))
-	{
-		update_env_var(d, "PWD", new_pwd);
-		d->backup_pwd = var_value(d->env, "PWD", d);
-	}
+		add_or_update_env(d, "OLDPWD", old_pwd);
+	add_or_update_env(d, "PWD", new_pwd);
+	d->backup_pwd = var_value(d->env, "PWD", d);
 }
 
 int	cd_v(char **args, t_data *d)
@@ -95,6 +80,8 @@ int	cd_v(char **args, t_data *d)
 	}
 	else
 		target_path = args[1];
+	if (target_path[0] == '\0')
+		target_path = ".";
 	if (chdir(target_path) != 0)
 	{
 		perror("cd");

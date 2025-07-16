@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_funs_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 20:52:30 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:47:30 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,10 @@ char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status)
 char	*handle_slash_path(t_cmd *cmds, int *status, t_data *d)
 {
 	struct stat	st;
-	char		*clean;
 
-	clean = remove_trailing_slash(cmds->cmd, d);
-	if (stat(clean, &st) != 0)
+	if (stat(cmds->cmd, &st) != 0)
 	{
-		if (path_has_non_directory(clean, d))
+		if (path_has_non_directory(cmds->cmd, d))
 		{
 			not_a_directory(cmds->cmd);
 			*status = 126;
