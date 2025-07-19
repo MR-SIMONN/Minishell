@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   utils6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:30:54 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 16:54:30 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:38:53 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Minishell.h"
+
+void	make_backup_env(t_env **envs, t_data *d)
+{
+	char	*pwd;
+
+	pwd = getcwd(0, 0);
+	if (pwd)
+	{
+		store_addr(pwd, d);
+		env_add_back(envs, new_env(ft_strjoin("PWD=", pwd, d), d));
+	}
+	else
+		env_add_back(envs, new_env("PWD=", d));
+	env_add_back(envs, new_env(ft_strjoin("_=",
+				ft_strjoin(pwd, "/Minishell", d), d), d));
+	env_add_back(envs, new_env(ft_strjoin("PATH=", THE_PATH, d), d));
+}
 
 int	valid_key(char c)
 {

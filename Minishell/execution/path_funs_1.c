@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 20:28:10 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/14 10:49:10 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:31:37 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,10 @@ char	*handle_absolute_path(t_cmd *cmds, t_data *d, int *status)
 char	*handle_slash_path(t_cmd *cmds, int *status, t_data *d)
 {
 	struct stat	st;
-	char		*clean;
 
-	clean = remove_trailing_slash(cmds->cmd, d);
-	if (stat(clean, &st) != 0)
+	if (stat(cmds->cmd, &st) != 0)
 	{
-		if (path_has_non_directory(clean, d))
+		if (path_has_non_directory(cmds->cmd, d))
 		{
 			not_a_directory(cmds->cmd);
 			*status = 126;
@@ -124,19 +122,16 @@ char	*handle_slash_path(t_cmd *cmds, int *status, t_data *d)
 char	*right_path(char **paths, t_cmd *cmds, t_data *d, int *status)
 {
 	if (!cmds->cmd)
-	{
-		*status = 127;
 		return (NULL);
-	}
 	if (cmds->cmd && cmds->cmd[0] != '\0'
 		&& cmds->cmd[last_char(cmds->cmd)] == '/')
 		return (handle_slash_path(cmds, status, d));
 	if (ft_strcmp(cmds->cmd, ".") == 0 || ft_strcmp(cmds->cmd, "..") == 0)
 	{
 		command_not_found_error(cmds->cmd);
-		if(ft_strcmp(cmds->cmd, "..") == 0)
+		if (ft_strcmp(cmds->cmd, "..") == 0)
 			return ((*status = 127), NULL);
-		return((*status = 2), NULL);
+		return ((*status = 2), NULL);
 	}
 	if (slash_char(cmds->cmd))
 		return (handle_absolute_path(cmds, d, status));

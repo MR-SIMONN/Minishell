@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 00:46:30 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/06/28 15:09:56 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:32:53 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,26 @@ int	is_splittable(t_token *t)
 		return (1);
 	if (is_key_quoted(t->value))
 		return (1);
+	return (0);
+}
+
+int	exceeded_heredocs(t_cmd *cmd)
+{
+	int		heredocs;
+	t_str	*files;
+
+	while (cmd)
+	{
+		heredocs = 0;
+		files = cmd->heredoc_del;
+		while (files)
+		{
+			heredocs++;
+			files = files->next;
+		}
+		if (heredocs > 16)
+			return (1);
+		cmd = cmd->next;
+	}
 	return (0);
 }

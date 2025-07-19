@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 22:44:11 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 16:12:33 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/16 18:17:17 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	empty_cmd(char *s)
 	i = 0;
 	skip_spaces(s, &i);
 	if (s[i] == '|')
-		return (exit_status(1, 258), syntax_error("syntax error"));
+		return (syntax_error("syntax error"));
 	if (!s[i])
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:00:00 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/12 12:37:25 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/19 20:15:58 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,23 @@ static pid_t	fork_child_and_execute(t_cmd *cmd, t_data *d,
 	return (pid);
 }
 
-void	close_fails(int in_fd, int pipe_fd[2])
+int	func(pid_t *pids, int i, int *return_value)
 {
-	close(in_fd);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
+	closeall();
+	wait_children(pids, i);
+	*return_value = 1;
+	return (1);
 }
 
-int	execute_pipeline_commands(t_data *d, int cmd_count)
+int	prepare_curr_pipe(int *pipe_fd, t_cmd *current)
+{
+	prepare_pipe(pipe_fd, current->pipe);
+	if (pipe_fd[0] == -1 && pipe_fd[1] == -1 && current->pipe == 1)
+		return (1);
+	return (0);
+}
+
+void	execute_pipeline_commands(t_data *d, int *return_value, int cmd_count)
 {
 	t_cmd	*current;
 	pid_t	*pids;
@@ -48,34 +57,29 @@ int	execute_pipeline_commands(t_data *d, int cmd_count)
 	int		in_fd;
 	int		i;
 
-	1 && (current = d->cmds, i = 0, in_fd = STDIN_FILENO,
-		pids = ft_malloc(sizeof(pid_t) * cmd_count, d));
+	1 && (current = d->cmds, i = 0, in_fd = STDIN_FILENO);
+	pids = ft_malloc(sizeof(pid_t) * cmd_count, d);
 	while (current && i < cmd_count)
 	{
-		prepare_pipe(pipe_fd, current->pipe);
-		if (pipe_fd[0] == -1 && pipe_fd[1] == -1 && current->pipe == 1)
-			return (close(in_fd),
-				wait_childrens(pids, i), 1);
+		if (prepare_curr_pipe(pipe_fd, current) && func(pids, i, return_value))
+			return ;
 		pids[i] = fork_child_and_execute(current, d, in_fd, pipe_fd);
-		if (pids[i] == -1)
-			return (close_fails(in_fd, pipe_fd),
-				wait_childrens(pids, i), 1);
+		if (pids[i] == -1 && func(pids, i, return_value))
+			return ;
 		close_fds_after_use(in_fd, pipe_fd[1]);
 		in_fd = pipe_fd[0];
-		1 && (current = current->next, i++);
+		current = current->next;
+		i++;
 	}
-	if (in_fd != STDIN_FILENO)
-		close(in_fd);
-	return (wait_for_children(pids, cmd_count));
+	wait_for_children(pids, return_value, cmd_count);
+	closeall();
 }
 
-int	execution(t_data *d)
+void	execution(t_data *d)
 {
 	struct termios	tty;
-	int				status;
 
 	tcgetattr(STDIN_FILENO, &tty);
-	status = execute_pipeline(d);
+	execute_pipeline(d);
 	tcsetattr(STDIN_FILENO, TCSANOW, &tty);
-	return (status);
 }

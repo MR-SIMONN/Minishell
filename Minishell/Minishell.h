@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 13:35:55 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:41:47 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
+
+# define THE_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 typedef struct s_heap
 {
@@ -111,7 +113,7 @@ typedef struct s_cmd
 	int				heredoc;
 	t_str			*heredoc_del;
 	char			*heredocfilename;
-	int				finalfd;
+	int				fd_heredoc;
 	int				pipe;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -125,6 +127,7 @@ typedef struct s_data
 	t_env	*env;
 	t_exp	*exp;
 	t_pipe	*pipes;
+	char	*backup_pwd;
 }	t_data;
 
 typedef struct s_expend_infos
@@ -163,7 +166,6 @@ int		handle_syntax_error(t_token *t, t_data *d);
 int		syntax_error(char *s);
 void	get_rid_of_quotes(t_token *t, t_data *d);
 char	*delete_invalid_var(char *str, t_data *d);
-void	ambiguous_error(char *str);
 void	signal_stuff(void);
 void	handle_sigint(int sig);
 void	split_to_toknes(t_token *curr, t_data *d);
@@ -218,12 +220,12 @@ int		ft_isalnum(int c);
 char	*ft_itoa(int n, t_data *d);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, char *needle, size_t len);
-int		execution(t_data *d);
+void	execution(t_data *d);
 int		is_builtin(char *cmd);
 int		execute_builtin(char *cmd, char **args, t_data *d);
 int		cd_v(char **args, t_data *d);
 int		echo_v(char **args);
-void	env_v(t_env *list, char **args);
+int		env_v(t_env *list, char **args);
 void	exit_v(char **args, t_data *d);
 int		pwd_v(t_data *d);
 int		export_v(t_data *d, char **args);
@@ -256,20 +258,21 @@ void	not_found(char *cmd);
 int		num_arg_req(char *arg);
 char	*right_path(char **path, t_cmd *cmds, t_data *d, int *status);
 int		setup_redirections(int input_fd, int output_fd);
-int		apply_heredoc(t_cmd *cmd, t_data *d, int index);
+int		apply_heredoc(t_cmd *cmd, t_data *d);
 int		apply_input_redirection(t_str *infiles);
 int		apply_heredoc_redirection(t_cmd *cmd);
 int		process_heredocs_before_fork(t_data *d);
-void	unlink_all_heredocfiles(t_cmd *cmds);
+int		handle_heredoc_parent(int pid, int *status);
+int		handle_heredoc_child(t_str *current, int fd, t_data *d);
 int		execute_single_cmd(t_cmd *cmd, t_data *d, t_fds fds);
 int		execute_external_cmd(t_cmd *cmd, t_data *d);
 int		has_pipeline(t_cmd *cmds);
-int		execute_single_builtin(t_cmd *cmds, t_data *d);
-int		execute_single_external(t_cmd *cmds, t_data *d);
-int		execute_pipeline(t_data *d);
+void	execute_single_builtin(t_cmd *cmds, int *return_value, t_data *d);
+int		execute_single_external(t_cmd *cmds, int *return_value, t_data *d);
+void	execute_pipeline(t_data *d);
 char	**get_env(t_data *d);
 int		count_commands(t_cmd *cmds);
-int		execute_pipeline_commands(t_data *d, int cmd_count);
+void	execute_pipeline_commands(t_data *d, int *return_value, int cmd_count);
 int		apply_redirections(t_str *files, t_cmd *cmd);
 int		is_exec(char *path, t_cmd *cmds, int silent, int *status);
 int		last_char(char *path);
@@ -277,8 +280,8 @@ int		ft_input_fd(int input_fd);
 int		ft_output_fd(int input_fd);
 int		apply_input_redirection(t_str *files);
 int		apply_output_redirection(t_str *files, t_cmd *cmd);
-int		ft_has_no_pipe(t_data *d);
-void	ft_file(t_cmd *cmd, int index, t_data *d, int *fd);
+void	ft_has_no_pipe(t_data *d);
+void	ft_file(t_cmd *cmd, t_data *d, int *fd);
 char	*handle_no_path(t_cmd *cmds, t_data *d, int *status);
 void	ft_expand_heredoc_handler(t_str *current, int fd, t_data *d);
 int		is_valid_identifier(char *str, int len);
@@ -291,10 +294,15 @@ void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
 int		setup_child_fds(int in_fd, int *pipe_fd);
-int		wait_for_children(pid_t *pids, int cmd_count);
-void	wait_childrens(pid_t *pids, int i);
+void	wait_for_children(pid_t *pids, int *final_status, int cmd_count);
+void	wait_children(pid_t *pids, int i);
 void	close_fds_after_use(int in_fd, int pipe_fd);
 char	*remove_trailing_slash(char *path, t_data *d);
 int		slash_char(char *path);
 int		sig_check(int update_it, int new_value);
+void	make_backup_env(t_env **envs, t_data *d);
+int		is_redir(t_token *t);
+void	closeall(void);
+int		exceeded_heredocs(t_cmd *cmd);
+void	status_exe_single_external(int pid, int *return_value);
 #endif

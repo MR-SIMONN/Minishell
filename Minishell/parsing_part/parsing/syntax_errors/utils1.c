@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 21:14:07 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/05 17:32:46 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:24:16 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	syntax_error(char *s)
 {
+	exit_status(1, 258);
 	ft_putstr_fd(s, 2);
 	ft_putstr_fd("\n", 2);
 	return (1);

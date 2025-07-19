@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   making_envs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 05:12:07 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 13:36:17 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:05:05 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ void	store_envs(t_env **envs, char **env, t_data *d)
 	int	i;
 
 	i = 0;
+	if (!*env)
+	{
+		make_backup_env(envs, d);
+		return ;
+	}
 	while (env[i])
 	{
 		env_add_back(envs, new_env(env[i], d));

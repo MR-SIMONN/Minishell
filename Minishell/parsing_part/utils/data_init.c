@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:42:05 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/14 14:13:31 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:28:58 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	set_strcut_values(t_data *d, int i)
 		d->cmds = NULL;
 		d->env = NULL;
 		d->exp = NULL;
+		d->backup_pwd = NULL;
 	}
 	else
 	{

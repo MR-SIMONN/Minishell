@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:21:43 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/12 12:36:43 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/17 00:08:20 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exit_v(char **args, t_data *d)
 	if (!d->cmds->pipe && isatty(0))
 		ft_putstr_fd("exit\n", 2);
 	if (!args[1])
-		free_everything(d, 0);
+		free_everything(d, exit_status(0, 0));
 	if (!is_digit(args[1]) && num_arg_req(args[1]))
 		free_everything(d, 255);
 	status = ft_atol(args[1], &is_out_range);

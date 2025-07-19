@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   making_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 00:16:31 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/04 16:00:19 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:54:18 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	fill_d_cmd(t_cmd **c, t_token *t, t_data *d)
 			if (cmd->args && cmd->args[0])
 				cmd->cmd = ft_strdup(cmd->args[0], d);
 		}
-		if (t->type != WORD && t->type != PIPE && !is_quoted(t->type))
+		if (is_redir(t))
 			handle_redir(t, cmd, d);
 		if (t->type == PIPE)
 		{
