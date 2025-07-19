@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:17:27 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/16 20:49:44 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:41:47 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,12 +220,12 @@ int		ft_isalnum(int c);
 char	*ft_itoa(int n, t_data *d);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, char *needle, size_t len);
-int		execution(t_data *d);
+void	execution(t_data *d);
 int		is_builtin(char *cmd);
 int		execute_builtin(char *cmd, char **args, t_data *d);
 int		cd_v(char **args, t_data *d);
 int		echo_v(char **args);
-void	env_v(t_env *list, char **args);
+int		env_v(t_env *list, char **args);
 void	exit_v(char **args, t_data *d);
 int		pwd_v(t_data *d);
 int		export_v(t_data *d, char **args);
@@ -267,12 +267,12 @@ int		handle_heredoc_child(t_str *current, int fd, t_data *d);
 int		execute_single_cmd(t_cmd *cmd, t_data *d, t_fds fds);
 int		execute_external_cmd(t_cmd *cmd, t_data *d);
 int		has_pipeline(t_cmd *cmds);
-int		execute_single_builtin(t_cmd *cmds, t_data *d);
-int		execute_single_external(t_cmd *cmds, t_data *d);
-int		execute_pipeline(t_data *d);
+void	execute_single_builtin(t_cmd *cmds, int *return_value, t_data *d);
+int		execute_single_external(t_cmd *cmds, int *return_value, t_data *d);
+void	execute_pipeline(t_data *d);
 char	**get_env(t_data *d);
 int		count_commands(t_cmd *cmds);
-int		execute_pipeline_commands(t_data *d, int cmd_count);
+void	execute_pipeline_commands(t_data *d, int *return_value, int cmd_count);
 int		apply_redirections(t_str *files, t_cmd *cmd);
 int		is_exec(char *path, t_cmd *cmds, int silent, int *status);
 int		last_char(char *path);
@@ -280,7 +280,7 @@ int		ft_input_fd(int input_fd);
 int		ft_output_fd(int input_fd);
 int		apply_input_redirection(t_str *files);
 int		apply_output_redirection(t_str *files, t_cmd *cmd);
-int		ft_has_no_pipe(t_data *d);
+void	ft_has_no_pipe(t_data *d);
 void	ft_file(t_cmd *cmd, t_data *d, int *fd);
 char	*handle_no_path(t_cmd *cmds, t_data *d, int *status);
 void	ft_expand_heredoc_handler(t_str *current, int fd, t_data *d);
@@ -294,7 +294,7 @@ void	create_new_env_node(t_data *d, char *key, char *value);
 void	update_env_value(t_env *node, char *new_value, char *new_both);
 void	prepare_pipe(int *pipe_fd, int need_pipe);
 int		setup_child_fds(int in_fd, int *pipe_fd);
-int		wait_for_children(pid_t *pids, int cmd_count);
+void	wait_for_children(pid_t *pids, int *final_status, int cmd_count);
 void	wait_children(pid_t *pids, int i);
 void	close_fds_after_use(int in_fd, int pipe_fd);
 char	*remove_trailing_slash(char *path, t_data *d);
@@ -304,5 +304,6 @@ void	make_backup_env(t_env **envs, t_data *d);
 int		is_redir(t_token *t);
 void	closeall(void);
 int		exceeded_heredocs(t_cmd *cmd);
+void	status_exe_single_external(int pid, int *return_value);
 
 #endif

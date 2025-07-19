@@ -6,7 +6,7 @@
 /*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:19:01 by ielouarr          #+#    #+#             */
-/*   Updated: 2025/07/15 17:38:34 by ielouarr         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:30:47 by ielouarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,16 @@ int	count_commands(t_cmd *cmds)
 	return (count);
 }
 
-int	ft_has_no_pipe(t_data *d)
+void	ft_has_no_pipe(t_data *d)
 {
 	int	execute;
 
 	if (is_builtin(d->cmds->cmd) == 0)
 	{
-		execute = execute_single_builtin(d->cmds, d);
-		return (execute);
-	}
-	execute = execute_single_external(d->cmds, d);
-	if (execute != 0)
+		execute_single_builtin(d->cmds, &execute, d);
 		exit_status(1, execute);
-	return (execute);
+		return ;
+	}
+	execute_single_external(d->cmds, &execute, d);
+	exit_status(1, execute);
 }

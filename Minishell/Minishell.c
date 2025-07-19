@@ -6,7 +6,7 @@
 /*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 00:16:55 by moel-hai          #+#    #+#             */
-/*   Updated: 2025/07/16 20:33:21 by moel-hai         ###   ########.fr       */
+/*   Updated: 2025/07/17 01:58:12 by moel-hai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	minishell(int ac, char **av, char **env, t_data *d)
 		if (all_good)
 		{
 			sig_check(1, 1);
-			exit_status(1, 0);
 			execution(d);
 			sig_check(1, 0);
 		}
