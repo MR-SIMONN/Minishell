@@ -59,6 +59,7 @@ void	export_displayer(t_env *env_lst, t_exp *exp_lst)
 	}
 }
 
+
 int	is_valid_identifier(char *str, int len)
 {
 	int	i;

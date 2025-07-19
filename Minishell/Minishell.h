@@ -305,5 +305,4 @@ int		is_redir(t_token *t);
 void	closeall(void);
 int		exceeded_heredocs(t_cmd *cmd);
 void	status_exe_single_external(int pid, int *return_value);
-
 #endif

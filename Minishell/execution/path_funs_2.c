@@ -32,7 +32,7 @@ char	**get_env(t_data *d)
 {
 	t_env	*current;
 	char	**envs;
-	int		i;
+	int		i = 0;
 
 	i = 0;
 	if (!d || !d->env)
@@ -41,7 +41,6 @@ char	**get_env(t_data *d)
 	while (current && ++i)
 	{
 		current = current->next;
-	}
 	envs = ft_malloc((i + 1) * sizeof(char *), d);
 	current = d->env;
 	i = 0;
@@ -56,6 +55,7 @@ char	**get_env(t_data *d)
 	}
 	return (envs[i] = NULL, envs);
 }
+
 
 char	*get_fullpath(char *path, char *command, t_data *d)
 {

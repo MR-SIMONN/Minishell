@@ -48,6 +48,8 @@ t_env	*new_env(char *s, t_data *d)
 	return (e);
 }
 
+
+
 void	store_envs(t_env **envs, char **env, t_data *d)
 {
 	int	i;

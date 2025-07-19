@@ -35,3 +35,4 @@ int	env_v(t_env *list, char **args)
 	}
 	return (0);
 }
+

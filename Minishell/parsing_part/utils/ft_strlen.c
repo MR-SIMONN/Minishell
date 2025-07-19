@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ielouarr <ielouarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 00:14:25 by moel-hai          #+#    #+#             */
 /*   Updated: 2025/07/14 19:53:34 by moel-hai         ###   ########.fr       */
@@ -23,3 +23,4 @@ size_t	ft_strlen(char *str)
 		i++;
 	return (i);
 }
+
