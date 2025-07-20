@@ -1,0 +1,87 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   invalid_syntax.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-hai <moel-hai@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 18:45:55 by moel-hai          #+#    #+#             */
+/*   Updated: 2025/06/28 11:11:28 by moel-hai         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../Minishell.h"
+
+void	check_qoutes(char *s, int *f)
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	while (s[i])
+	{
+		if ((s[i] == '\'' || s[i] == '\"') && !*f)
+		{
+			c = s[i];
+			*f = 1;
+		}
+		else if (s[i] == c && *f)
+			*f = 0;
+		i++;
+	}
+}
+
+int	unclosed_quote(char *s)
+{
+	int	f;
+
+	if (!s)
+		return (0);
+	f = 0;
+	check_qoutes(s, &f);
+	if (f)
+		return (1);
+	return (0);
+}
+
+int	invalid_redirection(char *s)
+{
+	int		i;
+	int		f;
+	char	c;
+	int		s_e;
+
+	(1) && (i = -1, f = 0, c = 0, s_e = 0);
+	while (s && s[++i])
+	{
+		if ((s[i] == '\'' || s[i] == '\"') && !f)
+		{
+			c = s[i];
+			f = 1;
+		}
+		else if (s[i] == c && f)
+			f = 0;
+		if (is_one_symbol(s, i) && s[i] && !f)
+			s_e = check_one(s, i);
+		else if (is_two_symbols(s, i) && s[i] && !f)
+			s_e = check_two(s, i);
+		else if ((s[i] == ';' || s[i] == '&') && !f)
+			s_e = 1;
+		if (s_e)
+			return (1);
+	}
+	return (0);
+}
+
+int	is_invalid_syntax(char *s)
+{
+	if (!s)
+		return (0);
+	if (unclosed_quote(s))
+		return (1);
+	if (invalid_redirection(s))
+		return (1);
+	if (parentheses(s))
+		return (1);
+	return (0);
+}
